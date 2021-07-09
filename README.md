@@ -88,6 +88,27 @@ Review, Recommend, and Curate Lists of Animes in a social way with friends
 * Recommendation Screen
    * Anime Detail Screen
 
+### Weekly Stories Milestones
+
+**Week 4**
+   * Sign up/Log in to the app
+   * Post a review of an anime on the home timeline
+   * Logout from app
+
+**Week 5**
+   * Create/Edit lists of anime by searching and adding from Jikan API
+   * View anime reviews and lists on home timeline
+
+**Week 6**
+   * Reccomended anime based on what you have in your lists
+   * User can share their lists or reviews as a link outside of the app
+
+**Week 7**
+   * See details and information of specific anime
+   * Optional Nice-to-have Stories
+      * Follow other users and be followed
+      * View anime reviews and lists of people they are following on home timeline
+
 ## Wireframes
 [Add picture of your hand sketched wireframes in this section]
 <img src="YOUR_WIREFRAME_IMAGE_URL" width=600>
