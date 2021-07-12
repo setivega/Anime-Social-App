@@ -126,38 +126,39 @@ Review, Recommend, and Curate Lists of Animes in a social way with friends
 ### Models
 [Add table of models]
 #### Model: Review
-| Property | Type | Description     |
-| :---     |    :----:   |          ---: |
-| objectID | String       |               |
-| user     | Pointer to User |               |
-| anime    | Pointer to Anime   |               |
-| description| String      |               |
+| Property    | Type             | Description   |
+| :---        |    :----:        |          ---: |
+| objectID    | String           |               |
+| user        | Pointer to User  |               |
+| anime       | Pointer to Anime |               |
+| review      | String           |               |
 
 #### Model: List
-| Property | Type | Description     |
-| :---     |    :----:   |          ---: |
-| objectID | String       |               |
-| user     | Pointer to User |               |
-| animes    | Array of Pointers to Anime  |               |
-| description| String      |               |
+| Property    | Type.             | Description   |
+| :---        |    :----:         |          ---: |
+| objectID    | String            |               |
+| user        | Pointer to User   |               |
+| anime       | Relation to Anime |               |
+| description | String            |               |
+| title       | String            |               |
 
 #### Model: User
-| Property | Type | Description     |
-| :---     |    :----:   |          ---: |
-| objectID | String       |               |
-| name     | String |               |
-| username    | String   |               |
-| password | String      |               |
-| profileImage | Image      |               |
+| Property     | Type      | Description   |
+| :---         |    :----: |          ---: |
+| objectID     | String    |               |
+| name         | String    |               |
+| username     | String    |               |
+| password     | String    |               |
+| profileImage | ParseFile |               |
 
 #### Model: Anime
-| Property | Type | Description     |
-| :---     |    :----:   |          ---: |
-| objectID | String       |               |
-| name     | String |               |
-| description    | String   |               |
-| releaseDate | Date      |               |
-| posterImage | Image      |               |
+| Property   | Type   | Description   |
+| :---       | :----: |          ---: |
+| objectID   | String |               |
+| malID      | String |               |
+| title      | String |               |
+| startDate  | Date   |               |
+| posterPath | String |               |
 
 ### Networking
 - [Add list of network requests by screen ]
