@@ -110,8 +110,12 @@ Review, Recommend, and Curate Lists of Animes in a social way with friends
       * View anime reviews and lists of people they are following on home timeline
 
 ## Wireframes
-[Add picture of your hand sketched wireframes in this section]
-<img src="https://github.com/setivega/Anime-Social-App/raw/main/Wireframe1.png" width=600>
+
+## Login, Home Timeline, and Detail Screens Wireframe 
+<img src="https://github.com/setivega/Anime-Social-App/raw/main/Wireframe1A.png" width=600>
+
+## Post Review and Create List Wireframe
+<img src="https://github.com/setivega/Anime-Social-App/raw/main/Wireframe2.png" width=600>
 
 ### [BONUS] Digital Wireframes & Mockups
 
