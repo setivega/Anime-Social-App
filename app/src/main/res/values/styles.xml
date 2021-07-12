@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="icon_style">
+        <item name="android:layout_marginRight">15dp</item>
+    </style>
+
+    <style name="login_edit_text">
+        <item name="android:width">1dp</item>
+        <item name="android:color">@color/grey</item>
+    </style>
+
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+
+    </style>
+
+</resources>
