@@ -121,6 +121,40 @@ Review, Recommend, and Curate Lists of Animes in a social way with friends
 [This section will be completed in Unit 9]
 ### Models
 [Add table of models]
+#### Model: Review
+| Property | Type | Description     |
+| :---     |    :----:   |          ---: |
+| objectID | String       |               |
+| user     | Pointer to User |               |
+| anime    | Pointer to Anime   |               |
+| description| String      |               |
+
+#### Model: List
+| Property | Type | Description     |
+| :---     |    :----:   |          ---: |
+| objectID | String       |               |
+| user     | Pointer to User |               |
+| animes    | Array of Pointers to Anime  |               |
+| description| String      |               |
+
+#### Model: User
+| Property | Type | Description     |
+| :---     |    :----:   |          ---: |
+| objectID | String       |               |
+| name     | String |               |
+| username    | String   |               |
+| password | String      |               |
+| profileImage | Image      |               |
+
+#### Model: Anime
+| Property | Type | Description     |
+| :---     |    :----:   |          ---: |
+| objectID | String       |               |
+| name     | String |               |
+| description    | String   |               |
+| releaseDate | Date      |               |
+| posterImage | Image      |               |
+
 ### Networking
 - [Add list of network requests by screen ]
 - [Create basic snippets for each Parse network request]
