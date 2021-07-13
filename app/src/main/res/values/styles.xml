@@ -5,8 +5,11 @@
     </style>
 
     <style name="login_edit_text">
-        <item name="android:width">1dp</item>
-        <item name="android:color">@color/grey</item>
+        <item name="android:color">@color/white</item>
+        <item name="android:textColorHint">@color/shape_gray</item>
+        <item name="android:backgroundTint">@color/shape_gray</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">10dp</item>
     </style>
 
     <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">

@@ -4,7 +4,7 @@
     <string name="username_label">Username</string>
     <string name="password_label">Password</string>
 
-    <string name="login_label">Login</string>
+    <string name="login_label">Log In</string>
     <string name="signup_label">Sign Up</string>
     <string name="logout_label">Log Out</string>
 
