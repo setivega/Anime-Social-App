@@ -87,10 +87,10 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
         public void bind(Anime anime) {
 
             tvTitle.setText(anime.getTitle());
-            tvDate.setText("Summer 2021");
+            tvDate.setText(ParseRelativeDate.getRelativeSeasonYear(anime.getStartDate()));
 
             Glide.with(context).load(anime.getPosterPath())
-                    .transform(new CenterCrop(), new RoundedCorners(2))
+                    .transform(new CenterCrop(), new RoundedCorners(4))
                     .into(ivPoster);
 
         }
@@ -102,6 +102,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
             if (position != RecyclerView.NO_POSITION) {
                 Anime anime = animes.get(position);
                 Log.i(TAG, "Tapped on: " + anime.getTitle());
+                Log.i(TAG, ParseRelativeDate.getRelativeSeasonYear(anime.getStartDate()));
             }
         }
     }

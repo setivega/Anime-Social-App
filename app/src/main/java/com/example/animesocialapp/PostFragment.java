@@ -111,7 +111,7 @@ public class PostFragment extends Fragment {
 
     public void queryAnime(String searchQuery) {
         AsyncHttpClient client = new AsyncHttpClient();
-        String NOW_PLAYING_URL = REST_URL + searchQuery ;
+        String NOW_PLAYING_URL = REST_URL + searchQuery;
 
         client.get(NOW_PLAYING_URL, new JsonHttpResponseHandler() {
             @Override
