@@ -13,7 +13,7 @@ public class ParseApplication extends Application {
         super.onCreate();
 
 //        ParseObject.registerSubclass(Review.class);
-//        ParseObject.registerSubclass(List.class);
+//        ParseObject.registerSubclass(AnimeList.class);
 //        ParseObject.registerSubclass(Anime.class);
 
         Parse.initialize(new Parse.Configuration.Builder(this)

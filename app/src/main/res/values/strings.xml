@@ -24,4 +24,5 @@
 
     <string name="add_profile_image">Add Profile Image</string>
     <string name="change_profile_image">Change Profile Image</string>
+    <string name="search_hint">Search Anime</string>
 </resources>

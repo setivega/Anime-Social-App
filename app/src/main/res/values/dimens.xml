@@ -20,6 +20,11 @@
     <dimen name="profile_pic_feed">35dp</dimen>
 
     <dimen name="profile_post_width">130dp</dimen>
+    <dimen name="search_height">60dp</dimen>
 
+    <dimen name="anime_item_width">50dp</dimen>
+    <dimen name="anime_item_height">75dp</dimen>
+    <dimen name="anime_item_title_size">18sp</dimen>
+    <dimen name="anime_item_date_size">14sp</dimen>
 
 </resources>
