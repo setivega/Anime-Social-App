@@ -84,10 +84,12 @@ public class PostFragment extends Fragment {
         svAnime = view.findViewById(R.id.svAnime);
         svAnime.requestFocus();
 
-
         svAnime.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                if (query.length() >= 3) {
+                    queryAnime(query);
+                }
                 svAnime.clearFocus();
                 return true;
             }

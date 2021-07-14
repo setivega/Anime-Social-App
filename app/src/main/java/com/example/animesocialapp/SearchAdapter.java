@@ -1,6 +1,7 @@
 package com.example.animesocialapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.example.animesocialapp.models.Anime;
+
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,14 +68,14 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
 
         ImageView ivPoster;
         TextView tvTitle;
-        TextView tvDate;
+        TextView tvSeason;
         ImageButton btnListAnime;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             ivPoster = itemView.findViewById(R.id.ivPoster);
             tvTitle = itemView.findViewById(R.id.tvTitle);
-            tvDate = itemView.findViewById(R.id.tvSeason);
+            tvSeason = itemView.findViewById(R.id.tvSeason);
             btnListAnime = itemView.findViewById(R.id.btnListAnime);
             itemView.setOnClickListener(this);
         }
@@ -80,7 +83,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
         public void bind(Anime anime) {
 
             tvTitle.setText(anime.getTitle());
-            tvDate.setText(ParseRelativeDate.getRelativeSeasonYear(anime.getStartDate()));
+            tvSeason.setText(ParseRelativeDate.getRelativeSeasonYear(anime.getStartDate()));
 
             Glide.with(context).load(anime.getPosterPath())
                     .transform(new CenterCrop(), new RoundedCorners(4))
@@ -93,9 +96,16 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
             int position = getAdapterPosition();
             // validating position
             if (position != RecyclerView.NO_POSITION) {
-                Anime anime = animes.get(position);
-                Log.i(TAG, "Tapped on: " + anime.getTitle());
-                Log.i(TAG, ParseRelativeDate.getRelativeSeasonYear(anime.getStartDate()));
+                if (position != RecyclerView.NO_POSITION) {
+                    // Getting movie at position
+                    Anime anime = animes.get(position);
+                    // Creating new Intent
+                    Intent intent = new Intent(context, PostReviewActivity.class);
+                    // Sending the movie info to the new activity on load
+                    intent.putExtra(Anime.class.getSimpleName(), Parcels.wrap(anime));
+                    // Show the activity
+                    context.startActivity(intent);
+                }
             }
         }
     }

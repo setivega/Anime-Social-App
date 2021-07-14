@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
-
     <item
-        android:id="@+id/app_bar_search"
-        android:enabled="false"
-        android:icon="@drawable/ic_search_black_24dp"
-        android:title="@null"
-        app:actionViewClass="android.widget.SearchView"
+        android:id="@+id/post"
+        android:title="@string/post_label"
         app:showAsAction="always" />
 </menu>
