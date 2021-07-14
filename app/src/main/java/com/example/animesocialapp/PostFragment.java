@@ -34,7 +34,7 @@ public class PostFragment extends Fragment {
 
     public static final String TAG = "PostFragment";
     public static final String REST_URL = "https://api.jikan.moe/v3/search/anime?q=";
-    public static final String PARAMS = "&genre=12&genre_exclude=0";
+    public static final String PARAMS = "&order_by=title";
     private RecyclerView rvAnime;
     private SearchAdapter searchAdapter;
     private SearchView svAnime;
@@ -103,6 +103,7 @@ public class PostFragment extends Fragment {
                     searchAdapter.clear();
                     return true;
                 }
+
                 return false;
             }
         });
@@ -118,17 +119,18 @@ public class PostFragment extends Fragment {
             public void onSuccess(int i, Headers headers, JSON json) {
                 Log.d(TAG, "onSuccess");
                 JSONObject jsonObject = json.jsonObject;
-                try {
-                    JSONArray results = jsonObject.getJSONArray("results");
-                    Log.i(TAG, "Results: " + results.toString());
-                    //Update Adapter
-                    searchAdapter.clear();
-                    searchAdapter.addAll(Anime.fromJSONArray(results));
-                    Toast.makeText(getContext(), "Queried: " + searchQuery, Toast.LENGTH_SHORT).show();
-                } catch (JSONException e) {
-                    Log.e(TAG, "Hit JSON Exception ", e);
+                if (svAnime.getQuery().length() >= 3) {
+                    try {
+                        JSONArray results = jsonObject.getJSONArray("results");
+                        Log.i(TAG, "Results: " + results.toString());
+                        //Update Adapter
+                        searchAdapter.clear();
+                        searchAdapter.addAll(Anime.fromJSONArray(results));
+                        Toast.makeText(getContext(), "Queried: " + searchQuery, Toast.LENGTH_SHORT).show();
+                    } catch (JSONException e) {
+                        Log.e(TAG, "Hit JSON Exception ", e);
+                    }
                 }
-
             }
 
             @Override

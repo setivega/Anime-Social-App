@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/app_black">
+    android:background="@color/background_gray">
 
     <ImageView
         android:id="@+id/ivPoster"
@@ -17,7 +17,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
+        tools:srcCompat="@drawable/steinsgatecover" />
 
     <LinearLayout
         android:layout_width="0dp"
@@ -26,8 +26,8 @@
         android:layout_marginTop="12dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="12dp"
-        android:orientation="vertical"
         android:gravity="center"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btnListAnime"
         app:layout_constraintStart_toEndOf="@+id/ivPoster"
@@ -38,20 +38,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="3dp"
+            android:maxLines="2"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="@dimen/anime_item_title_size"
             android:textStyle="bold"
-            android:maxLines="2"
-            tools:text="Boku no Hero Academia" />
+            tools:text="@string/filler_title" />
 
         <TextView
-            android:id="@+id/tvDate"
+            android:id="@+id/tvSeason"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
             android:textSize="@dimen/anime_item_date_size"
-            tools:text="Spring 2016" />
+            tools:text="@string/filler_season" />
     </LinearLayout>
 
     <ImageButton

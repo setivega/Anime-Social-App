@@ -1,7 +1,6 @@
 package com.example.animesocialapp;
 
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,14 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
-import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.example.animesocialapp.models.Anime;
-import com.parse.ParseFile;
-import com.parse.ParseUser;
-
-import org.jetbrains.annotations.NotNull;
-import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,7 +72,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
             super(itemView);
             ivPoster = itemView.findViewById(R.id.ivPoster);
             tvTitle = itemView.findViewById(R.id.tvTitle);
-            tvDate = itemView.findViewById(R.id.tvDate);
+            tvDate = itemView.findViewById(R.id.tvSeason);
             btnListAnime = itemView.findViewById(R.id.btnListAnime);
             itemView.setOnClickListener(this);
         }

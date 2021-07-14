@@ -18,11 +18,15 @@
     <string name="recommended_item_label">For You</string>
     <string name="profile_item_label">Profile</string>
 
-    <string name="filler_caption">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla et iaculis mauris, non blandit purus. Nunc vitae pharetra orci. Maecenas iaculis hendrerit purus, a volutpat mi faucibus vel.</string>
-    <string name="filler_username">setivega</string>>
+    <string name="filler_review_caption">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris mattis vitae ante vitae tempus. Nunc volutpat volutpat lacus sed auctor. Curabitur nunc mauris, iaculis quis orci quis, venenatis vehicula tu...</string>
+    <string name="filler_username">Seti</string>>
     <string name="filler_time">32 mins ago</string>
+    <string name="filler_title">Steins;Gate</string>
+    <string name="filler_season">Spring 2011</string>
 
     <string name="add_profile_image">Add Profile Image</string>
     <string name="change_profile_image">Change Profile Image</string>
     <string name="search_hint">Search Anime</string>
+
+
 </resources>
