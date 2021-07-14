@@ -117,14 +117,15 @@ Review, Recommend, and Curate Lists of Animes in a social way with friends
 ## Post Review and Create List Wireframe
 <img src="https://github.com/setivega/Anime-Social-App/raw/main/Wireframe2.png" width=600>
 
-### [BONUS] Digital Wireframes & Mockups
-
-### [BONUS] Interactive Prototype
+## Satisfy these requirements:
+- [ ] Gesture: Double tap on review to open detail activity of the anime reviewed
+- [ ] Animation: Progress bar when posting a review and pushing to parse
+- [ ] Recommendation based on anime reviewed/in lists, Creating a one to many relationship in parse with anime lists
 
 ## Schema 
-[This section will be completed in Unit 9]
+
 ### Models
-[Add table of models]
+
 #### Model: Review
 | Property    | Type             | Description   |
 | :---        |    :----:        |          ---: |
