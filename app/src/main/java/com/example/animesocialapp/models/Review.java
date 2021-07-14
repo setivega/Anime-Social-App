@@ -20,11 +20,11 @@ public class Review extends ParseObject {
         put(KEY_REVIEW, review);
     }
 
-    public ParseObject getImage() {
+    public ParseObject getAnime() {
         return getParseObject(KEY_ANIME);
     }
 
-    public void setImage(ParseFile anime) {
+    public void setAnime(ParseObject anime) {
         put(KEY_ANIME, anime);
     }
 

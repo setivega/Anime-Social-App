@@ -1,9 +1,14 @@
 package com.example.animesocialapp.models;
 
-import com.parse.ParseClassName;
-import com.parse.ParseObject;
+import android.util.Log;
 
-@ParseClassName("anime")
+import com.parse.GetCallback;
+import com.parse.ParseClassName;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+
+@ParseClassName("Anime")
 public class ParseAnime extends ParseObject{
 
     public static final String KEY_MAL_ID = "malID";

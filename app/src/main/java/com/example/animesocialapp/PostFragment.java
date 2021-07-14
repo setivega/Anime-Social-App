@@ -128,7 +128,6 @@ public class PostFragment extends Fragment {
                         //Update Adapter
                         searchAdapter.clear();
                         searchAdapter.addAll(Anime.fromJSONArray(results));
-                        Toast.makeText(getContext(), "Queried: " + searchQuery, Toast.LENGTH_SHORT).show();
                     } catch (JSONException e) {
                         Log.e(TAG, "Hit JSON Exception ", e);
                     }

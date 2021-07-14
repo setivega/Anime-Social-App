@@ -83,7 +83,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
         public void bind(Anime anime) {
 
             tvTitle.setText(anime.getTitle());
-            tvSeason.setText(ParseRelativeDate.getRelativeSeasonYear(anime.getStartDate()));
+            tvSeason.setText(anime.getSeason());
 
             Glide.with(context).load(anime.getPosterPath())
                     .transform(new CenterCrop(), new RoundedCorners(4))

@@ -2,6 +2,8 @@ package com.example.animesocialapp;
 
 import android.app.Application;
 
+import com.example.animesocialapp.models.ParseAnime;
+import com.example.animesocialapp.models.Review;
 import com.parse.Parse;
 import com.parse.ParseObject;
 
@@ -12,9 +14,9 @@ public class ParseApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-//        ParseObject.registerSubclass(Review.class);
+        ParseObject.registerSubclass(Review.class);
 //        ParseObject.registerSubclass(AnimeList.class);
-//        ParseObject.registerSubclass(Anime.class);
+        ParseObject.registerSubclass(ParseAnime.class);
 
         Parse.initialize(new Parse.Configuration.Builder(this)
                 .applicationId("7Kty7dcVkeNbMd6Fwt8k96egw9JhNYGiPECqzUZn")

@@ -1,5 +1,6 @@
 package com.example.animesocialapp.models;
 
+import com.example.animesocialapp.ParseRelativeDate;
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 
@@ -50,6 +51,6 @@ public class Anime {
 
     public Double getScore() { return score; }
 
-    public String getStartDate() { return startDate; }
+    public String getSeason() { return ParseRelativeDate.getRelativeSeasonYear(startDate); }
 
 }
