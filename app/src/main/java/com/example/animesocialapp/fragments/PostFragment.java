@@ -60,7 +60,7 @@ public class PostFragment extends Fragment {
         rvAnime = view.findViewById(R.id.rvAnime);
 
         // Create an adapter
-        searchAdapter = new SearchAdapter(view.getContext());
+        searchAdapter = new SearchAdapter(view.getContext(), SearchAdapter.PostType.REVIEW);
 
         // Set adapter on the recycler view
         rvAnime.setAdapter(searchAdapter);

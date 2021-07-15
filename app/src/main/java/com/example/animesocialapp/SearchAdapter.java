@@ -22,14 +22,23 @@ import org.parceler.Parcels;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder>{
+
+    public enum PostType {
+        REVIEW,
+        LIST
+    }
 
     public static final String TAG = "SearchAdapter";
     private Context context;
+    private PostType postType;
     private List<Anime> animes;
 
-    public SearchAdapter(Context context) {
+    public SearchAdapter(Context context, PostType postType) {
         this.context = context;
+        this.postType = postType;
         animes = new ArrayList<>();
     }
 
@@ -76,7 +85,9 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
             tvTitle = itemView.findViewById(R.id.tvTitle);
             tvSeason = itemView.findViewById(R.id.tvSeason);
             btnListAnime = itemView.findViewById(R.id.btnListAnime);
-            itemView.setOnClickListener(this);
+            if (postType == PostType.REVIEW) {
+                itemView.setOnClickListener(this);
+            }
         }
 
         public void bind(Anime anime) {
@@ -87,6 +98,10 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
             Glide.with(context).load(anime.getPosterPath())
                     .transform(new CenterCrop(), new RoundedCorners(4))
                     .into(ivPoster);
+
+            if (postType == PostType.LIST) {
+                btnListAnime.setVisibility(View.VISIBLE);
+            }
 
         }
 

@@ -14,6 +14,7 @@
     <string name="logout_label">Log Out</string>
     <string name="post_label">Post</string>
     <string name="create_label">Create</string>
+    <string name="done_label">Done</string>
     <string name="add_anime_label">Add Anime…</string>
 
     <string name="review_hint">Your review of this anime…</string>
