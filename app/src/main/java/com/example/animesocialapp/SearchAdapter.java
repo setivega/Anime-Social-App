@@ -2,7 +2,6 @@ package com.example.animesocialapp;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -96,16 +95,14 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
             int position = getAdapterPosition();
             // validating position
             if (position != RecyclerView.NO_POSITION) {
-                if (position != RecyclerView.NO_POSITION) {
-                    // Getting movie at position
-                    Anime anime = animes.get(position);
-                    // Creating new Intent
-                    Intent intent = new Intent(context, PostReviewActivity.class);
-                    // Sending the movie info to the new activity on load
-                    intent.putExtra(Anime.class.getSimpleName(), Parcels.wrap(anime));
-                    // Show the activity
-                    context.startActivity(intent);
-                }
+                // Getting movie at position
+                Anime anime = animes.get(position);
+                // Creating new Intent
+                Intent intent = new Intent(context, PostReviewActivity.class);
+                // Sending the movie info to the new activity on load
+                intent.putExtra(Anime.class.getSimpleName(), Parcels.wrap(anime));
+                // Show the activity
+                context.startActivity(intent);
             }
         }
     }

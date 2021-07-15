@@ -5,13 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -23,21 +21,13 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.example.animesocialapp.models.Anime;
 import com.example.animesocialapp.models.ParseAnime;
 import com.example.animesocialapp.models.Review;
-import com.parse.FindCallback;
 import com.parse.GetCallback;
-import com.parse.Parse;
 import com.parse.ParseException;
-import com.parse.ParseFile;
-import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import org.parceler.Parcels;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 public class PostReviewActivity extends AppCompatActivity {
 
@@ -54,14 +44,14 @@ public class PostReviewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_review);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.tbMain);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.tbList);
         toolbar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(),R.color.white));
         setSupportActionBar(toolbar);
 
         ivPoster = findViewById(R.id.ivPoster);
         tvTitle = findViewById(R.id.tvTitle);
         tvSeason = findViewById(R.id.tvSeason);
-        etReview = findViewById(R.id.etReview);
+        etReview = findViewById(R.id.etDescription);
 
         anime = (Anime) Parcels.unwrap(getIntent().getParcelableExtra(Anime.class.getSimpleName()));
 
@@ -112,6 +102,7 @@ public class PostReviewActivity extends AppCompatActivity {
                 } else {
                     if(e.getCode() == ParseException.OBJECT_NOT_FOUND) {
                         //object doesn't exist
+                        parseAnime = null;
                     } else {
                         //unknown error, debug
                         Log.d(TAG, "Error: " + e.getMessage());

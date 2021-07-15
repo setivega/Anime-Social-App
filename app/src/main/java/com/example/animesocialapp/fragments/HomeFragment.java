@@ -1,4 +1,4 @@
-package com.example.animesocialapp;
+package com.example.animesocialapp.fragments;
 
 import android.os.Bundle;
 
@@ -12,6 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.animesocialapp.PostAdapter;
+import com.example.animesocialapp.R;
 import com.example.animesocialapp.models.Review;
 import com.parse.FindCallback;
 import com.parse.ParseException;

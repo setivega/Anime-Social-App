@@ -8,7 +8,7 @@
     tools:context=".PostReviewActivity">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/tbMain"
+        android:id="@+id/tbList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/app_black"
@@ -29,7 +29,7 @@
         android:textSize="@dimen/post_title_labels"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tbMain" />
+        app:layout_constraintTop_toBottomOf="@+id/tbList" />
 
     <ImageView
         android:id="@+id/ivPoster"
@@ -98,7 +98,7 @@
         app:layout_constraintTop_toBottomOf="@+id/view" />
 
     <EditText
-        android:id="@+id/etReview"
+        android:id="@+id/etDescription"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"

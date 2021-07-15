@@ -13,7 +13,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AnimeSocialApp">
-        <activity android:name=".PostReviewActivity"></activity>
+        <activity android:name=".AddAnimeActivity"></activity>
+        <activity android:name=".CreateListActivity" />
+        <activity android:name=".PostReviewActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".LoginActivity">
             <intent-filter>

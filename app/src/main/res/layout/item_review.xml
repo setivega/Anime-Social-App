@@ -74,6 +74,8 @@
             android:layout_marginEnd="20dp"
             android:layout_marginBottom="20dp"
             android:maxLines="4"
+            android:scrollHorizontally="true"
+            android:ellipsize="end"
             android:textColor="@color/text_gray"
             android:textSize="@dimen/post_text"
             tools:text="@string/filler_review_caption" />

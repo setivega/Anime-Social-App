@@ -1,4 +1,4 @@
-package com.example.animesocialapp;
+package com.example.animesocialapp.fragments;
 
 import android.os.Bundle;
 
@@ -18,6 +18,8 @@ import android.widget.Toast;
 
 import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
+import com.example.animesocialapp.R;
+import com.example.animesocialapp.SearchAdapter;
 import com.example.animesocialapp.models.Anime;
 
 import org.jetbrains.annotations.NotNull;
