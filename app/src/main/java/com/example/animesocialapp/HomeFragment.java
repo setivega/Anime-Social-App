@@ -4,15 +4,29 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.animesocialapp.models.Review;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
+
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class HomeFragment extends Fragment {
+
+    public static final String TAG = "HomeFragment";
+    private RecyclerView rvPosts;
+    private PostAdapter postAdapter;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -28,5 +42,46 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        rvPosts = view.findViewById(R.id.rvPosts);
+
+        // Create an adapter
+        postAdapter = new PostAdapter(view.getContext());
+
+        // Set adapter on the recycler view
+        rvPosts.setAdapter(postAdapter);
+
+        // Set layout manager on recycler view
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        rvPosts.setLayoutManager(linearLayoutManager);
+
+        queryPosts();
+    }
+
+    private void queryPosts() {
+        ParseQuery<Review> query = ParseQuery.getQuery(Review.class);
+        query.include(Review.KEY_USER);
+        query.include(Review.KEY_ANIME);
+        query.include("createdAt");
+        query.orderByDescending("createdAt");
+        query.findInBackground(new FindCallback<Review>() {
+            @Override
+            public void done(List<Review> reviews, ParseException e) {
+                if (e != null) {
+                    Log.e(TAG, "Issue getting posts: " + e.getLocalizedMessage());
+                    if (e.getCode() == ParseException.CONNECTION_FAILED){
+                        Log.i(TAG, "Network error being handled");
+                        //Handle Network Error
+                    }
+                    return;
+                }
+                postAdapter.clear();
+                postAdapter.addAll(reviews);
+                for (Review review : reviews) {
+                    Log.i(TAG, "Review: " + review.getDescription() + ", username: " + review.getUser().getUsername());
+                }
+            }
+        });
+
     }
 }

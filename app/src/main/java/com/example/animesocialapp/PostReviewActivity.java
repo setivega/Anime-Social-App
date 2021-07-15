@@ -47,6 +47,7 @@ public class PostReviewActivity extends AppCompatActivity {
     private TextView tvTitle;
     private TextView tvSeason;
     private EditText etReview;
+    private ParseAnime parseAnime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +82,6 @@ public class PostReviewActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-//        anime = (Anime) Parcels.unwrap(getIntent().getParcelableExtra(Anime.class.getSimpleName()));
 
         if(item.getItemId() == R.id.post) {
             final String review = etReview.getText().toString();
@@ -90,29 +90,36 @@ public class PostReviewActivity extends AppCompatActivity {
             if (review.isEmpty()) {
                 Toast.makeText(PostReviewActivity.this, "Your review cannot be empty", Toast.LENGTH_SHORT).show();
             } else {
-                // Check Parse to see if the anime in the review exists as an object
-                ParseQuery<ParseAnime> query = ParseQuery.getQuery(ParseAnime.class);
-                query.include(ParseAnime.KEY_MAL_ID);
-                query.whereEqualTo("malID", anime.getMalID());
-                query.getFirstInBackground(new GetCallback<ParseAnime>() {
-                    @Override
-                    public void done(ParseAnime object, ParseException e) {
-                        if (e == null) {
-                            saveReview(review, object, currentUser);
-                        } else {
-                            if(e.getCode() == ParseException.OBJECT_NOT_FOUND) {
-                                //object doesn't exist
-                                saveAnimeThenReview(anime.getMalID(), anime.getTitle(), anime.getPosterPath(), anime.getSeason());
-                            } else {
-                                //unknown error, debug
-                                Log.d(TAG, "Error: " + e.getMessage());
-                            }
-                        }
-                    }
-                });
+                if (getAnime(anime) == null) {
+                    saveAnime(anime.getMalID(), anime.getTitle(), anime.getPosterPath(), anime.getSeason());
+                }
+                saveReview(review, parseAnime, currentUser);
             }
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private ParseAnime getAnime(Anime anime){
+        // Check Parse to see if the anime in the review exists as an object
+        ParseQuery<ParseAnime> query = ParseQuery.getQuery(ParseAnime.class);
+        query.include(ParseAnime.KEY_MAL_ID);
+        query.whereEqualTo("malID", anime.getMalID());
+        query.getFirstInBackground(new GetCallback<ParseAnime>() {
+            @Override
+            public void done(ParseAnime object, ParseException e) {
+                if (e == null) {
+                    parseAnime = object;
+                } else {
+                    if(e.getCode() == ParseException.OBJECT_NOT_FOUND) {
+                        //object doesn't exist
+                    } else {
+                        //unknown error, debug
+                        Log.d(TAG, "Error: " + e.getMessage());
+                    }
+                }
+            }
+        });
+        return parseAnime;
     }
 
     private void saveReview(String review, ParseAnime anime, ParseUser currentUser) {
@@ -135,21 +142,20 @@ public class PostReviewActivity extends AppCompatActivity {
         });
     }
 
-    private void saveAnimeThenReview(String malID, String title, String posterPath, String season) {
+    private void saveAnime(String malID, String title, String posterPath, String season) {
         final String review = etReview.getText().toString();
         ParseUser currentUser = ParseUser.getCurrentUser();
-        ParseAnime newAnime = new ParseAnime();
-        newAnime.setMalID(malID);
-        newAnime.setTitle(title);
-        newAnime.setPosterPath(posterPath);
-        newAnime.setSeason(season);
-        newAnime.saveInBackground(new SaveCallback() {
+        parseAnime = new ParseAnime();
+        parseAnime.setMalID(malID);
+        parseAnime.setTitle(title);
+        parseAnime.setPosterPath(posterPath);
+        parseAnime.setSeason(season);
+        parseAnime.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
                 if (e == null) {
                     Log.i(TAG, "Anime save was successful!");
                     Toast.makeText(PostReviewActivity.this, "Saved Anime", Toast.LENGTH_SHORT).show();
-                    saveReview(review, newAnime, currentUser);
                 } else {
                     Log.e(TAG, "Error while saving: ", e);
                     Toast.makeText(PostReviewActivity.this, "Error while saving!", Toast.LENGTH_SHORT).show();

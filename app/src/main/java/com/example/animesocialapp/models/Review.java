@@ -1,5 +1,6 @@
 package com.example.animesocialapp.models;
 
+import com.example.animesocialapp.ParseRelativeDate;
 import com.parse.ParseClassName;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
