@@ -62,8 +62,6 @@ public class ParseRelativeDate {
             String month = monthFormat.format(date);
             String year = yearFormat.format(date);
 
-            Log.i("SearchAdapter", month);
-            Log.i("SearchAdapter", year);
 
             if (Arrays.asList("January", "February", "March").contains(month)){
                 return "Winter " + year;

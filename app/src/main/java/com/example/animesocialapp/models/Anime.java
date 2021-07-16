@@ -22,13 +22,13 @@ import java.util.List;
 @Parcel
 public class Anime {
 
-    String malID;
-    String posterPath;
-    String title;
-    String description;
-    Double score;
-    String startDate;
-    Boolean added;
+    public String malID;
+    public String posterPath;
+    public String title;
+    public String description;
+    public Double score;
+    public String startDate;
+    public Boolean added;
 
     public Anime() {}
 

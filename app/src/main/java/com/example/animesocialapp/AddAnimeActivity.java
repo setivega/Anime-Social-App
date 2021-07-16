@@ -13,8 +13,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import com.codepath.asynchttpclient.AsyncHttpClient;
@@ -24,7 +22,6 @@ import com.example.animesocialapp.models.ParseAnime;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
-import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import org.jetbrains.annotations.NotNull;
@@ -37,8 +34,6 @@ import java.util.List;
 
 import okhttp3.Headers;
 
-import static java.security.AccessController.getContext;
-
 public class AddAnimeActivity extends AppCompatActivity {
 
     public static final String TAG = "AddAnimeActivity";
@@ -50,6 +45,7 @@ public class AddAnimeActivity extends AppCompatActivity {
     private ParseAnime parseAnime;
     private List<ParseAnime> parseAnimeList;
     private List<Anime> animeList;
+    private List<String> animeIDs;
 
 
     @Override
@@ -63,12 +59,13 @@ public class AddAnimeActivity extends AppCompatActivity {
 
         parseAnimeList = new ArrayList<>();
         animeList = new ArrayList<>();
+        animeIDs = new ArrayList<>();
 
         rvAnime = findViewById(R.id.rvAnime);
 
         SearchAdapter.OnClickListener onClickListener = new SearchAdapter.OnClickListener() {
             @Override
-            public void onButtonClicked(int position, Drawable background) {
+            public void onButtonClicked(int position, Drawable background, Integer btn, SearchAdapter.Display display) {
                 final Anime anime = searchAdapter.getAnime(position);
                 Log.i(TAG, "Anime: " + anime);
                 // Check Parse to see if the anime in the review exists as an object
@@ -87,13 +84,28 @@ public class AddAnimeActivity extends AppCompatActivity {
                             }
                         }
 
-                        parseAnimeList.add(object);
-                        animeList.add(anime);
-
-
+                        if (btn == R.drawable.add_icon) {
+                            Log.i(TAG, "Anime added to list");
+                            parseAnimeList.add(object);
+                            animeList.add(anime);
+                            animeIDs.add(anime.getMalID());
+                            searchAdapter.addIDs(animeIDs);
+                            searchAdapter.notifyItemChanged(position);
+                        } else {
+                            Log.i(TAG, "Anime removed from list");
+                            parseAnimeList.remove(object);
+                            animeList.remove(anime);
+                            animeIDs.remove(anime.getMalID());
+                            searchAdapter.addIDs(animeIDs);
+                            if (display == SearchAdapter.Display.ADDED){
+                                searchAdapter.clear();
+                            } else {
+                                searchAdapter.notifyItemChanged(position);
+                            }
+                            searchAdapter.addAll(animeList);
+                        }
                     }
                 });
-                Log.i(TAG, "Current Parse Anime: " + parseAnime);
             }
         };
 

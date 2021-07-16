@@ -23,6 +23,7 @@ import com.example.animesocialapp.models.Anime;
 import org.parceler.Parcels;
 
 import java.util.ArrayList;
+import java.util.Dictionary;
 import java.util.List;
 
 
@@ -40,7 +41,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
     }
 
     public interface OnClickListener {
-        void onButtonClicked(int position, Drawable background);
+        void onButtonClicked(int position, Drawable background, Integer btn, Display display);
     }
 
     public static final String TAG = "SearchAdapter";
@@ -48,6 +49,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
     private PostType postType;
     private OnClickListener clickListener;
     private List<Anime> animes;
+    private List<String> addedAnimeIDs;
     public Display display;
 
     public SearchAdapter(Context context, PostType postType, OnClickListener clickListener) {
@@ -55,6 +57,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
         this.postType = postType;
         this.clickListener = clickListener;
         animes = new ArrayList<>();
+        addedAnimeIDs = new ArrayList<>();
     }
 
     @NonNull
@@ -98,6 +101,11 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
         notifyDataSetChanged();
     }
 
+    public void addIDs(List<String> list) {
+        addedAnimeIDs.clear();
+        addedAnimeIDs.addAll(list);
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         ImageView ivPoster;
@@ -127,12 +135,24 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
                     .transform(new CenterCrop(), new RoundedCorners(4))
                     .into(ivPoster);
 
+            Log.i(TAG, "Anime IDs: " + addedAnimeIDs);
+
+            if (!addedAnimeIDs.contains(anime.getMalID())) {
+                btnListAnime.setBackgroundResource(R.drawable.add_icon);
+                btnListAnime.setTag(R.drawable.add_icon);
+            } else {
+                btnListAnime.setBackgroundResource(R.drawable.remove_icon);
+                btnListAnime.setTag(R.drawable.remove_icon);
+            }
+
+            Integer btnTag = (Integer) btnListAnime.getTag();
+
             if (postType == PostType.LIST) {
                 btnListAnime.setVisibility(View.VISIBLE);
                 btnListAnime.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        clickListener.onButtonClicked(getAdapterPosition(), btnListAnime.getBackground());
+                        clickListener.onButtonClicked(getAdapterPosition(), btnListAnime.getBackground(), btnTag, display);
                     }
                 });
             }

@@ -11,12 +11,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Toast;
 
 import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
@@ -63,7 +60,7 @@ public class PostFragment extends Fragment {
 
         SearchAdapter.OnClickListener onClickListener = new SearchAdapter.OnClickListener() {
             @Override
-            public void onButtonClicked(int position, Drawable background) {
+            public void onButtonClicked(int position, Drawable background, Integer btn, SearchAdapter.Display display) {
                 return;
             }
         };
