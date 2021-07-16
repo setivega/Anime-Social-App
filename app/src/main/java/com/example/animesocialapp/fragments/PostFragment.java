@@ -1,5 +1,6 @@
 package com.example.animesocialapp.fragments;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import com.codepath.asynchttpclient.AsyncHttpClient;
@@ -59,8 +61,15 @@ public class PostFragment extends Fragment {
 
         rvAnime = view.findViewById(R.id.rvAnime);
 
+        SearchAdapter.OnClickListener onClickListener = new SearchAdapter.OnClickListener() {
+            @Override
+            public void onButtonClicked(int position, Drawable background) {
+                return;
+            }
+        };
+
         // Create an adapter
-        searchAdapter = new SearchAdapter(view.getContext(), SearchAdapter.PostType.REVIEW);
+        searchAdapter = new SearchAdapter(view.getContext(), SearchAdapter.PostType.REVIEW, onClickListener);
 
         // Set adapter on the recycler view
         rvAnime.setAdapter(searchAdapter);
@@ -83,8 +92,25 @@ public class PostFragment extends Fragment {
             }
         });
 
+
         svAnime = view.findViewById(R.id.svAnime);
+        svAnime.setIconifiedByDefault(false);
         svAnime.requestFocus();
+
+        svAnime.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(final View view, boolean hasFocus) {
+                if (hasFocus) {
+                    view.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(getContext().INPUT_METHOD_SERVICE);
+                            imm.showSoftInput(view.findFocus(), 0);
+                        }
+                    }, 0);
+                }
+            }
+        });
 
         svAnime.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -99,6 +125,7 @@ public class PostFragment extends Fragment {
             @Override
             public boolean onQueryTextChange(String newText) {
                 if (newText.length() >= 3) {
+                    searchAdapter.display = SearchAdapter.Display.SEARCH;
                     queryAnime(newText);
                     return true;
                 }

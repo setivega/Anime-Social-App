@@ -2,6 +2,8 @@ package com.example.animesocialapp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -31,14 +34,26 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
         LIST
     }
 
+    public enum Display {
+        SEARCH,
+        ADDED
+    }
+
+    public interface OnClickListener {
+        void onButtonClicked(int position, Drawable background);
+    }
+
     public static final String TAG = "SearchAdapter";
     private Context context;
     private PostType postType;
+    private OnClickListener clickListener;
     private List<Anime> animes;
+    public Display display;
 
-    public SearchAdapter(Context context, PostType postType) {
+    public SearchAdapter(Context context, PostType postType, OnClickListener clickListener) {
         this.context = context;
         this.postType = postType;
+        this.clickListener = clickListener;
         animes = new ArrayList<>();
     }
 
@@ -53,6 +68,13 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
     public void onBindViewHolder(@NonNull SearchAdapter.ViewHolder holder, int position) {
         // Get the post at the position
         Anime anime = animes.get(position);
+        // Check if recycler view is displaying added items
+        if (display == Display.ADDED) {
+            // Changing the background color of the item view
+            holder.itemView.setBackgroundColor(ContextCompat.getColor(context, R.color.background_gray));
+        } else {
+            holder.itemView.setBackgroundColor(ContextCompat.getColor(context, R.color.app_black));
+        }
         // Bind the post data into the View Holder
         holder.bind(anime);
     }
@@ -67,6 +89,10 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
         notifyDataSetChanged();
     }
 
+    public Anime getAnime(int position){
+        return animes.get(position);
+    }
+
     public void clear() {
         animes.clear();
         notifyDataSetChanged();
@@ -78,6 +104,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
         TextView tvTitle;
         TextView tvSeason;
         ImageButton btnListAnime;
+        View divider;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -85,6 +112,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
             tvTitle = itemView.findViewById(R.id.tvTitle);
             tvSeason = itemView.findViewById(R.id.tvSeason);
             btnListAnime = itemView.findViewById(R.id.btnListAnime);
+            divider = itemView.findViewById(R.id.divider);
             if (postType == PostType.REVIEW) {
                 itemView.setOnClickListener(this);
             }
@@ -101,7 +129,21 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
 
             if (postType == PostType.LIST) {
                 btnListAnime.setVisibility(View.VISIBLE);
+                btnListAnime.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        clickListener.onButtonClicked(getAdapterPosition(), btnListAnime.getBackground());
+                    }
+                });
             }
+
+            if (display == Display.ADDED) {
+                divider.setVisibility(View.GONE);
+            } else {
+                divider.setVisibility(View.VISIBLE);
+            }
+
+
 
         }
 

@@ -8,30 +8,49 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
 
 import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.example.animesocialapp.models.Anime;
+import com.example.animesocialapp.models.ParseAnime;
+import com.parse.GetCallback;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import okhttp3.Headers;
+
+import static java.security.AccessController.getContext;
 
 public class AddAnimeActivity extends AppCompatActivity {
 
-    public static final String TAG = "PostFragment";
+    public static final String TAG = "AddAnimeActivity";
     public static final String REST_URL = "https://api.jikan.moe/v3/search/anime?q=";
     public static final String PARAMS = "&order_by=title";
     private RecyclerView rvAnime;
     private SearchAdapter searchAdapter;
     private SearchView svAnime;
+    private ParseAnime parseAnime;
+    private List<ParseAnime> parseAnimeList;
+    private List<Anime> animeList;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,10 +61,44 @@ public class AddAnimeActivity extends AppCompatActivity {
         toolbar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(),R.color.white));
         setSupportActionBar(toolbar);
 
+        parseAnimeList = new ArrayList<>();
+        animeList = new ArrayList<>();
+
         rvAnime = findViewById(R.id.rvAnime);
 
+        SearchAdapter.OnClickListener onClickListener = new SearchAdapter.OnClickListener() {
+            @Override
+            public void onButtonClicked(int position, Drawable background) {
+                final Anime anime = searchAdapter.getAnime(position);
+                Log.i(TAG, "Anime: " + anime);
+                // Check Parse to see if the anime in the review exists as an object
+                ParseQuery<ParseAnime> query = ParseQuery.getQuery(ParseAnime.class);
+                query.include(ParseAnime.KEY_MAL_ID);
+                query.whereEqualTo("malID", anime.getMalID());
+                query.getFirstInBackground(new GetCallback<ParseAnime>() {
+                    @Override
+                    public void done(ParseAnime object, ParseException e) {
+                        if (e != null) {
+                            if(e.getCode() == ParseException.OBJECT_NOT_FOUND) {
+                                //object doesn't exist
+                                saveAnime(anime.getMalID(), anime.getTitle(), anime.getPosterPath(), anime.getSeason());
+                            } else {
+                                //unknown error, debug
+                            }
+                        }
+
+                        parseAnimeList.add(object);
+                        animeList.add(anime);
+
+
+                    }
+                });
+                Log.i(TAG, "Current Parse Anime: " + parseAnime);
+            }
+        };
+
         // Create an adapter
-        searchAdapter = new SearchAdapter(this, SearchAdapter.PostType.LIST);
+        searchAdapter = new SearchAdapter(this, SearchAdapter.PostType.LIST, onClickListener);
 
         // Set adapter on the recycler view
         rvAnime.setAdapter(searchAdapter);
@@ -69,6 +122,7 @@ public class AddAnimeActivity extends AppCompatActivity {
         });
 
         svAnime = findViewById(R.id.svAnime);
+        svAnime.setIconifiedByDefault(false);
         svAnime.requestFocus();
 
         svAnime.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -84,12 +138,15 @@ public class AddAnimeActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(String newText) {
                 if (newText.length() >= 3) {
+                    searchAdapter.display = SearchAdapter.Display.SEARCH;
                     queryAnime(newText);
                     return true;
                 }
 
                 if (newText.isEmpty()) {
                     searchAdapter.clear();
+                    searchAdapter.display = SearchAdapter.Display.ADDED;
+                    searchAdapter.addAll(animeList);
                     return true;
                 }
 
@@ -114,6 +171,7 @@ public class AddAnimeActivity extends AppCompatActivity {
                         //Update Adapter
                         searchAdapter.clear();
                         searchAdapter.addAll(Anime.fromJSONArray(results));
+
                     } catch (JSONException e) {
                         Log.e(TAG, "Hit JSON Exception ", e);
                     }
@@ -140,5 +198,26 @@ public class AddAnimeActivity extends AppCompatActivity {
 
         }
         return super.onOptionsItemSelected(item);
+    }
+
+
+    private void saveAnime(String malID, String title, String posterPath, String season) {
+        parseAnime = new ParseAnime();
+        parseAnime.setMalID(malID);
+        parseAnime.setTitle(title);
+        parseAnime.setPosterPath(posterPath);
+        parseAnime.setSeason(season);
+        parseAnime.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    Log.i(TAG, "Anime save was successful!");
+                    Toast.makeText(AddAnimeActivity.this, "Saved Anime", Toast.LENGTH_SHORT).show();
+                } else {
+                    Log.e(TAG, "Error while saving: ", e);
+                    Toast.makeText(AddAnimeActivity.this, "Error while saving!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 }

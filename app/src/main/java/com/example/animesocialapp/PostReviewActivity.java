@@ -23,6 +23,7 @@ import com.example.animesocialapp.models.ParseAnime;
 import com.example.animesocialapp.models.Review;
 import com.parse.GetCallback;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
@@ -80,38 +81,30 @@ public class PostReviewActivity extends AppCompatActivity {
             if (review.isEmpty()) {
                 Toast.makeText(PostReviewActivity.this, "Your review cannot be empty", Toast.LENGTH_SHORT).show();
             } else {
-                if (getAnime(anime) == null) {
-                    saveAnime(anime.getMalID(), anime.getTitle(), anime.getPosterPath(), anime.getSeason());
-                }
-                saveReview(review, parseAnime, currentUser);
+                // Check Parse to see if the anime in the review exists as an object
+                ParseQuery<ParseAnime> query = ParseQuery.getQuery(ParseAnime.class);
+                query.include(ParseAnime.KEY_MAL_ID);
+                query.whereEqualTo("malID", anime.getMalID());
+                query.getFirstInBackground(new GetCallback<ParseAnime>() {
+                    @Override
+                    public void done(ParseAnime object, ParseException e) {
+                        if (e != null) {
+                            if(e.getCode() == ParseException.OBJECT_NOT_FOUND) {
+                                //object doesn't exist
+                                saveAnime(anime.getMalID(), anime.getTitle(), anime.getPosterPath(), anime.getSeason());
+                            } else {
+                                //unknown error, debug
+                            }
+                        }
+                        saveReview(review, object, currentUser);
+                        Log.i(TAG, "Current Parse Anime: " + object);
+                    }
+                });
             }
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private ParseAnime getAnime(Anime anime){
-        // Check Parse to see if the anime in the review exists as an object
-        ParseQuery<ParseAnime> query = ParseQuery.getQuery(ParseAnime.class);
-        query.include(ParseAnime.KEY_MAL_ID);
-        query.whereEqualTo("malID", anime.getMalID());
-        query.getFirstInBackground(new GetCallback<ParseAnime>() {
-            @Override
-            public void done(ParseAnime object, ParseException e) {
-                if (e == null) {
-                    parseAnime = object;
-                } else {
-                    if(e.getCode() == ParseException.OBJECT_NOT_FOUND) {
-                        //object doesn't exist
-                        parseAnime = null;
-                    } else {
-                        //unknown error, debug
-                        Log.d(TAG, "Error: " + e.getMessage());
-                    }
-                }
-            }
-        });
-        return parseAnime;
-    }
 
     private void saveReview(String review, ParseAnime anime, ParseUser currentUser) {
         Review newReview = new Review();
@@ -134,8 +127,6 @@ public class PostReviewActivity extends AppCompatActivity {
     }
 
     private void saveAnime(String malID, String title, String posterPath, String season) {
-        final String review = etReview.getText().toString();
-        ParseUser currentUser = ParseUser.getCurrentUser();
         parseAnime = new ParseAnime();
         parseAnime.setMalID(malID);
         parseAnime.setTitle(title);

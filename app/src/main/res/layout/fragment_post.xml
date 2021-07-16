@@ -8,7 +8,7 @@
 
     <androidx.appcompat.widget.SearchView
         android:id="@+id/svAnime"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/search_height"
         android:background="@drawable/search_background"
         android:iconifiedByDefault="false"
@@ -17,6 +17,9 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:closeIcon="@drawable/close_icon"
+        app:searchIcon="@drawable/search_icon"
+        app:showAsAction="always"
         app:theme="@style/SearchViewStyle" />
 
     <androidx.recyclerview.widget.RecyclerView
