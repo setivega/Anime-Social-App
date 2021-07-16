@@ -47,6 +47,8 @@ public class AddAnimeActivity extends AppCompatActivity {
     private ParseAnime parseAnime;
     private HashMap<String, ParseAnime> parseAnimeDict;
     private HashMap<String, Anime> animeDict;
+    private List<String> animeIDs;
+    private List<Anime> animeList;
 
 
     @Override
@@ -60,8 +62,11 @@ public class AddAnimeActivity extends AppCompatActivity {
 
         parseAnimeDict = new HashMap<>();
         animeDict = new HashMap<>();
+        animeIDs = new ArrayList<>();
+        animeList = new ArrayList<>();
 
         rvAnime = findViewById(R.id.rvAnime);
+
 
         SearchAdapter.OnClickListener onClickListener = new SearchAdapter.OnClickListener() {
             @Override
@@ -92,7 +97,7 @@ public class AddAnimeActivity extends AppCompatActivity {
                             parseAnimeDict.put(anime.getMalID(), object);
                             animeDict.put(anime.getMalID(), anime);
 
-                            List<String> animeIDs = new ArrayList<String>(animeDict.keySet());
+                            animeIDs = new ArrayList<String>(animeDict.keySet());
                             searchAdapter.addIDs(animeIDs);
                             searchAdapter.notifyItemChanged(position);
                         } else {
@@ -101,7 +106,7 @@ public class AddAnimeActivity extends AppCompatActivity {
                             parseAnimeDict.remove(object.getMalID());
                             animeDict.remove(anime.getMalID());
 
-                            List<String> animeIDs = new ArrayList<String>(animeDict.keySet());
+                            animeIDs = new ArrayList<String>(animeDict.keySet());
                             searchAdapter.addIDs(animeIDs);
 
                             if (display == SearchAdapter.Display.ADDED){
@@ -110,7 +115,7 @@ public class AddAnimeActivity extends AppCompatActivity {
                                 searchAdapter.notifyItemChanged(position);
                             }
 
-                            List<Anime> animeList = new ArrayList<Anime>(animeDict.values());
+                            animeList = new ArrayList<Anime>(animeDict.values());
                             searchAdapter.addAll(animeList);
                         }
 
@@ -171,7 +176,7 @@ public class AddAnimeActivity extends AppCompatActivity {
                 if (newText.isEmpty()) {
                     searchAdapter.clear();
                     searchAdapter.display = SearchAdapter.Display.ADDED;
-                    List<Anime> animeList = new ArrayList<Anime>(animeDict.values());
+                    animeList = new ArrayList<Anime>(animeDict.values());
                     searchAdapter.addAll(animeList);
                     return true;
                 }

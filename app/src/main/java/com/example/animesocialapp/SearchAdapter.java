@@ -162,9 +162,6 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
             } else {
                 divider.setVisibility(View.VISIBLE);
             }
-
-
-
         }
 
         @Override

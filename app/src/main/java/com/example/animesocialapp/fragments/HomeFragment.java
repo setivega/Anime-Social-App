@@ -74,6 +74,7 @@ public class HomeFragment extends Fragment {
                     if (e.getCode() == ParseException.CONNECTION_FAILED){
                         Log.i(TAG, "Network error being handled");
                         //Handle Network Error
+
                     }
                     return;
                 }
