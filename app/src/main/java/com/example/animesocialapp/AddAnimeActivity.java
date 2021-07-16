@@ -30,6 +30,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Dictionary;
+import java.util.HashMap;
 import java.util.List;
 
 import okhttp3.Headers;
@@ -43,9 +45,8 @@ public class AddAnimeActivity extends AppCompatActivity {
     private SearchAdapter searchAdapter;
     private SearchView svAnime;
     private ParseAnime parseAnime;
-    private List<ParseAnime> parseAnimeList;
-    private List<Anime> animeList;
-    private List<String> animeIDs;
+    private HashMap<String, ParseAnime> parseAnimeDict;
+    private HashMap<String, Anime> animeDict;
 
 
     @Override
@@ -57,9 +58,8 @@ public class AddAnimeActivity extends AppCompatActivity {
         toolbar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(),R.color.white));
         setSupportActionBar(toolbar);
 
-        parseAnimeList = new ArrayList<>();
-        animeList = new ArrayList<>();
-        animeIDs = new ArrayList<>();
+        parseAnimeDict = new HashMap<>();
+        animeDict = new HashMap<>();
 
         rvAnime = findViewById(R.id.rvAnime);
 
@@ -78,32 +78,45 @@ public class AddAnimeActivity extends AppCompatActivity {
                         if (e != null) {
                             if(e.getCode() == ParseException.OBJECT_NOT_FOUND) {
                                 //object doesn't exist
+                                Log.i(TAG, "Getting down to business");
                                 saveAnime(anime.getMalID(), anime.getTitle(), anime.getPosterPath(), anime.getSeason());
                             } else {
                                 //unknown error, debug
+                                Log.i(TAG, "Unknown Error");
                             }
                         }
 
+                        // Handle when when add or remove button is clicked
                         if (btn == R.drawable.add_icon) {
-                            Log.i(TAG, "Anime added to list");
-                            parseAnimeList.add(object);
-                            animeList.add(anime);
-                            animeIDs.add(anime.getMalID());
+                            Log.i(TAG, "Anime added to dict");
+                            parseAnimeDict.put(anime.getMalID(), object);
+                            animeDict.put(anime.getMalID(), anime);
+
+                            List<String> animeIDs = new ArrayList<String>(animeDict.keySet());
                             searchAdapter.addIDs(animeIDs);
                             searchAdapter.notifyItemChanged(position);
                         } else {
-                            Log.i(TAG, "Anime removed from list");
-                            parseAnimeList.remove(object);
-                            animeList.remove(anime);
-                            animeIDs.remove(anime.getMalID());
+                            Log.i(TAG, "Anime removed from dict");
+
+                            parseAnimeDict.remove(object.getMalID());
+                            animeDict.remove(anime.getMalID());
+
+                            List<String> animeIDs = new ArrayList<String>(animeDict.keySet());
                             searchAdapter.addIDs(animeIDs);
+
                             if (display == SearchAdapter.Display.ADDED){
                                 searchAdapter.clear();
                             } else {
                                 searchAdapter.notifyItemChanged(position);
                             }
+
+                            List<Anime> animeList = new ArrayList<Anime>(animeDict.values());
                             searchAdapter.addAll(animeList);
                         }
+
+                        Log.i(TAG, "Animes Added: " + animeDict);
+                        Log.i (TAG, "Parse Animes Added: " + parseAnimeDict);
+                        Log.i(TAG, "Parse Object: " + object);
                     }
                 });
             }
@@ -158,6 +171,7 @@ public class AddAnimeActivity extends AppCompatActivity {
                 if (newText.isEmpty()) {
                     searchAdapter.clear();
                     searchAdapter.display = SearchAdapter.Display.ADDED;
+                    List<Anime> animeList = new ArrayList<Anime>(animeDict.values());
                     searchAdapter.addAll(animeList);
                     return true;
                 }
