@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.List;
 
+import timber.log.Timber;
 
 
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder>{
@@ -135,7 +136,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
                     .transform(new CenterCrop(), new RoundedCorners(4))
                     .into(ivPoster);
 
-            Log.i(TAG, "Anime IDs: " + addedAnimeIDs);
+            Timber.i("Anime IDs: " + addedAnimeIDs);
 
             if (!addedAnimeIDs.contains(anime.getMalID())) {
                 btnListAnime.setBackgroundResource(R.drawable.add_icon);

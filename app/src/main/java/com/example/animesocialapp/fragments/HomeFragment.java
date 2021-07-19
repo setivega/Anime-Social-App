@@ -21,6 +21,8 @@ import com.parse.ParseQuery;
 
 import java.util.List;
 
+import timber.log.Timber;
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -72,7 +74,7 @@ public class HomeFragment extends Fragment {
                 if (e != null) {
                     Log.e(TAG, "Issue getting posts: " + e.getLocalizedMessage());
                     if (e.getCode() == ParseException.CONNECTION_FAILED){
-                        Log.i(TAG, "Network error being handled");
+                        Timber.i("Network error being handled");
                         //Handle Network Error
 
                     }
@@ -81,7 +83,7 @@ public class HomeFragment extends Fragment {
                 postAdapter.clear();
                 postAdapter.addAll(reviews);
                 for (Review review : reviews) {
-                    Log.i(TAG, "Review: " + review.getDescription() + ", username: " + review.getUser().getUsername());
+                    Timber.i("Review: " + review.getDescription() + ", username: " + review.getUser().getUsername());
                 }
             }
         });

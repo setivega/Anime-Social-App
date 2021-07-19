@@ -38,6 +38,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import okhttp3.Headers;
+import timber.log.Timber;
 
 public class AddAnimeActivity extends AppCompatActivity {
 
@@ -81,7 +82,7 @@ public class AddAnimeActivity extends AppCompatActivity {
             @Override
             public void onButtonClicked(int position, Drawable background, Integer btn, SearchAdapter.Display display) {
                 final Anime anime = searchAdapter.getAnime(position);
-                Log.i(TAG, "Anime: " + anime);
+                Timber.i("Anime: " + anime);
                 // Check Parse to see if the anime in the review exists as an object
                 ParseQuery<ParseAnime> query = ParseQuery.getQuery(ParseAnime.class);
                 query.include(ParseAnime.KEY_MAL_ID);
@@ -92,17 +93,17 @@ public class AddAnimeActivity extends AppCompatActivity {
                         if (e != null) {
                             if(e.getCode() == ParseException.OBJECT_NOT_FOUND) {
                                 //object doesn't exist
-                                Log.i(TAG, "Getting down to business");
+                                Timber.i("Getting down to business");
                                 saveAnime(anime.getMalID(), anime.getTitle(), anime.getPosterPath(), anime.getSeason());
                             } else {
                                 //unknown error, debug
-                                Log.i(TAG, "Unknown Error");
+                                Timber.i("Unknown Error");
                             }
                         }
 
                         // Handle when when add or remove button is clicked
                         if (btn == R.drawable.add_icon) {
-                            Log.i(TAG, "Anime added to dict");
+                            Timber.i("Anime added to dict");
                             parseAnimeDict.put(anime.getMalID(), object);
                             animeDict.put(anime.getMalID(), anime);
 
@@ -110,7 +111,7 @@ public class AddAnimeActivity extends AppCompatActivity {
                             searchAdapter.addIDs(animeIDs);
                             searchAdapter.notifyItemChanged(position);
                         } else {
-                            Log.i(TAG, "Anime removed from dict");
+                            Timber.i("Anime removed from dict");
 
                             parseAnimeDict.remove(object.getMalID());
                             animeDict.remove(anime.getMalID());
@@ -128,9 +129,9 @@ public class AddAnimeActivity extends AppCompatActivity {
                             searchAdapter.addAll(animeList);
                         }
 
-                        Log.i(TAG, "Animes Added: " + animeDict);
+                        Timber.i("Animes Added: " + animeDict);
                         Log.i (TAG, "Parse Animes Added: " + parseAnimeDict);
-                        Log.i(TAG, "Parse Object: " + object);
+                        Timber.i("Parse Object: " + object);
                     }
                 });
             }
@@ -213,7 +214,7 @@ public class AddAnimeActivity extends AppCompatActivity {
                 if (svAnime.getQuery().length() >= 3) {
                     try {
                         JSONArray results = jsonObject.getJSONArray("results");
-                        Log.i(TAG, "Results: " + results.toString());
+                        Timber.i("Results: " + results.toString());
                         //Update Adapter
                         searchAdapter.clear();
                         searchAdapter.addAll(Anime.fromJSONArray(results));
@@ -261,7 +262,7 @@ public class AddAnimeActivity extends AppCompatActivity {
             @Override
             public void done(ParseException e) {
                 if (e == null) {
-                    Log.i(TAG, "Anime save was successful!");
+                    Timber.i("Anime save was successful!");
                     Toast.makeText(AddAnimeActivity.this, "Saved Anime", Toast.LENGTH_SHORT).show();
                 } else {
                     Log.e(TAG, "Error while saving: ", e);

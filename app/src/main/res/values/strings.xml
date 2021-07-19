@@ -16,6 +16,7 @@
     <string name="create_label">Create</string>
     <string name="done_label">Done</string>
     <string name="add_anime_label">Add Anime…</string>
+    <string name="edit_anime_label">Edit Anime List…</string>
 
     <string name="review_hint">Your review of this anime…</string>
     <string name="list_title_hint">Add list name… </string>

@@ -7,6 +7,8 @@ import com.example.animesocialapp.models.Review;
 import com.parse.Parse;
 import com.parse.ParseObject;
 
+import timber.log.Timber;
+
 public class ParseApplication extends Application {
 
     // Initializes Parse SDK as soon as the application is created
@@ -24,5 +26,9 @@ public class ParseApplication extends Application {
                 .server("https://parseapi.back4app.com")
                 .build()
         );
+
+        if(BuildConfig.DEBUG){
+            Timber.plant(new Timber.DebugTree());
+        }
     }
 }

@@ -27,6 +27,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import okhttp3.Headers;
+import timber.log.Timber;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -150,7 +151,7 @@ public class PostFragment extends Fragment {
                 if (svAnime.getQuery().length() >= 3) {
                     try {
                         JSONArray results = jsonObject.getJSONArray("results");
-                        Log.i(TAG, "Results: " + results.toString());
+                        Timber.i("Results: " + results.toString());
                         //Update Adapter
                         searchAdapter.clear();
                         searchAdapter.addAll(Anime.fromJSONArray(results));

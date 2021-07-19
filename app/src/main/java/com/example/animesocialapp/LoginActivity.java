@@ -15,6 +15,8 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
+import timber.log.Timber;
+
 public class LoginActivity extends AppCompatActivity {
 
     public static final String TAG = "LoginActivity";
@@ -41,7 +43,7 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i(TAG, "onClick Login Button");
+                Timber.i("onClick Login Button");
                 String username = etUsername.getText().toString();
                 String password = etPassword.getText().toString();
                 loginUser(username, password);
@@ -52,7 +54,7 @@ public class LoginActivity extends AppCompatActivity {
         btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i(TAG, "onClick Sign Up Button");
+                Timber.i("onClick Sign Up Button");
                 String username = etUsername.getText().toString();
                 String password = etPassword.getText().toString();
                 signupUser(username, password);
@@ -81,7 +83,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void loginUser(String username, String password) {
-        Log.i(TAG, "Attempting to login user: " + username);
+        Timber.i("Attempting to login user: " + username);
         // Calling Log in in background so that the app doesn't stop working while this is taking place
         ParseUser.logInInBackground(username, password, new LogInCallback() {
             @Override

@@ -30,6 +30,8 @@ import com.parse.SaveCallback;
 
 import org.parceler.Parcels;
 
+import timber.log.Timber;
+
 public class PostReviewActivity extends AppCompatActivity {
 
     public static final String TAG = "PostReviewActivity";
@@ -97,7 +99,7 @@ public class PostReviewActivity extends AppCompatActivity {
                             }
                         }
                         saveReview(review, object, currentUser);
-                        Log.i(TAG, "Current Parse Anime: " + object);
+                        Timber.i("Current Parse Anime: " + object);
                     }
                 });
             }
@@ -118,7 +120,7 @@ public class PostReviewActivity extends AppCompatActivity {
                     Log.e(TAG, "Error while saving: ", e);
                     Toast.makeText(PostReviewActivity.this, "Error while saving!", Toast.LENGTH_SHORT).show();
                 } else {
-                    Log.i(TAG, "Review save was successful!");
+                    Timber.i("Review save was successful!");
                     Toast.makeText(PostReviewActivity.this, "Saved Review", Toast.LENGTH_SHORT).show();
                     goMainActivity();
                 }
@@ -136,7 +138,7 @@ public class PostReviewActivity extends AppCompatActivity {
             @Override
             public void done(ParseException e) {
                 if (e == null) {
-                    Log.i(TAG, "Anime save was successful!");
+                    Timber.i("Anime save was successful!");
                     Toast.makeText(PostReviewActivity.this, "Saved Anime", Toast.LENGTH_SHORT).show();
                 } else {
                     Log.e(TAG, "Error while saving: ", e);

@@ -101,8 +101,10 @@ public class CreateListActivity extends AppCompatActivity {
                 previewAdapter.addAll(animeList);
                 if (animeList.isEmpty()) {
                     rvAnimePreviews.setVisibility(View.GONE);
+                    btnAddAnime.setText(R.string.add_anime_label);
                 } else {
                     rvAnimePreviews.setVisibility(View.VISIBLE);
+                    btnAddAnime.setText(R.string.edit_anime_label);
                 }
             }
         }
