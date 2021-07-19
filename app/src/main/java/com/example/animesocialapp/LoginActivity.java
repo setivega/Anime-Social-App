@@ -24,14 +24,12 @@ public class LoginActivity extends AppCompatActivity {
     private EditText etPassword;
     private Button btnLogin;
     private Button btnSignup;
-//    private View parentLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-//        parentLayout = findViewById(android.R.id.content);
 
         if (ParseUser.getCurrentUser() != null) {
             goMainActivity();

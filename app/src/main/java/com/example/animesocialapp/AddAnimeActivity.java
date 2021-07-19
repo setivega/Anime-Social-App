@@ -169,7 +169,6 @@ public class AddAnimeActivity extends AppCompatActivity {
 
         svAnime = findViewById(R.id.svAnime);
         svAnime.setIconifiedByDefault(false);
-        svAnime.requestFocus();
 
         svAnime.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override

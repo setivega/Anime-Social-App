@@ -19,15 +19,25 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.animesocialapp.models.Anime;
+import com.example.animesocialapp.models.AnimeList;
 import com.example.animesocialapp.models.ParseAnime;
+import com.example.animesocialapp.models.Review;
+import com.parse.Parse;
+import com.parse.ParseException;
+import com.parse.ParseRelation;
+import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import timber.log.Timber;
 
 public class CreateListActivity extends AppCompatActivity {
 
@@ -118,10 +128,46 @@ public class CreateListActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
+        final String title = etTitle.getText().toString();
+        final String description = etDescription.getText().toString();
+        ParseUser currentUser = ParseUser.getCurrentUser();
         if(item.getItemId() == R.id.create) {
-
+            // Check if edit text contains text and list isn't empty
+            if (title.isEmpty()) {
+                Toast.makeText(CreateListActivity.this, "Your title cannot be empty", Toast.LENGTH_SHORT).show();
+            } else if (animeList.isEmpty()) {
+                Toast.makeText(CreateListActivity.this, "Your anime list cannot be empty", Toast.LENGTH_SHORT).show();
+            } else {
+                saveList(title, description, parseAnimeList, currentUser);
+            }
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void saveList(String title, String description, List<ParseAnime> anime, ParseUser currentUser) {
+        AnimeList newList = new AnimeList();
+        newList.setTitle(title);
+        newList.setDescription(description);
+        newList.setUser(currentUser);
+        newList.setAnime(anime);
+        newList.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e != null) {
+                    Log.e(TAG, "Error while saving: ", e);
+                    Toast.makeText(CreateListActivity.this, "Error while saving!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Timber.i("List save was successful!");
+                    Toast.makeText(CreateListActivity.this, "Saved List", Toast.LENGTH_SHORT).show();
+                    goMainActivity();
+                }
+            }
+        });
+    }
+
+    private void goMainActivity() {
+        Intent i = new Intent(this, MainActivity.class);
+        startActivity(i);
+        finish();
     }
 }
