@@ -8,6 +8,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,6 +21,7 @@ import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.example.animesocialapp.models.Anime;
 import com.example.animesocialapp.models.ParseAnime;
 import com.parse.GetCallback;
+import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.SaveCallback;
@@ -28,6 +30,7 @@ import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.Dictionary;
@@ -41,6 +44,8 @@ public class AddAnimeActivity extends AppCompatActivity {
     public static final String TAG = "AddAnimeActivity";
     public static final String REST_URL = "https://api.jikan.moe/v3/search/anime?q=";
     public static final String PARAMS = "&order_by=title";
+    public static final String PARSE_ANIME_DICT_CODE = "PARSE_ANIME_DICT_CODE";
+    public static final String ANIME_DICT_CODE = "ANIME_DICT_CODE";
     private RecyclerView rvAnime;
     private SearchAdapter searchAdapter;
     private SearchView svAnime;
@@ -67,6 +72,10 @@ public class AddAnimeActivity extends AppCompatActivity {
 
         rvAnime = findViewById(R.id.rvAnime);
 
+        animeDict = Parcels.unwrap(getIntent().getParcelableExtra(ANIME_DICT_CODE));
+        parseAnimeDict = Parcels.unwrap(getIntent().getParcelableExtra(PARSE_ANIME_DICT_CODE));
+        animeList = new ArrayList<Anime>(animeDict.values());
+        animeIDs = new ArrayList<String>(animeDict.keySet());
 
         SearchAdapter.OnClickListener onClickListener = new SearchAdapter.OnClickListener() {
             @Override
@@ -129,6 +138,12 @@ public class AddAnimeActivity extends AppCompatActivity {
 
         // Create an adapter
         searchAdapter = new SearchAdapter(this, SearchAdapter.PostType.LIST, onClickListener);
+
+        if (animeList != null) {
+            searchAdapter.display = SearchAdapter.Display.ADDED;
+            searchAdapter.addIDs(animeIDs);
+            searchAdapter.addAll(animeList);
+        }
 
         // Set adapter on the recycler view
         rvAnime.setAdapter(searchAdapter);
@@ -226,7 +241,11 @@ public class AddAnimeActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
         if(item.getItemId() == R.id.done) {
-
+            Intent intent = new Intent(AddAnimeActivity.this, CreateListActivity.class);
+            intent.putExtra(ANIME_DICT_CODE, Parcels.wrap(animeDict));
+            intent.putExtra(PARSE_ANIME_DICT_CODE, Parcels.wrap(parseAnimeDict));
+            setResult(RESULT_OK, intent);
+            finish();
         }
         return super.onOptionsItemSelected(item);
     }

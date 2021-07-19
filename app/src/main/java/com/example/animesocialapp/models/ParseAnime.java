@@ -8,8 +8,11 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
+import org.parceler.Parcel;
+
+
 @ParseClassName("Anime")
-public class ParseAnime extends ParseObject{
+public class ParseAnime extends ParseObject {
 
     public static final String KEY_MAL_ID = "malID";
     public static final String KEY_TITLE = "title";
