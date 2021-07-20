@@ -12,7 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.animesocialapp.PostAdapter;
+import com.example.animesocialapp.adapters.PostAdapter;
 import com.example.animesocialapp.R;
 import com.example.animesocialapp.models.Review;
 import com.parse.FindCallback;

@@ -22,15 +22,18 @@
     <dimen name="profile_post_width">130dp</dimen>
     <dimen name="search_height">60dp</dimen>
 
-    <dimen name="anime_item_width">50dp</dimen>
-    <dimen name="anime_item_height">75dp</dimen>
+
     <dimen name="anime_item_title_size">18sp</dimen>
     <dimen name="anime_item_season_size">14sp</dimen>
     <dimen name="anime_preview_title_size">20sp</dimen>
     <dimen name="anime_preview_season_size">16sp</dimen>
 
+    <dimen name="anime_item_width">50dp</dimen>
+    <dimen name="anime_item_height">75dp</dimen>
     <dimen name="anime_preview_width">80dp</dimen>
     <dimen name="anime_preview_height">120dp</dimen>
+    <dimen name="anime_list_width">60dp</dimen>
+    <dimen name="anime_list_height">90dp</dimen>
 
     <dimen name="review_background_height">220dp</dimen>
     <dimen name="review_poster_width">100dp</dimen>
@@ -41,6 +44,7 @@
     <dimen name="post_anime_title">16sp</dimen>
     <dimen name="post_labels">12sp</dimen>
     <dimen name="post_text">14sp</dimen>
+    <dimen name="post_title_size">22sp</dimen>
 
     <dimen name="list_description_height">80dp</dimen>
 

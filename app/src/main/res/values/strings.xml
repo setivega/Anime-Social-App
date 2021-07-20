@@ -32,6 +32,7 @@
     <string name="filler_time">32 mins ago</string>
     <string name="filler_title">Steins;Gate</string>
     <string name="filler_season">Spring 2011</string>
+    <string name="filler_list_name">My Top Ten</string>
 
     <string name="add_profile_image">Add Profile Image</string>
     <string name="change_profile_image">Change Profile Image</string>

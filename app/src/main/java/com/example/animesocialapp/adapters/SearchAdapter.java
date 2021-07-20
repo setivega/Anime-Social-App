@@ -1,9 +1,8 @@
-package com.example.animesocialapp;
+package com.example.animesocialapp.adapters;
 
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,12 +17,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.example.animesocialapp.PostReviewActivity;
+import com.example.animesocialapp.R;
 import com.example.animesocialapp.models.Anime;
 
 import org.parceler.Parcels;
 
 import java.util.ArrayList;
-import java.util.Dictionary;
 import java.util.List;
 
 import timber.log.Timber;

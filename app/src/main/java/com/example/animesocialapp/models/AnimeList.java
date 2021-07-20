@@ -14,6 +14,7 @@ public class AnimeList extends ParseObject {
     public static final String KEY_DESCRIPTION = "description";
     public static final String KEY_USER = "user";
     public static final String KEY_ANIME = "anime";
+    public int viewType;
 
     public String getTitle() {
         return getString(KEY_TITLE);
@@ -43,7 +44,13 @@ public class AnimeList extends ParseObject {
 
     public void setAnime(List<ParseAnime> anime) { put(KEY_ANIME, anime); }
 
+    public int getViewType() {
+        return viewType;
+    }
 
+    public void setViewType(int viewType) {
+        this.viewType = viewType;
+    }
 
 
 }

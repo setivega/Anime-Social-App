@@ -18,7 +18,7 @@ import android.view.inputmethod.InputMethodManager;
 import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.example.animesocialapp.R;
-import com.example.animesocialapp.SearchAdapter;
+import com.example.animesocialapp.adapters.SearchAdapter;
 import com.example.animesocialapp.models.Anime;
 
 import org.jetbrains.annotations.NotNull;

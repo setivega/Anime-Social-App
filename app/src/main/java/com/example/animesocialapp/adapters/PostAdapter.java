@@ -1,4 +1,4 @@
-package com.example.animesocialapp;
+package com.example.animesocialapp.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -14,6 +14,9 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.example.animesocialapp.ParseRelativeDate;
+import com.example.animesocialapp.R;
+import com.example.animesocialapp.models.AnimeList;
 import com.example.animesocialapp.models.ParseAnime;
 import com.example.animesocialapp.models.Review;
 import com.parse.ParseFile;
@@ -24,10 +27,14 @@ import java.util.List;
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
 
+    public static final int ITEM_TYPE_REVIEW = 0;
+    public static final int ITEM_TYPE_LIST = 1;
+
     public static final String TAG = "PostAdapter";
     public static final String PROFILE_IMAGE = "profileImage";
     private Context context;
     private List<Review> reviews;
+    private List<AnimeList> animeLists;
 
     public PostAdapter(Context context) {
         this.context = context;
@@ -50,6 +57,11 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
     }
 
     @Override
+    public int getItemViewType(int position) {
+        return super.getItemViewType(position);
+    }
+
+    @Override
     public int getItemCount() {
         return reviews.size();
     }
@@ -63,6 +75,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
         reviews.clear();
         notifyDataSetChanged();
     }
+
+
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 

@@ -10,24 +10,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.animesocialapp.adapters.AnimePreviewAdapter;
 import com.example.animesocialapp.models.Anime;
 import com.example.animesocialapp.models.AnimeList;
 import com.example.animesocialapp.models.ParseAnime;
-import com.example.animesocialapp.models.Review;
-import com.parse.Parse;
 import com.parse.ParseException;
-import com.parse.ParseRelation;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
