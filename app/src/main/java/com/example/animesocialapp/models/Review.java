@@ -12,7 +12,6 @@ public class Review extends ParseObject {
     public static final String KEY_REVIEW = "review";
     public static final String KEY_ANIME = "anime";
     public static final String KEY_USER = "user";
-    public int viewType;
 
     public String getDescription() {
         return getString(KEY_REVIEW);
@@ -37,14 +36,5 @@ public class Review extends ParseObject {
     public void setUser(ParseUser user) {
         put(KEY_USER, user);
     }
-
-    public int getViewType() {
-        return viewType;
-    }
-
-    public void setViewType(int viewType) {
-        this.viewType = viewType;
-    }
-
 
 }

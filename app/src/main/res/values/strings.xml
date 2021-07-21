@@ -9,6 +9,9 @@
     <string name="anime_label">Anime</string>
     <string name="review_label">Review</string>
 
+    <string name="reviews_label">Reviews</string>
+    <string name="lists_label">Lists</string>
+
     <string name="login_label">Log In</string>
     <string name="signup_label">Sign Up</string>
     <string name="logout_label">Log Out</string>
@@ -26,6 +29,7 @@
     <string name="post_item_label">Post</string>
     <string name="recommended_item_label">For You</string>
     <string name="profile_item_label">Profile</string>
+
 
     <string name="filler_review_caption">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris mattis vitae ante vitae tempus. Nunc volutpat lacus sed auctor. Curabitur nunc mauris, iaculis quis orci quis, venenatis vehicula tu…</string>
     <string name="filler_username">Seti</string>>

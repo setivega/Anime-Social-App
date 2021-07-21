@@ -4,24 +4,16 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.fragment.app.FragmentManager;
+import androidx.viewpager2.widget.ViewPager2;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.animesocialapp.adapters.PostAdapter;
 import com.example.animesocialapp.R;
-import com.example.animesocialapp.models.Review;
-import com.parse.FindCallback;
-import com.parse.ParseException;
-import com.parse.ParseQuery;
-
-import java.util.List;
-
-import timber.log.Timber;
+import com.example.animesocialapp.adapters.PostFragmentAdapter;
+import com.google.android.material.tabs.TabLayout;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -29,8 +21,9 @@ import timber.log.Timber;
 public class HomeFragment extends Fragment {
 
     public static final String TAG = "HomeFragment";
-    private RecyclerView rvPosts;
-    private PostAdapter postAdapter;
+    private TabLayout tabLayout;
+    private ViewPager2 vpPosts;
+    private PostFragmentAdapter fragmentAdapter;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -47,46 +40,43 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        rvPosts = view.findViewById(R.id.rvPosts);
+        tabLayout = view.findViewById(R.id.tabLayout);
+        vpPosts = view.findViewById(R.id.vpPosts);
 
-        // Create an adapter
-        postAdapter = new PostAdapter(view.getContext());
+        FragmentManager fm = getActivity().getSupportFragmentManager();
+        fragmentAdapter = new PostFragmentAdapter(fm, getLifecycle());
+        vpPosts.setAdapter(fragmentAdapter);
 
-        // Set adapter on the recycler view
-        rvPosts.setAdapter(postAdapter);
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.reviews_label));
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.lists_label));
 
-        // Set layout manager on recycler view
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        rvPosts.setLayoutManager(linearLayoutManager);
-
-        queryPosts();
-    }
-
-    private void queryPosts() {
-        ParseQuery<Review> query = ParseQuery.getQuery(Review.class);
-        query.include(Review.KEY_USER);
-        query.include(Review.KEY_ANIME);
-        query.include("createdAt");
-        query.orderByDescending("createdAt");
-        query.findInBackground(new FindCallback<Review>() {
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
-            public void done(List<Review> reviews, ParseException e) {
-                if (e != null) {
-                    Log.e(TAG, "Issue getting posts: " + e.getLocalizedMessage());
-                    if (e.getCode() == ParseException.CONNECTION_FAILED){
-                        Timber.i("Network error being handled");
-                        //Handle Network Error
+            public void onTabSelected(TabLayout.Tab tab) {
+                vpPosts.setCurrentItem(tab.getPosition());
 
-                    }
-                    return;
-                }
-                postAdapter.clear();
-                postAdapter.addAll(reviews);
-                for (Review review : reviews) {
-                    Timber.i("Review: " + review.getDescription() + ", username: " + review.getUser().getUsername());
-                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
+        vpPosts.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                tabLayout.selectTab(tabLayout.getTabAt(position));
             }
         });
 
     }
+
+
 }

@@ -96,7 +96,9 @@ public class AddAnimeActivity extends AppCompatActivity {
                                 saveAnime(anime.getMalID(), anime.getTitle(), anime.getPosterPath(), anime.getSeason());
                             } else {
                                 //unknown error, debug
-                                Timber.i("Unknown Error");
+                                Toast.makeText(AddAnimeActivity.this, "Unknown Error", Toast.LENGTH_SHORT).show();
+                                Timber.e(e);
+                                return;
                             }
                         }
 
@@ -129,7 +131,7 @@ public class AddAnimeActivity extends AppCompatActivity {
                         }
 
                         Timber.i("Animes Added: " + animeDict);
-                        Log.i (TAG, "Parse Animes Added: " + parseAnimeDict);
+                        Timber.i("Parse Animes Added: " + parseAnimeDict);
                         Timber.i("Parse Object: " + object);
                     }
                 });
@@ -263,7 +265,7 @@ public class AddAnimeActivity extends AppCompatActivity {
                     Timber.i("Anime save was successful!");
                     Toast.makeText(AddAnimeActivity.this, "Saved Anime", Toast.LENGTH_SHORT).show();
                 } else {
-                    Log.e(TAG, "Error while saving: ", e);
+                    Timber.e("Error while saving: " + e);
                     Toast.makeText(AddAnimeActivity.this, "Error while saving!", Toast.LENGTH_SHORT).show();
                 }
             }

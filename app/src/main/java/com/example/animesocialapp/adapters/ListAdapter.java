@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -25,35 +26,33 @@ import com.parse.ParseUser;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
+public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder>{
 
-    public static final int ITEM_TYPE_REVIEW = 0;
-    public static final int ITEM_TYPE_LIST = 1;
 
-    public static final String TAG = "PostAdapter";
+    public static final String TAG = "ListAdapter";
     public static final String PROFILE_IMAGE = "profileImage";
     private Context context;
-    private List<Review> reviews;
     private List<AnimeList> animeLists;
 
-    public PostAdapter(Context context) {
+    public ListAdapter(Context context) {
         this.context = context;
-        reviews = new ArrayList<>();
+        animeLists = new ArrayList<>();
     }
+
 
     @NonNull
     @Override
-    public PostAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View animeView = LayoutInflater.from(context).inflate(R.layout.item_review, parent, false);
+    public ListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View animeView = LayoutInflater.from(context).inflate(R.layout.item_list, parent, false);
         return new ViewHolder(animeView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull PostAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ListAdapter.ViewHolder holder, int position) {
         // Get the post at the position
-        Review review = reviews.get(position);
+        AnimeList animeList = animeLists.get(position);
         // Bind the post data into the View Holder
-        holder.bind(review);
+        holder.bind(animeList);
     }
 
     @Override
@@ -63,16 +62,16 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
 
     @Override
     public int getItemCount() {
-        return reviews.size();
+        return animeLists.size();
     }
 
-    public void addAll(List<Review> list){
-        reviews.addAll(list);
+    public void addAll(List<AnimeList> list){
+        animeLists.addAll(list);
         notifyDataSetChanged();
     }
 
     public void clear() {
-        reviews.clear();
+        animeLists.clear();
         notifyDataSetChanged();
     }
 
@@ -80,46 +79,34 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder>{
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        ImageView ivBackground;
-        ImageView ivPoster;
         TextView tvTitle;
-        TextView tvSeason;
+        RecyclerView rvAnimes;
         ImageView ivProfileImage;
         TextView tvUsername;
         TextView tvCreatedAt;
-        TextView tvReview;
+        TextView tvDescription;
 
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            ivBackground = itemView.findViewById(R.id.ivBackground);
-            ivPoster = itemView.findViewById(R.id.ivPoster);
             tvTitle = itemView.findViewById(R.id.tvTitle);
-            tvSeason = itemView.findViewById(R.id.tvSeason);
+            rvAnimes = itemView.findViewById(R.id.rvAnimes);
             ivProfileImage = itemView.findViewById(R.id.ivProfileImage);
             tvUsername = itemView.findViewById(R.id.tvUsername);
             tvCreatedAt = itemView.findViewById(R.id.tvCreatedAt);
-            tvReview = itemView.findViewById(R.id.tvReview);
+            tvDescription = itemView.findViewById(R.id.tvDescription);
             itemView.setOnClickListener(this);
         }
 
-        public void bind(Review review) {
-            ParseAnime anime = (ParseAnime) review.getAnime();
-            ParseUser user = review.getUser();
+        public void bind(AnimeList animeList) {
+            ParseUser user = animeList.getUser();
 
-            tvTitle.setText(anime.getTitle());
-            tvSeason.setText(anime.getSeason());
+            tvTitle.setText(animeList.getTitle());
             tvUsername.setText(user.getUsername());
-            tvCreatedAt.setText(ParseRelativeDate.getRelativeTimeAgo(review.getCreatedAt().toString()));
-            tvReview.setText(review.getDescription());
+            tvCreatedAt.setText(ParseRelativeDate.getRelativeTimeAgo(animeList.getCreatedAt().toString()));
+            tvDescription.setText(animeList.getDescription());
 
-            Glide.with(context).load(anime.getPosterPath())
-                    .transform(new CenterCrop(), new RoundedCorners( 29))
-                    .into(ivBackground);
 
-            Glide.with(context).load(anime.getPosterPath())
-                    .transform(new CenterCrop(), new RoundedCorners(8))
-                    .into(ivPoster);
 
             ParseFile profileImage = (ParseFile) user.get(PROFILE_IMAGE);
             Glide.with(context).load(profileImage.getUrl())

@@ -30,7 +30,7 @@
             android:layout_marginTop="10dp"
             android:textAlignment="center"
             android:textColor="@color/white"
-            android:textSize="@dimen/post_title_size"
+            android:textSize="@dimen/anime_preview_title_size"
             android:textStyle="bold"
             tools:text="@string/filler_list_name" />
 
@@ -40,7 +40,7 @@
             android:layout_height="@dimen/anime_list_height"
             android:layout_below="@+id/tvTitle"
             android:layout_marginTop="10dp"
-            android:paddingLeft="20dp"
+            android:paddingStart="20dp"
             android:orientation="horizontal">
 
         </androidx.recyclerview.widget.RecyclerView>
@@ -91,7 +91,7 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/tvReview"
+            android:id="@+id/tvDescription"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/linearLayout"

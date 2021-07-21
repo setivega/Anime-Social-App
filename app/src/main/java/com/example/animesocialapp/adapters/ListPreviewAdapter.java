@@ -40,7 +40,7 @@ public class ListPreviewAdapter extends RecyclerView.Adapter<ListPreviewAdapter.
     @NonNull
     @Override
     public ListPreviewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View animeView = LayoutInflater.from(context).inflate(R.layout.item_anime_preview, parent, false);
+        View animeView = LayoutInflater.from(context).inflate(R.layout.item_list_preview, parent, false);
         return new ViewHolder(animeView);
     }
 
@@ -80,9 +80,11 @@ public class ListPreviewAdapter extends RecyclerView.Adapter<ListPreviewAdapter.
 
         public void bind(ParseAnime anime) {
 
-            Glide.with(context).load(anime.getPosterPath())
-                    .transform(new CenterCrop(), new RoundedCorners(4))
-                    .into(ivPreview);
+            if (anime != null) {
+                Glide.with(context).load(anime.getPosterPath())
+                        .transform(new CenterCrop(), new RoundedCorners(4))
+                        .into(ivPreview);
+            }
 
         }
 

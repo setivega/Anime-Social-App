@@ -44,13 +44,4 @@ public class AnimeList extends ParseObject {
 
     public void setAnime(List<ParseAnime> anime) { put(KEY_ANIME, anime); }
 
-    public int getViewType() {
-        return viewType;
-    }
-
-    public void setViewType(int viewType) {
-        this.viewType = viewType;
-    }
-
-
 }

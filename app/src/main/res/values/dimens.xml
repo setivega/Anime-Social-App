@@ -48,4 +48,6 @@
 
     <dimen name="list_description_height">80dp</dimen>
 
+    <dimen name="segment_btn_width">120dp</dimen>
+
 </resources>
