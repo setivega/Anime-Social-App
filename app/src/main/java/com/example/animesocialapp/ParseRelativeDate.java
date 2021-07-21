@@ -8,6 +8,8 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.Locale;
 
+import timber.log.Timber;
+
 public class ParseRelativeDate {
 
     private static final int SECOND_MILLIS = 1000;
@@ -41,7 +43,7 @@ public class ParseRelativeDate {
                 return diff / DAY_MILLIS + " days ago";
             }
         } catch (ParseException e) {
-            Log.i("ParseRelativeData", "getRelativeTimeAgo failed");
+            Timber.i("getRelativeTimeAgo failed");
             e.printStackTrace();
         }
 

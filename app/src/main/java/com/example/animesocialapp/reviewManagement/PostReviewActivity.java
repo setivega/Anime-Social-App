@@ -1,13 +1,13 @@
-package com.example.animesocialapp;
+package com.example.animesocialapp.reviewManagement;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
@@ -18,12 +18,12 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.example.animesocialapp.MainActivity;
+import com.example.animesocialapp.R;
 import com.example.animesocialapp.models.Anime;
 import com.example.animesocialapp.models.ParseAnime;
-import com.example.animesocialapp.models.Review;
 import com.parse.GetCallback;
 import com.parse.ParseException;
-import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
@@ -41,6 +41,12 @@ public class PostReviewActivity extends AppCompatActivity {
     private TextView tvSeason;
     private EditText etReview;
     private ParseAnime parseAnime;
+
+    public static Intent createIntent(Context context, Anime anime){
+        Intent intent = new Intent(context, PostReviewActivity.class);
+        intent.putExtra(Anime.class.getSimpleName(), Parcels.wrap(anime));
+        return intent;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +87,7 @@ public class PostReviewActivity extends AppCompatActivity {
             ParseUser currentUser = ParseUser.getCurrentUser();
             // Check if edit text contains text
             if (review.isEmpty()) {
-                Toast.makeText(PostReviewActivity.this, "Your review cannot be empty", Toast.LENGTH_SHORT).show();
+                Toast.makeText(PostReviewActivity.this, R.string.empty_review, Toast.LENGTH_SHORT).show();
             } else {
                 // Check Parse to see if the anime in the review exists as an object
                 ParseQuery<ParseAnime> query = ParseQuery.getQuery(ParseAnime.class);
@@ -118,11 +124,11 @@ public class PostReviewActivity extends AppCompatActivity {
             @Override
             public void done(ParseException e) {
                 if (e != null) {
-                    Log.e(TAG, "Error while saving: ", e);
-                    Toast.makeText(PostReviewActivity.this, "Error while saving!", Toast.LENGTH_SHORT).show();
+                    Timber.e("Error while saving: " + e);
+                    Toast.makeText(PostReviewActivity.this, R.string.save_error, Toast.LENGTH_SHORT).show();
                 } else {
                     Timber.i("Review save was successful!");
-                    Toast.makeText(PostReviewActivity.this, "Saved Review", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PostReviewActivity.this, R.string.save_review, Toast.LENGTH_SHORT).show();
                     goMainActivity();
                 }
             }
@@ -142,11 +148,11 @@ public class PostReviewActivity extends AppCompatActivity {
             public void done(ParseException e) {
                 if (e == null) {
                     Timber.i("Anime save was successful!");
-                    Toast.makeText(PostReviewActivity.this, "Saved Anime", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PostReviewActivity.this, R.string.save_anime, Toast.LENGTH_SHORT).show();
                     saveReview(review, parseAnime, currentUser);
                 } else {
-                    Log.e(TAG, "Error while saving: ", e);
-                    Toast.makeText(PostReviewActivity.this, "Error while saving!", Toast.LENGTH_SHORT).show();
+                    Timber.e("Error while saving: " + e);
+                    Toast.makeText(PostReviewActivity.this, R.string.save_error, Toast.LENGTH_SHORT).show();
                 }
             }
         });

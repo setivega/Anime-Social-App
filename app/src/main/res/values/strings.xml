@@ -42,5 +42,22 @@
     <string name="change_profile_image">Change Profile Image</string>
     <string name="search_hint">Search Anime</string>
 
+    <string name="empty_title">Your title cannot be empty</string>
+    <string name="empty_list">Your anime list cannot be empty</string>
+    <string name="empty_review">Your review cannot be empty</string>
+    <string name="save_error">Error while saving!</string>
+    <string name="save_anime">Saved Anime</string>
+    <string name="save_review">Saved Review</string>
+    <string name="save_list">Saved List</string>
+    <string name="unknown_error">Unknown Error</string>
+    <string name="username_password_empty">Username and Password cannot be empty</string>
+    <string name="username_password_incorrect">Username or Password is incorrect</string>
+    <string name="username_empty">Username cannot be empty</string>
+    <string name="password_empty">Password cannot be empty</string>
+    <string name="sign_up_failed">Sign Up Failed, Try again</string>
+    <string name="login_success">Success!</string>
+
+
+
 
 </resources>

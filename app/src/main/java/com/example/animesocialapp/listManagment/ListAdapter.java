@@ -1,7 +1,6 @@
-package com.example.animesocialapp.adapters;
+package com.example.animesocialapp.listManagment;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,14 +12,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.example.animesocialapp.ParseRelativeDate;
 import com.example.animesocialapp.R;
 import com.example.animesocialapp.models.AnimeList;
-import com.example.animesocialapp.models.ParseAnime;
-import com.example.animesocialapp.models.Review;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
 

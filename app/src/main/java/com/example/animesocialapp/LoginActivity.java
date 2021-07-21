@@ -70,11 +70,11 @@ public class LoginActivity extends AppCompatActivity {
         user.signUpInBackground(new SignUpCallback() {
             public void done(ParseException e) {
                 if (e == null) {
-                    Log.e(TAG, "Sign Up Success!");
+                    Timber.e("Sign Up Success!");
                     loginUser(username,password);
                 } else {
-                    Log.e(TAG, "Sign Up Failed ", e);
-                    Toast.makeText(LoginActivity.this, "Sign Up Failed, Try again", Toast.LENGTH_LONG).show();
+                    Timber.e("Sign Up Failed " + e);
+                    Toast.makeText(LoginActivity.this, R.string.sign_up_failed, Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -88,17 +88,17 @@ public class LoginActivity extends AppCompatActivity {
             public void done(ParseUser user, ParseException e) {
                 if (user != null){
                     goMainActivity();
-                    Toast.makeText(LoginActivity.this, "Success!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, R.string.login_success, Toast.LENGTH_SHORT).show();
                 } else {
-                    Log.e(TAG, "Issue with login ", e);
+                    Timber.e("Issue with login " + e);
                     if (username.isEmpty() && password.isEmpty()){
-                        Toast.makeText(LoginActivity.this, "Username and Password cannot be empty", Toast.LENGTH_LONG).show();
+                        Toast.makeText(LoginActivity.this, R.string.username_password_empty, Toast.LENGTH_LONG).show();
                     } else if (username.isEmpty()) {
-                        Toast.makeText(LoginActivity.this, "Username cannot be empty", Toast.LENGTH_LONG).show();
+                        Toast.makeText(LoginActivity.this, R.string.username_empty, Toast.LENGTH_LONG).show();
                     } else if (password.isEmpty()) {
-                        Toast.makeText(LoginActivity.this, "Password cannot be empty", Toast.LENGTH_LONG).show();
+                        Toast.makeText(LoginActivity.this, R.string.password_empty, Toast.LENGTH_LONG).show();
                     } else {
-                        Toast.makeText(LoginActivity.this, "Username or Password is incorrect", Toast.LENGTH_LONG).show();
+                        Toast.makeText(LoginActivity.this, R.string.username_password_incorrect, Toast.LENGTH_LONG).show();
                     }
                     return;
                 }

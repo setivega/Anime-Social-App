@@ -1,17 +1,16 @@
-package com.example.animesocialapp;
+package com.example.animesocialapp.listManagment;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.ListFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,6 +18,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.animesocialapp.MainActivity;
+import com.example.animesocialapp.R;
 import com.example.animesocialapp.adapters.AnimePreviewAdapter;
 import com.example.animesocialapp.models.Anime;
 import com.example.animesocialapp.models.AnimeList;
@@ -39,8 +40,8 @@ public class CreateListActivity extends AppCompatActivity {
 
     public static final String TAG = "CreateListActivity";
     private static final int ANIME_ACTIVITY_REQUEST_CODE = 42;
-    public static final String PARSE_ANIME_DICT_CODE = "PARSE_ANIME_DICT_CODE";
     public static final String ANIME_DICT_CODE = "ANIME_DICT_CODE";
+    public static final String PARSE_ANIME_DICT_CODE = "PARSE_ANIME_DICT_CODE";
     private EditText etTitle;
     private EditText etDescription;
     private RecyclerView rvAnimePreviews;
@@ -50,6 +51,13 @@ public class CreateListActivity extends AppCompatActivity {
     private List<Anime> animeList;
     private List<ParseAnime> parseAnimeList;
     private AnimePreviewAdapter previewAdapter;
+
+    public static Intent createIntent(Context context, HashMap<String, Anime> animeDict, HashMap<String, ParseAnime> parseAnimeDict){
+        Intent intent = new Intent(context, CreateListActivity.class);
+        intent.putExtra(ANIME_DICT_CODE, Parcels.wrap(animeDict));
+        intent.putExtra(PARSE_ANIME_DICT_CODE, Parcels.wrap(parseAnimeDict));
+        return intent;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,9 +92,7 @@ public class CreateListActivity extends AppCompatActivity {
         btnAddAnime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(CreateListActivity.this, AddAnimeActivity.class);
-                intent.putExtra(ANIME_DICT_CODE, Parcels.wrap(animeDict));
-                intent.putExtra(PARSE_ANIME_DICT_CODE, Parcels.wrap(parseAnimeDict));
+                Intent intent = AddAnimeActivity.createIntent(CreateListActivity.this, animeDict, parseAnimeDict);
                 startActivityForResult(intent, ANIME_ACTIVITY_REQUEST_CODE);
             }
         });
@@ -130,9 +136,9 @@ public class CreateListActivity extends AppCompatActivity {
         if(item.getItemId() == R.id.create) {
             // Check if edit text contains text and list isn't empty
             if (title.isEmpty()) {
-                Toast.makeText(CreateListActivity.this, "Your title cannot be empty", Toast.LENGTH_SHORT).show();
+                Toast.makeText(CreateListActivity.this, R.string.empty_title, Toast.LENGTH_SHORT).show();
             } else if (parseAnimeList.isEmpty()) {
-                Toast.makeText(CreateListActivity.this, "Your anime list cannot be empty", Toast.LENGTH_SHORT).show();
+                Toast.makeText(CreateListActivity.this, R.string.empty_list, Toast.LENGTH_SHORT).show();
             } else {
                 saveList(title, description, parseAnimeList, currentUser);
             }
@@ -152,11 +158,11 @@ public class CreateListActivity extends AppCompatActivity {
             @Override
             public void done(ParseException e) {
                 if (e != null) {
-                    Log.e(TAG, "Error while saving: ", e);
-                    Toast.makeText(CreateListActivity.this, "Error while saving!", Toast.LENGTH_SHORT).show();
+                    Timber.e("Error while saving: " + e);
+                    Toast.makeText(CreateListActivity.this, R.string.save_error, Toast.LENGTH_SHORT).show();
                 } else {
                     Timber.i("List save was successful!");
-                    Toast.makeText(CreateListActivity.this, "Saved List", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CreateListActivity.this, R.string.save_list, Toast.LENGTH_SHORT).show();
                     goMainActivity();
                 }
             }

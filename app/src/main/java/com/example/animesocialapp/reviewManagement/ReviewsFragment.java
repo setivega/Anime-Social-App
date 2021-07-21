@@ -1,4 +1,4 @@
-package com.example.animesocialapp.fragments;
+package com.example.animesocialapp.reviewManagement;
 
 import android.os.Bundle;
 
@@ -7,14 +7,11 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.animesocialapp.R;
-import com.example.animesocialapp.adapters.ReviewAdapter;
-import com.example.animesocialapp.models.Review;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -73,7 +70,7 @@ public class ReviewsFragment extends Fragment {
             public void done(List<Review> reviews, ParseException e) {
                 if (e != null) {
                     e.printStackTrace();
-                    Log.e(TAG, "Issue getting posts: " + e.getLocalizedMessage());
+                    Timber.e("Issue getting posts: " + e.getLocalizedMessage());
                     if (e.getCode() == ParseException.CONNECTION_FAILED){
                         Timber.i("Network error being handled");
                         //Handle Network Error

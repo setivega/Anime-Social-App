@@ -4,7 +4,7 @@ import android.app.Application;
 
 import com.example.animesocialapp.models.AnimeList;
 import com.example.animesocialapp.models.ParseAnime;
-import com.example.animesocialapp.models.Review;
+import com.example.animesocialapp.reviewManagement.Review;
 import com.parse.Parse;
 import com.parse.ParseObject;
 

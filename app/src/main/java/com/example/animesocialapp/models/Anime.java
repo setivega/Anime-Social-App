@@ -1,15 +1,6 @@
 package com.example.animesocialapp.models;
 
-import android.util.Log;
-import android.widget.Toast;
-
 import com.example.animesocialapp.ParseRelativeDate;
-import com.example.animesocialapp.PostReviewActivity;
-import com.parse.ParseClassName;
-import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseUser;
-import com.parse.SaveCallback;
 
 import org.json.JSONArray;
 import org.json.JSONException;

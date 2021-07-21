@@ -1,7 +1,6 @@
 package com.example.animesocialapp.adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,11 +16,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.example.animesocialapp.PostReviewActivity;
+import com.example.animesocialapp.reviewManagement.PostReviewActivity;
 import com.example.animesocialapp.R;
 import com.example.animesocialapp.models.Anime;
-
-import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -172,12 +169,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
             if (position != RecyclerView.NO_POSITION) {
                 // Getting movie at position
                 Anime anime = animes.get(position);
-                // Creating new Intent
-                Intent intent = new Intent(context, PostReviewActivity.class);
-                // Sending the movie info to the new activity on load
-                intent.putExtra(Anime.class.getSimpleName(), Parcels.wrap(anime));
-                // Show the activity
-                context.startActivity(intent);
+                context.startActivity(PostReviewActivity.createIntent(context, anime));
             }
         }
     }

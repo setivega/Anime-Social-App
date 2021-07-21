@@ -37,6 +37,7 @@ public class PostFragment extends Fragment {
     public static final String TAG = "PostFragment";
     public static final String REST_URL = "https://api.jikan.moe/v3/search/anime?q=";
     public static final String PARAMS = "&order_by=title";
+    private static final int MIN_QUERY_LENGTH = 3;
     private RecyclerView rvAnime;
     private SearchAdapter searchAdapter;
     private SearchView svAnime;
@@ -113,7 +114,7 @@ public class PostFragment extends Fragment {
         svAnime.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                if (query.length() >= 3) {
+                if (query.length() >= MIN_QUERY_LENGTH) {
                     queryAnime(query);
                 }
                 svAnime.clearFocus();
@@ -122,7 +123,7 @@ public class PostFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                if (newText.length() >= 3) {
+                if (newText.length() >= MIN_QUERY_LENGTH) {
                     searchAdapter.display = SearchAdapter.Display.SEARCH;
                     queryAnime(newText);
                     return true;
@@ -146,9 +147,9 @@ public class PostFragment extends Fragment {
         client.get(NOW_PLAYING_URL, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int i, Headers headers, JSON json) {
-                Log.d(TAG, "onSuccess");
+                Timber.d("onSuccess");
                 JSONObject jsonObject = json.jsonObject;
-                if (svAnime.getQuery().length() >= 3) {
+                if (svAnime.getQuery().length() >= MIN_QUERY_LENGTH) {
                     try {
                         JSONArray results = jsonObject.getJSONArray("results");
                         Timber.i("Results: " + results.toString());
@@ -156,14 +157,14 @@ public class PostFragment extends Fragment {
                         searchAdapter.clear();
                         searchAdapter.addAll(Anime.fromJSONArray(results));
                     } catch (JSONException e) {
-                        Log.e(TAG, "Hit JSON Exception ", e);
+                        Timber.e("Hit JSON Exception " + e);
                     }
                 }
             }
 
             @Override
             public void onFailure(int i, Headers headers, String s, Throwable throwable) {
-                Log.d(TAG, "Search Query is less than 3 characters");
+                Timber.d("Search Query is less than 3 characters");
             }
         });
     }

@@ -1,4 +1,4 @@
-package com.example.animesocialapp.adapters;
+package com.example.animesocialapp.reviewManagement;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -17,7 +17,6 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.example.animesocialapp.ParseRelativeDate;
 import com.example.animesocialapp.R;
 import com.example.animesocialapp.models.ParseAnime;
-import com.example.animesocialapp.models.Review;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
 

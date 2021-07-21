@@ -6,8 +6,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import com.example.animesocialapp.fragments.ListsFragment;
-import com.example.animesocialapp.fragments.ReviewsFragment;
+import com.example.animesocialapp.listManagment.ListsFragment;
+import com.example.animesocialapp.reviewManagement.ReviewsFragment;
 
 import org.jetbrains.annotations.NotNull;
 

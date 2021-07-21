@@ -1,4 +1,4 @@
-package com.example.animesocialapp;
+package com.example.animesocialapp.listManagment;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,16 +8,17 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
+import com.example.animesocialapp.R;
 import com.example.animesocialapp.adapters.SearchAdapter;
 import com.example.animesocialapp.models.Anime;
 import com.example.animesocialapp.models.ParseAnime;
@@ -46,6 +47,7 @@ public class AddAnimeActivity extends AppCompatActivity {
     public static final String PARAMS = "&order_by=title";
     public static final String PARSE_ANIME_DICT_CODE = "PARSE_ANIME_DICT_CODE";
     public static final String ANIME_DICT_CODE = "ANIME_DICT_CODE";
+    private static final int MIN_QUERY_LENGTH = 3;
     private RecyclerView rvAnime;
     private SearchAdapter searchAdapter;
     private SearchView svAnime;
@@ -54,6 +56,13 @@ public class AddAnimeActivity extends AppCompatActivity {
     private HashMap<String, Anime> animeDict;
     private List<String> animeIDs;
     private List<Anime> animeList;
+
+    public static Intent createIntent(Context context, HashMap<String, Anime> animeDict, HashMap<String, ParseAnime> parseAnimeDict){
+        Intent intent = new Intent(context, AddAnimeActivity.class);
+        intent.putExtra(ANIME_DICT_CODE, Parcels.wrap(animeDict));
+        intent.putExtra(PARSE_ANIME_DICT_CODE, Parcels.wrap(parseAnimeDict));
+        return intent;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,12 +103,12 @@ public class AddAnimeActivity extends AppCompatActivity {
                                 saveAnime(anime.getMalID(), anime.getTitle(), anime.getPosterPath(), anime.getSeason(), btn, anime, object, position, display);
                             } else {
                                 //unknown error, debug
-                                Toast.makeText(AddAnimeActivity.this, "Unknown Error", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(AddAnimeActivity.this, R.string.unknown_error, Toast.LENGTH_SHORT).show();
                                 Timber.e(e);
                                 return;
                             }
                         } else {
-                            handeAnimeList(btn, anime, object, position, display);
+                            handleAnimeList(btn, anime, object, position, display);
                         }
 
                         Timber.i("Animes Added: " + animeDict);
@@ -174,7 +183,7 @@ public class AddAnimeActivity extends AppCompatActivity {
         });
     }
 
-    private void handeAnimeList(Integer btn, Anime anime, ParseAnime parseAnime, Integer position, SearchAdapter.Display display) {
+    private void handleAnimeList(Integer btn, Anime anime, ParseAnime parseAnime, Integer position, SearchAdapter.Display display) {
         // Handle when when add or remove button is clicked
         if (btn == R.drawable.add_icon) {
             Timber.i("Anime added to dict");
@@ -211,9 +220,9 @@ public class AddAnimeActivity extends AppCompatActivity {
         client.get(NOW_PLAYING_URL, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int i, Headers headers, JSON json) {
-                Log.d(TAG, "onSuccess");
+                Timber.d("onSuccess");
                 JSONObject jsonObject = json.jsonObject;
-                if (svAnime.getQuery().length() >= 3) {
+                if (svAnime.getQuery().length() >= MIN_QUERY_LENGTH) {
                     try {
                         JSONArray results = jsonObject.getJSONArray("results");
                         Timber.i("Results: " + results.toString());
@@ -222,14 +231,14 @@ public class AddAnimeActivity extends AppCompatActivity {
                         searchAdapter.addAll(Anime.fromJSONArray(results));
 
                     } catch (JSONException e) {
-                        Log.e(TAG, "Hit JSON Exception ", e);
+                        Timber.e("Hit JSON Exception " + e);
                     }
                 }
             }
 
             @Override
             public void onFailure(int i, Headers headers, String s, Throwable throwable) {
-                Log.d(TAG, "Search Query is less than 3 characters");
+                Timber.d("Search Query is less than 3 characters");
             }
         });
     }
@@ -244,9 +253,7 @@ public class AddAnimeActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
         if(item.getItemId() == R.id.done) {
-            Intent intent = new Intent(AddAnimeActivity.this, CreateListActivity.class);
-            intent.putExtra(ANIME_DICT_CODE, Parcels.wrap(animeDict));
-            intent.putExtra(PARSE_ANIME_DICT_CODE, Parcels.wrap(parseAnimeDict));
+            Intent intent = AddAnimeActivity.createIntent(AddAnimeActivity.this, animeDict, parseAnimeDict);
             setResult(RESULT_OK, intent);
             finish();
         }
@@ -265,11 +272,11 @@ public class AddAnimeActivity extends AppCompatActivity {
             public void done(ParseException e) {
                 if (e == null) {
                     Timber.i("Anime save was successful!");
-                    Toast.makeText(AddAnimeActivity.this, "Saved Anime", Toast.LENGTH_SHORT).show();
-                    handeAnimeList(btn, anime, parseAnime, position, display);
+                    Toast.makeText(AddAnimeActivity.this, R.string.save_anime, Toast.LENGTH_SHORT).show();
+                    handleAnimeList(btn, anime, parseAnime, position, display);
                 } else {
                     Timber.e("Error while saving: " + e);
-                    Toast.makeText(AddAnimeActivity.this, "Error while saving!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddAnimeActivity.this, R.string.save_error, Toast.LENGTH_SHORT).show();
                 }
             }
         });
