@@ -20,6 +20,8 @@ import com.parse.Parse;
 import java.util.ArrayList;
 import java.util.List;
 
+import timber.log.Timber;
+
 public class ListPreviewAdapter extends RecyclerView.Adapter<ListPreviewAdapter.ViewHolder>{
 
 
@@ -27,7 +29,7 @@ public class ListPreviewAdapter extends RecyclerView.Adapter<ListPreviewAdapter.
         void onAnimeClicked(int position);
     }
 
-    public static final String TAG = "SearchAdapter";
+    public static final String TAG = "ListPreviewAdapter";
     private Context context;
     private OnClickListener clickListener;
     private List<ParseAnime> animes;
@@ -55,6 +57,7 @@ public class ListPreviewAdapter extends RecyclerView.Adapter<ListPreviewAdapter.
 
     @Override
     public int getItemCount() {
+        Timber.i("Size: " + animes.size());
         return animes.size();
     }
 
@@ -80,11 +83,9 @@ public class ListPreviewAdapter extends RecyclerView.Adapter<ListPreviewAdapter.
 
         public void bind(ParseAnime anime) {
 
-            if (anime != null) {
-                Glide.with(context).load(anime.getPosterPath())
+            Glide.with(context).load(anime.getPosterPath())
                         .transform(new CenterCrop(), new RoundedCorners(4))
                         .into(ivPreview);
-            }
 
         }
 

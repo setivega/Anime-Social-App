@@ -1,6 +1,7 @@
 package com.example.animesocialapp.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +26,8 @@ import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import timber.log.Timber;
 
 public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder>{
 
@@ -104,9 +107,31 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder>{
             tvTitle.setText(animeList.getTitle());
             tvUsername.setText(user.getUsername());
             tvCreatedAt.setText(ParseRelativeDate.getRelativeTimeAgo(animeList.getCreatedAt().toString()));
-            tvDescription.setText(animeList.getDescription());
 
+            String description = animeList.getDescription();
+            if (description!= null && !description.trim().isEmpty()){
+                tvDescription.setText(description);
+                tvDescription.setVisibility(View.VISIBLE);
+            } else {
+                tvDescription.setVisibility(View.GONE);
+            }
 
+            Timber.i(animeList.getDescription());
+
+            // Create an adapter
+            ListPreviewAdapter previewAdapter = new ListPreviewAdapter(itemView.getContext());
+
+            // Set adapter on the recycler view
+            rvAnimes.setAdapter(previewAdapter);
+
+            // Set layout manager on recycler view
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(itemView.getContext());
+            linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
+            rvAnimes.setLayoutManager(linearLayoutManager);
+
+            if (animeList.getAnime() != null) {
+                previewAdapter.addAll(animeList.getAnime());
+            }
 
             ParseFile profileImage = (ParseFile) user.get(PROFILE_IMAGE);
             Glide.with(context).load(profileImage.getUrl())

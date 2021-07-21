@@ -97,8 +97,9 @@ public class PostReviewActivity extends AppCompatActivity {
                             } else {
                                 //unknown error, debug
                             }
+                        } else {
+                            saveReview(review, object, currentUser);
                         }
-                        saveReview(review, object, currentUser);
                         Timber.i("Current Parse Anime: " + object);
                     }
                 });
@@ -129,6 +130,8 @@ public class PostReviewActivity extends AppCompatActivity {
     }
 
     private void saveAnime(String malID, String title, String posterPath, String season) {
+        final String review = etReview.getText().toString();
+        ParseUser currentUser = ParseUser.getCurrentUser();
         parseAnime = new ParseAnime();
         parseAnime.setMalID(malID);
         parseAnime.setTitle(title);
@@ -140,6 +143,7 @@ public class PostReviewActivity extends AppCompatActivity {
                 if (e == null) {
                     Timber.i("Anime save was successful!");
                     Toast.makeText(PostReviewActivity.this, "Saved Anime", Toast.LENGTH_SHORT).show();
+                    saveReview(review, parseAnime, currentUser);
                 } else {
                     Log.e(TAG, "Error while saving: ", e);
                     Toast.makeText(PostReviewActivity.this, "Error while saving!", Toast.LENGTH_SHORT).show();

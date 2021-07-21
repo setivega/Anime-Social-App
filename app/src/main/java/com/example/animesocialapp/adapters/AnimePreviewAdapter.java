@@ -25,7 +25,7 @@ public class AnimePreviewAdapter extends RecyclerView.Adapter<AnimePreviewAdapte
         void onAnimeClicked(int position);
     }
 
-    public static final String TAG = "SearchAdapter";
+    public static final String TAG = "AnimePreviewAdapter";
     private Context context;
     private OnClickListener clickListener;
     private List<Anime> animes;

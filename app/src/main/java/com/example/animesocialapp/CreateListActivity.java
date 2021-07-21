@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.ListFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -130,7 +131,7 @@ public class CreateListActivity extends AppCompatActivity {
             // Check if edit text contains text and list isn't empty
             if (title.isEmpty()) {
                 Toast.makeText(CreateListActivity.this, "Your title cannot be empty", Toast.LENGTH_SHORT).show();
-            } else if (animeList.isEmpty()) {
+            } else if (parseAnimeList.isEmpty()) {
                 Toast.makeText(CreateListActivity.this, "Your anime list cannot be empty", Toast.LENGTH_SHORT).show();
             } else {
                 saveList(title, description, parseAnimeList, currentUser);
@@ -142,7 +143,9 @@ public class CreateListActivity extends AppCompatActivity {
     private void saveList(String title, String description, List<ParseAnime> anime, ParseUser currentUser) {
         AnimeList newList = new AnimeList();
         newList.setTitle(title);
-        newList.setDescription(description);
+        if (description!= null && !description.trim().isEmpty()){
+            newList.setDescription(description);
+        }
         newList.setUser(currentUser);
         newList.setAnime(anime);
         newList.saveInBackground(new SaveCallback() {

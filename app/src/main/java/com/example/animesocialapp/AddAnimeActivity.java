@@ -55,7 +55,6 @@ public class AddAnimeActivity extends AppCompatActivity {
     private List<String> animeIDs;
     private List<Anime> animeList;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,42 +91,15 @@ public class AddAnimeActivity extends AppCompatActivity {
                         if (e != null) {
                             if(e.getCode() == ParseException.OBJECT_NOT_FOUND) {
                                 //object doesn't exist
-                                Timber.i("Getting down to business");
-                                saveAnime(anime.getMalID(), anime.getTitle(), anime.getPosterPath(), anime.getSeason());
+                                saveAnime(anime.getMalID(), anime.getTitle(), anime.getPosterPath(), anime.getSeason(), btn, anime, object, position, display);
                             } else {
                                 //unknown error, debug
                                 Toast.makeText(AddAnimeActivity.this, "Unknown Error", Toast.LENGTH_SHORT).show();
                                 Timber.e(e);
                                 return;
                             }
-                        }
-
-                        // Handle when when add or remove button is clicked
-                        if (btn == R.drawable.add_icon) {
-                            Timber.i("Anime added to dict");
-                            parseAnimeDict.put(anime.getMalID(), object);
-                            animeDict.put(anime.getMalID(), anime);
-
-                            animeIDs = new ArrayList<String>(animeDict.keySet());
-                            searchAdapter.addIDs(animeIDs);
-                            searchAdapter.notifyItemChanged(position);
                         } else {
-                            Timber.i("Anime removed from dict");
-
-                            parseAnimeDict.remove(object.getMalID());
-                            animeDict.remove(anime.getMalID());
-
-                            animeIDs = new ArrayList<String>(animeDict.keySet());
-                            searchAdapter.addIDs(animeIDs);
-
-                            if (display == SearchAdapter.Display.ADDED){
-                                searchAdapter.clear();
-                            } else {
-                                searchAdapter.notifyItemChanged(position);
-                            }
-
-                            animeList = new ArrayList<Anime>(animeDict.values());
-                            searchAdapter.addAll(animeList);
+                            handeAnimeList(btn, anime, object, position, display);
                         }
 
                         Timber.i("Animes Added: " + animeDict);
@@ -202,6 +174,36 @@ public class AddAnimeActivity extends AppCompatActivity {
         });
     }
 
+    private void handeAnimeList(Integer btn, Anime anime, ParseAnime parseAnime, Integer position, SearchAdapter.Display display) {
+        // Handle when when add or remove button is clicked
+        if (btn == R.drawable.add_icon) {
+            Timber.i("Anime added to dict");
+            parseAnimeDict.put(parseAnime.getMalID(), parseAnime);
+            animeDict.put(anime.getMalID(), anime);
+
+            animeIDs = new ArrayList<String>(animeDict.keySet());
+            searchAdapter.addIDs(animeIDs);
+            searchAdapter.notifyItemChanged(position);
+        } else {
+            Timber.i("Anime removed from dict");
+
+            parseAnimeDict.remove(parseAnime.getMalID());
+            animeDict.remove(anime.getMalID());
+
+            animeIDs = new ArrayList<String>(animeDict.keySet());
+            searchAdapter.addIDs(animeIDs);
+
+            if (display == SearchAdapter.Display.ADDED){
+                searchAdapter.clear();
+            } else {
+                searchAdapter.notifyItemChanged(position);
+            }
+
+            animeList = new ArrayList<Anime>(animeDict.values());
+            searchAdapter.addAll(animeList);
+        }
+    }
+
     public void queryAnime(String searchQuery) {
         AsyncHttpClient client = new AsyncHttpClient();
         String NOW_PLAYING_URL = REST_URL + searchQuery;
@@ -252,7 +254,7 @@ public class AddAnimeActivity extends AppCompatActivity {
     }
 
 
-    private void saveAnime(String malID, String title, String posterPath, String season) {
+    private void saveAnime(String malID, String title, String posterPath, String season, Integer btn, Anime anime, ParseAnime object, int position, SearchAdapter.Display display) {
         parseAnime = new ParseAnime();
         parseAnime.setMalID(malID);
         parseAnime.setTitle(title);
@@ -264,6 +266,7 @@ public class AddAnimeActivity extends AppCompatActivity {
                 if (e == null) {
                     Timber.i("Anime save was successful!");
                     Toast.makeText(AddAnimeActivity.this, "Saved Anime", Toast.LENGTH_SHORT).show();
+                    handeAnimeList(btn, anime, parseAnime, position, display);
                 } else {
                     Timber.e("Error while saving: " + e);
                     Toast.makeText(AddAnimeActivity.this, "Error while saving!", Toast.LENGTH_SHORT).show();
