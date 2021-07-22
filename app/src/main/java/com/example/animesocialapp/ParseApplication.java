@@ -2,8 +2,8 @@ package com.example.animesocialapp;
 
 import android.app.Application;
 
-import com.example.animesocialapp.models.AnimeList;
-import com.example.animesocialapp.models.ParseAnime;
+import com.example.animesocialapp.listManagment.AnimeList;
+import com.example.animesocialapp.animeManagment.ParseAnime;
 import com.example.animesocialapp.reviewManagement.Review;
 import com.parse.Parse;
 import com.parse.ParseObject;

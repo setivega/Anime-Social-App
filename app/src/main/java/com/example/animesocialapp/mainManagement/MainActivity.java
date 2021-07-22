@@ -1,4 +1,4 @@
-package com.example.animesocialapp;
+package com.example.animesocialapp.mainManagement;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,9 +12,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
 
-import com.example.animesocialapp.fragments.HomeFragment;
-import com.example.animesocialapp.fragments.PostFragment;
-import com.example.animesocialapp.fragments.ProfileFragment;
+import com.example.animesocialapp.R;
+import com.example.animesocialapp.mainManagement.HomeFragment;
+import com.example.animesocialapp.mainManagement.PostFragment;
+import com.example.animesocialapp.mainManagement.ProfileFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {

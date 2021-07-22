@@ -1,4 +1,4 @@
-package com.example.animesocialapp.adapters;
+package com.example.animesocialapp.mainManagement;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;

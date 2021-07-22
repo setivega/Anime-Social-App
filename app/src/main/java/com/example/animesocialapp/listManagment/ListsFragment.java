@@ -12,8 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.animesocialapp.R;
-import com.example.animesocialapp.listManagment.ListAdapter;
-import com.example.animesocialapp.models.AnimeList;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;

@@ -1,6 +1,7 @@
 package com.example.animesocialapp.reviewManagement;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +17,7 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.example.animesocialapp.ParseRelativeDate;
 import com.example.animesocialapp.R;
-import com.example.animesocialapp.models.ParseAnime;
+import com.example.animesocialapp.animeManagment.ParseAnime;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
 
@@ -130,7 +131,8 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
             int position = getAdapterPosition();
             // validating position
             if (position != RecyclerView.NO_POSITION) {
-
+                Intent intent = ReviewDetailActivity.createIntent(context, reviews.get(position));
+                context.startActivity(intent);
             }
         }
     }

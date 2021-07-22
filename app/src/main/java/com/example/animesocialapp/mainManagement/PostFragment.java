@@ -1,4 +1,4 @@
-package com.example.animesocialapp.fragments;
+package com.example.animesocialapp.mainManagement;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +17,8 @@ import android.view.inputmethod.InputMethodManager;
 import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.example.animesocialapp.R;
-import com.example.animesocialapp.adapters.SearchAdapter;
-import com.example.animesocialapp.models.Anime;
+import com.example.animesocialapp.animeManagment.SearchAdapter;
+import com.example.animesocialapp.animeManagment.Anime;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;

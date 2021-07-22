@@ -13,7 +13,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.example.animesocialapp.R;
-import com.example.animesocialapp.models.ParseAnime;
+import com.example.animesocialapp.animeManagment.ParseAnime;
 
 import java.util.ArrayList;
 import java.util.List;

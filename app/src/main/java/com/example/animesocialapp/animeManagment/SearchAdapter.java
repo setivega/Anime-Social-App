@@ -1,4 +1,4 @@
-package com.example.animesocialapp.adapters;
+package com.example.animesocialapp.animeManagment;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -18,7 +18,6 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.example.animesocialapp.reviewManagement.PostReviewActivity;
 import com.example.animesocialapp.R;
-import com.example.animesocialapp.models.Anime;
 
 import java.util.ArrayList;
 import java.util.List;

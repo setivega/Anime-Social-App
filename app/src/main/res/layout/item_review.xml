@@ -42,7 +42,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="6dp"
                 android:textColor="@color/white"
-                android:textSize="@dimen/post_text"
+                android:textSize="@dimen/post_anime_title"
                 android:textStyle="bold"
                 tools:text="@string/filler_username" />
 

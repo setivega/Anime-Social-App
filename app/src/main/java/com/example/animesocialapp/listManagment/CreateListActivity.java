@@ -18,12 +18,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.animesocialapp.MainActivity;
+import com.example.animesocialapp.mainManagement.MainActivity;
 import com.example.animesocialapp.R;
-import com.example.animesocialapp.adapters.AnimePreviewAdapter;
-import com.example.animesocialapp.models.Anime;
-import com.example.animesocialapp.models.AnimeList;
-import com.example.animesocialapp.models.ParseAnime;
+import com.example.animesocialapp.animeManagment.AnimePreviewAdapter;
+import com.example.animesocialapp.animeManagment.Anime;
+import com.example.animesocialapp.animeManagment.ParseAnime;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;

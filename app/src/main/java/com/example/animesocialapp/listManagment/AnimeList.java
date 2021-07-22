@@ -1,8 +1,8 @@
-package com.example.animesocialapp.models;
+package com.example.animesocialapp.listManagment;
 
+import com.example.animesocialapp.animeManagment.ParseAnime;
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
-import com.parse.ParseRelation;
 import com.parse.ParseUser;
 
 import java.util.List;

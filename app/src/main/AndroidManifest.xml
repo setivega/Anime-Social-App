@@ -13,11 +13,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AnimeSocialApp">
-        <activity android:name=".listManagment.AddAnimeActivity"></activity>
+        <activity android:name=".reviewManagement.ReviewDetailActivity"></activity>
+        <activity android:name=".listManagment.ListDetailActivity" />
+        <activity android:name=".listManagment.AddAnimeActivity" />
         <activity android:name=".listManagment.CreateListActivity" />
         <activity android:name=".reviewManagement.PostReviewActivity" />
-        <activity android:name=".MainActivity" />
-        <activity android:name=".LoginActivity">
+        <activity android:name=".mainManagement.MainActivity" />
+        <activity android:name=".loginManagement.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

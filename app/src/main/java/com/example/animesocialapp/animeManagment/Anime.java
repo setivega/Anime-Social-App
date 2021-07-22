@@ -1,4 +1,4 @@
-package com.example.animesocialapp.models;
+package com.example.animesocialapp.animeManagment;
 
 import com.example.animesocialapp.ParseRelativeDate;
 

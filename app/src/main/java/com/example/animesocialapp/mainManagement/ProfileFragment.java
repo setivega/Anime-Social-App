@@ -1,4 +1,4 @@
-package com.example.animesocialapp.fragments;
+package com.example.animesocialapp.mainManagement;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.animesocialapp.listManagment.CreateListActivity;
-import com.example.animesocialapp.LoginActivity;
+import com.example.animesocialapp.loginManagement.LoginActivity;
 import com.example.animesocialapp.R;
 import com.parse.ParseUser;
 
