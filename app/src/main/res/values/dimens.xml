@@ -53,6 +53,8 @@
     <dimen name="detail_review_background_height">260dp</dimen>
     <dimen name="detail_review_poster_width">111dp</dimen>
     <dimen name="detail_review_poster_height">160dp</dimen>
+    <dimen name="detail_list_poster_width">80dp</dimen>
+    <dimen name="detail_list_poster_height">120dp</dimen>
 
     <dimen name="detail_profile_image">40dp</dimen>
     <dimen name="detail_title_labels">20sp</dimen>

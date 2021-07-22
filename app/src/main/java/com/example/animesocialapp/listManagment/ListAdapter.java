@@ -1,6 +1,7 @@
 package com.example.animesocialapp.listManagment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -139,7 +141,8 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder>{
             int position = getAdapterPosition();
             // validating position
             if (position != RecyclerView.NO_POSITION) {
-
+                Intent intent = ListDetailActivity.createIntent(context, animeLists.get(position));
+                context.startActivity(intent);
             }
         }
     }
