@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.example.animesocialapp.GridSpacingItemDecoration;
 import com.example.animesocialapp.ParseRelativeDate;
 import com.example.animesocialapp.R;
 import com.example.animesocialapp.reviewManagement.Review;
@@ -77,9 +78,11 @@ public class ListDetailActivity extends AppCompatActivity {
         // Set adapter on the recycler view
         rvAnimes.setAdapter(detailAdapter);
 
+
         // Set layout manager on recycler view
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 4);
         rvAnimes.setLayoutManager(gridLayoutManager);
+        rvAnimes.addItemDecoration(new GridSpacingItemDecoration(4, getResources().getDimensionPixelSize(R.dimen.item_offset), true));
 
         if (animeList.getAnime() != null) {
             detailAdapter.addAll(animeList.getAnime());
