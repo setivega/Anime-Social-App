@@ -59,11 +59,13 @@
     <dimen name="detail_profile_image">40dp</dimen>
     <dimen name="detail_title_labels">20sp</dimen>
     <dimen name="detail_anime_title">18sp</dimen>
+    <dimen name="detail_anime_text">16sp</dimen>
     <dimen name="detail_labels">14sp</dimen>
     <dimen name="detail_text">14sp</dimen>
     <dimen name="detail_title_size">22sp</dimen>
 
     <dimen name="item_offset">7.5dp</dimen>
+    <dimen name="anime_detail_padding">30dp</dimen>
 
 
 </resources>

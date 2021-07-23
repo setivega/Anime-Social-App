@@ -14,7 +14,6 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.example.animesocialapp.ParseRelativeDate;
 import com.example.animesocialapp.R;
-import com.example.animesocialapp.animeManagment.Anime;
 import com.example.animesocialapp.animeManagment.ParseAnime;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
@@ -53,7 +52,7 @@ public class ReviewDetailActivity extends AppCompatActivity {
         ivProfileImage = findViewById(R.id.ivProfileImage);
         tvUsername = findViewById(R.id.tvUsername);
         tvCreatedAt = findViewById(R.id.tvCreatedAt);
-        tvReview = findViewById(R.id.tvReview);
+        tvReview = findViewById(R.id.tvDescription);
 
         review = (Review) Parcels.unwrap(getIntent().getParcelableExtra(Review.class.getSimpleName()));
 

@@ -8,6 +8,7 @@
     <string name="description_label">Description</string>
     <string name="anime_label">Anime</string>
     <string name="review_label">Review</string>
+    <string name="synopsis_label">Synopsis</string>
 
     <string name="reviews_label">Reviews</string>
     <string name="lists_label">Lists</string>
@@ -56,6 +57,14 @@
     <string name="password_empty">Password cannot be empty</string>
     <string name="sign_up_failed">Sign Up Failed, Try again</string>
     <string name="login_success">Success!</string>
+
+    <string name="score_label">MAL Score</string>
+    <string name="rank_label">Ranked</string>
+    <string name="popularity_label">Popularity</string>
+    <string name="filler_score">9.10</string>
+    <string name="filler_rank">3</string>
+    <string name="filler_popularity">11</string>
+
 
 
 </resources>

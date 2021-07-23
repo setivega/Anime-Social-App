@@ -29,7 +29,8 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
 
     public enum PostType {
         REVIEW,
-        LIST
+        LIST,
+        EXPLORE
     }
 
     public enum Display {
@@ -118,7 +119,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
             tvSeason = itemView.findViewById(R.id.tvSeason);
             btnListAnime = itemView.findViewById(R.id.btnListAnime);
             divider = itemView.findViewById(R.id.divider);
-            if (postType == PostType.REVIEW) {
+            if (postType == PostType.REVIEW || postType == PostType.EXPLORE) {
                 itemView.setOnClickListener(this);
             }
         }
@@ -165,10 +166,14 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
         public void onClick(View v) {
             int position = getAdapterPosition();
             // validating position
-            if (position != RecyclerView.NO_POSITION) {
+            if (position != RecyclerView.NO_POSITION){
                 // Getting movie at position
                 Anime anime = animes.get(position);
-                context.startActivity(PostReviewActivity.createIntent(context, anime));
+                if (postType == PostType.REVIEW) {
+                    context.startActivity(PostReviewActivity.createIntent(context, anime));
+                } else {
+                    context.startActivity(AnimeDetailActivity.createIntent(context, anime));
+                }
             }
         }
     }

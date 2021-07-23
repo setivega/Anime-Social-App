@@ -97,7 +97,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
             ivProfileImage = itemView.findViewById(R.id.ivProfileImage);
             tvUsername = itemView.findViewById(R.id.tvUsername);
             tvCreatedAt = itemView.findViewById(R.id.tvCreatedAt);
-            tvReview = itemView.findViewById(R.id.tvReview);
+            tvReview = itemView.findViewById(R.id.tvDescription);
             itemView.setOnClickListener(this);
         }
 

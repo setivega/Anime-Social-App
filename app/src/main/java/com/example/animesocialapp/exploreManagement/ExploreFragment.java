@@ -1,9 +1,10 @@
-package com.example.animesocialapp.mainManagement;
+package com.example.animesocialapp.exploreManagement;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
@@ -14,12 +15,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 
 import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.example.animesocialapp.R;
-import com.example.animesocialapp.animeManagment.SearchAdapter;
 import com.example.animesocialapp.animeManagment.Anime;
+import com.example.animesocialapp.animeManagment.SearchAdapter;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -32,7 +34,8 @@ import timber.log.Timber;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class PostFragment extends Fragment {
+
+public class ExploreFragment extends Fragment {
 
     public static final String TAG = "PostFragment";
     public static final String REST_URL = "https://api.jikan.moe/v3/search/anime?q=";
@@ -42,17 +45,16 @@ public class PostFragment extends Fragment {
     private SearchAdapter searchAdapter;
     private SearchView svAnime;
 
-    public PostFragment() {
+    public ExploreFragment() {
         // Required empty public constructor
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         ((AppCompatActivity)getActivity()).getSupportActionBar().show();
-        return inflater.inflate(R.layout.fragment_post, container, false);
-
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_explore, container, false);
     }
 
     @Override
@@ -69,7 +71,7 @@ public class PostFragment extends Fragment {
         };
 
         // Create an adapter
-        searchAdapter = new SearchAdapter(view.getContext(), SearchAdapter.PostType.REVIEW, onClickListener);
+        searchAdapter = new SearchAdapter(view.getContext(), SearchAdapter.PostType.EXPLORE, onClickListener);
 
         // Set adapter on the recycler view
         rvAnime.setAdapter(searchAdapter);
@@ -95,7 +97,6 @@ public class PostFragment extends Fragment {
 
         svAnime = view.findViewById(R.id.svAnime);
         svAnime.setIconifiedByDefault(false);
-        svAnime.requestFocus();
 
         svAnime.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -169,5 +170,4 @@ public class PostFragment extends Fragment {
             }
         });
     }
-
 }

@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.WindowManager;
 
 import com.example.animesocialapp.R;
+import com.example.animesocialapp.exploreManagement.ExploreFragment;
 import com.example.animesocialapp.mainManagement.HomeFragment;
 import com.example.animesocialapp.mainManagement.PostFragment;
 import com.example.animesocialapp.mainManagement.ProfileFragment;
@@ -43,6 +44,9 @@ public class MainActivity extends AppCompatActivity {
                 switch (item.getItemId()) {
                     case R.id.action_home:
                         fragment = new HomeFragment();
+                        break;
+                    case R.id.action_explore:
+                        fragment = new ExploreFragment();
                         break;
                     case R.id.action_post:
                         fragment = new PostFragment();
