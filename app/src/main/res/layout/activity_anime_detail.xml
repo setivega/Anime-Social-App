@@ -63,7 +63,7 @@
             tools:text="@string/filler_season" />
 
         <ImageButton
-            android:id="@+id/imageButton"
+            android:id="@+id/btnLike"
             android:layout_width="@dimen/post_profile_image"
             android:layout_height="@dimen/post_profile_image"
             android:layout_alignParentEnd="true"
