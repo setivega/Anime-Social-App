@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.example.animesocialapp.listManagment.CreateListActivity;
 import com.example.animesocialapp.loginManagement.LoginActivity;
@@ -28,6 +29,8 @@ import org.jetbrains.annotations.NotNull;
 public class ProfileFragment extends Fragment {
 
     private Button btnLogout;
+    private TextView tvUsername;
+    private ParseUser currentUser;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -46,7 +49,12 @@ public class ProfileFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        currentUser = ParseUser.getCurrentUser();
+
+        tvUsername = view.findViewById(R.id.tvUsername);
         btnLogout = view.findViewById(R.id.btnLogout);
+
+        tvUsername.setText(currentUser.getUsername());
 
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override

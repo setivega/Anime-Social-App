@@ -56,7 +56,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_marginStart="10dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="20dp"
             android:layout_toEndOf="@+id/ivPoster"
             android:textColor="@color/white"
             android:textSize="@dimen/detail_labels"
@@ -174,6 +174,33 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/tvGenreLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="15dp"
+        android:text="@string/genre_label"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="@dimen/detail_anime_title"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+    <TextView
+        android:id="@+id/tvGenre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="8dp"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="@dimen/detail_anime_text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvGenreLabel"
+        tools:text="@string/filler_genre" />
+
+    <TextView
         android:id="@+id/tvSynopsisLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -185,22 +212,24 @@
         android:textSize="@dimen/detail_anime_title"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/tvGenre" />
 
     <TextView
         android:id="@+id/tvDescription"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_below="@+id/linearLayout"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="20dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="20dp"
+        android:layout_marginBottom="10dp"
         android:ellipsize="end"
         android:scrollHorizontally="true"
         android:textColor="@color/text_gray"
         android:textSize="@dimen/post_text"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"

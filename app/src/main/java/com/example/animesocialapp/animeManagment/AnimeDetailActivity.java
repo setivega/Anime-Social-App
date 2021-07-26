@@ -39,6 +39,11 @@ import timber.log.Timber;
 
 public class AnimeDetailActivity extends AppCompatActivity {
 
+    public enum LikeState {
+        LIKED,
+        UNLIKED,
+    }
+
     public static final String TAG = "AnimeDetailActivity";
     public static final String REST_URL = "https://api.jikan.moe/v3/anime/";
     private ImageView ivBackground;
@@ -48,10 +53,14 @@ public class AnimeDetailActivity extends AppCompatActivity {
     private TextView tvScore;
     private TextView tvRank;
     private TextView tvPopularity;
+    private TextView tvGenre;
+    private TextView tvStudio;
+    private TextView tvRating;
     private TextView tvDescription;
     private ImageButton btnLike;
     private Anime anime;
     private ParseUser currentUser;
+    private AnimeMetadata animeMetadata;
 
     public static Intent createIntent(Context context, Anime anime){
         Intent intent = new Intent(context, AnimeDetailActivity.class);
@@ -71,6 +80,7 @@ public class AnimeDetailActivity extends AppCompatActivity {
         tvScore = findViewById(R.id.tvScore);
         tvRank = findViewById(R.id.tvRank);
         tvPopularity = findViewById(R.id.tvPopularity);
+        tvGenre = findViewById(R.id.tvGenre);
         tvDescription = findViewById(R.id.tvDescription);
         btnLike = findViewById(R.id.btnLike);
 
@@ -113,12 +123,15 @@ public class AnimeDetailActivity extends AppCompatActivity {
                 Timber.d("onSuccess");
                 JSONObject jsonObject = json.jsonObject;
                 try {
+                    //Pass object into anime metadata class
+                    animeMetadata = new AnimeMetadata(jsonObject);
                     //Update Activity
                     Timber.i(String.valueOf(jsonObject.getString("score")));
-                    tvScore.setText(jsonObject.getString("score"));
-                    tvRank.setText(jsonObject.getString("rank"));
-                    tvPopularity.setText(jsonObject.getString("popularity"));
-                    tvDescription.setText(jsonObject.getString("synopsis").replace("[Written by MAL Rewrite]", ""));
+                    tvScore.setText(String.valueOf(anime.getScore()));
+                    tvRank.setText(animeMetadata.getRank());
+                    tvPopularity.setText(animeMetadata.getPopularity());
+                    tvDescription.setText(animeMetadata.getDescription());
+                    tvGenre.setText(animeMetadata.getGenres());
                 } catch (JSONException e) {
                     Timber.e("Hit JSON Exception " + e);
                 }
@@ -147,9 +160,14 @@ public class AnimeDetailActivity extends AppCompatActivity {
                         //object doesn't exist
                         if (likeClicked) {
                             // Create Like
-                            createLike(parseAnime, currentUser);
+                            createLike(parseAnime, currentUser, true);
+                            for (Genre genre : animeMetadata.genres) {
+                                checkGenre(genre.genreID, genre.name, LikeState.LIKED);
+                            }
+                            btnLike.setBackgroundTintList(getResources().getColorStateList(R.color.app_blue));
                             btnLike.setBackgroundResource(R.drawable.ufi_heart_active);
                         } else {
+                            btnLike.setBackgroundTintList(getResources().getColorStateList(R.color.white));
                             btnLike.setBackgroundResource(R.drawable.ufi_heart);
                         }
                     } else {
@@ -159,8 +177,13 @@ public class AnimeDetailActivity extends AppCompatActivity {
                     if (likeClicked){
                         // Remove Like
                         object.deleteInBackground();
+                        for (Genre genre : animeMetadata.genres) {
+                            checkGenre(genre.genreID, genre.name, LikeState.UNLIKED);
+                        }
+                        btnLike.setBackgroundTintList(getResources().getColorStateList(R.color.white));
                         btnLike.setBackgroundResource(R.drawable.ufi_heart);
                     } else {
+                        btnLike.setBackgroundTintList(getResources().getColorStateList(R.color.app_blue));
                         btnLike.setBackgroundResource(R.drawable.ufi_heart_active);
                     }
                 }
@@ -168,7 +191,7 @@ public class AnimeDetailActivity extends AppCompatActivity {
         });
     }
 
-    private void createLike(ParseAnime anime, ParseUser currentUser) {
+    private void createLike(ParseAnime anime, ParseUser currentUser, Boolean likeClicked) {
         Like like = new Like();
         like.setUser(currentUser);
         like.setAnime(anime);
@@ -203,7 +226,6 @@ public class AnimeDetailActivity extends AppCompatActivity {
                     }
                 } else {
                     checkLiked(btnLiked, object);
-                    Timber.i("Made it here");
                 }
                 Timber.i("Current Parse Anime: " + object);
             }
@@ -226,6 +248,80 @@ public class AnimeDetailActivity extends AppCompatActivity {
                     checkLiked(btnLiked, parseAnime);
                 } else {
                     Timber.e("Error while saving: " + e);
+                    Toast.makeText(AnimeDetailActivity.this, R.string.save_error, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+
+    public void checkGenre(String genreID, String name, LikeState state) {
+        currentUser = ParseUser.getCurrentUser();
+        // Check Parse to see if the anime in the review exists as an object
+        ParseQuery<Genre> query = ParseQuery.getQuery(Genre.class);
+        query.include(Genre.KEY_USER);
+        query.include(Genre.KEY_GENRE_ID);
+        query.whereEqualTo("user", currentUser);
+        query.whereEqualTo("genreID", genreID);
+        query.getFirstInBackground(new GetCallback<Genre>() {
+            @Override
+            public void done(Genre object, ParseException e) {
+                if (e != null) {
+                    if(e.getCode() == ParseException.OBJECT_NOT_FOUND) {
+                        //object doesn't exist
+                        // Save Genre
+                        saveGenre(genreID, name);
+                    } else {
+                        //unknown error, debug
+                    }
+                } else {
+                    // Update Genre
+                    updateGenre(object, state);
+                }
+            }
+        });
+    }
+
+    private void saveGenre(String genreID, String name) {
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        Genre genre = new Genre();
+        genre.setGenreID(genreID);
+        genre.setName(name);
+        genre.setUser(currentUser);
+        genre.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    Timber.i("Genre save was successful!");
+                    Toast.makeText(AnimeDetailActivity.this, R.string.save_genre, Toast.LENGTH_SHORT).show();
+                } else {
+                    Timber.e("Error while saving: " + e);
+                    Toast.makeText(AnimeDetailActivity.this, R.string.save_error, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+    }
+
+    private void updateGenre(Genre genre, LikeState state) {
+        Integer weight = genre.getWeight();
+        if (state == LikeState.LIKED){
+            genre.setWeight(weight += 1);
+        } else {
+            int newWeight = weight -= 1;
+            genre.setWeight(newWeight);
+            if (newWeight == 0) {
+                genre.deleteInBackground();
+            }
+        }
+        genre.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    Timber.i("Genre update was successful!");
+                    Toast.makeText(AnimeDetailActivity.this, R.string.save_genre, Toast.LENGTH_SHORT).show();
+                } else {
+                    Timber.e("Error while updating: " + e);
                     Toast.makeText(AnimeDetailActivity.this, R.string.save_error, Toast.LENGTH_SHORT).show();
                 }
             }

@@ -50,6 +50,7 @@
     <string name="save_anime">Saved Anime</string>
     <string name="save_review">Saved Review</string>
     <string name="save_list">Saved List</string>
+    <string name="save_genre">Saved Genre</string>
     <string name="unknown_error">Unknown Error</string>
     <string name="username_password_empty">Username and Password cannot be empty</string>
     <string name="username_password_incorrect">Username or Password is incorrect</string>
@@ -66,6 +67,9 @@
     <string name="filler_score">9.10</string>
     <string name="filler_rank">3</string>
     <string name="filler_popularity">11</string>
+
+    <string name="filler_genre">Sci-Fi &amp; Psychological</string>
+    <string name="genre_label">Genre</string>
 
 
 

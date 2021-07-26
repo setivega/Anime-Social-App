@@ -2,6 +2,7 @@ package com.example.animesocialapp;
 
 import android.app.Application;
 
+import com.example.animesocialapp.animeManagment.Genre;
 import com.example.animesocialapp.exploreManagement.Like;
 import com.example.animesocialapp.listManagment.AnimeList;
 import com.example.animesocialapp.animeManagment.ParseAnime;
@@ -22,6 +23,7 @@ public class ParseApplication extends Application {
         ParseObject.registerSubclass(AnimeList.class);
         ParseObject.registerSubclass(ParseAnime.class);
         ParseObject.registerSubclass(Like.class);
+        ParseObject.registerSubclass(Genre.class);
 
         Parse.initialize(new Parse.Configuration.Builder(this)
                 .applicationId("7Kty7dcVkeNbMd6Fwt8k96egw9JhNYGiPECqzUZn")
