@@ -17,22 +17,16 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.example.animesocialapp.R;
-import com.example.animesocialapp.exploreManagement.Like;
-import com.example.animesocialapp.reviewManagement.PostReviewActivity;
-import com.example.animesocialapp.reviewManagement.Review;
-import com.parse.FindCallback;
+import com.example.animesocialapp.recommendationManagement.Like;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.parceler.Parcels;
-
-import java.util.List;
 
 import okhttp3.Headers;
 import timber.log.Timber;
@@ -94,7 +88,6 @@ public class AnimeDetailActivity extends AppCompatActivity {
 
         tvTitle.setText(anime.getTitle());
         tvSeason.setText(anime.getSeason());
-        Timber.i(anime.getDescription());
 
         Glide.with(this).load(anime.getPosterPath())
                 .into(ivBackground);

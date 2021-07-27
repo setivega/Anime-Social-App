@@ -13,10 +13,8 @@ import android.view.MenuItem;
 import android.view.WindowManager;
 
 import com.example.animesocialapp.R;
-import com.example.animesocialapp.exploreManagement.ExploreFragment;
-import com.example.animesocialapp.mainManagement.HomeFragment;
-import com.example.animesocialapp.mainManagement.PostFragment;
-import com.example.animesocialapp.mainManagement.ProfileFragment;
+import com.example.animesocialapp.recommendationManagement.ExploreFragment;
+import com.example.animesocialapp.recommendationManagement.RecommendationFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
@@ -50,6 +48,9 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case R.id.action_post:
                         fragment = new PostFragment();
+                        break;
+                    case R.id.action_recs:
+                        fragment = new RecommendationFragment();
                         break;
                     case R.id.action_profile:
                     default:

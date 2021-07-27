@@ -3,7 +3,7 @@ package com.example.animesocialapp;
 import android.app.Application;
 
 import com.example.animesocialapp.animeManagment.Genre;
-import com.example.animesocialapp.exploreManagement.Like;
+import com.example.animesocialapp.recommendationManagement.Like;
 import com.example.animesocialapp.listManagment.AnimeList;
 import com.example.animesocialapp.animeManagment.ParseAnime;
 import com.example.animesocialapp.reviewManagement.Review;

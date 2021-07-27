@@ -1,7 +1,6 @@
-package com.example.animesocialapp.listManagment;
+package com.example.animesocialapp.recommendationManagement;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,36 +13,34 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.example.animesocialapp.R;
+import com.example.animesocialapp.animeManagment.Anime;
 import com.example.animesocialapp.animeManagment.ParseAnime;
-import com.parse.ParseFile;
-
-import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListDetailAdapter extends RecyclerView.Adapter<ListDetailAdapter.ViewHolder> {
+public class RecommendationAdapter extends RecyclerView.Adapter<RecommendationAdapter.ViewHolder> {
 
-    public static final String TAG = "ListDetailAdapter";
+    public static final String TAG = "RecommendationAdapter";
     private Context context;
-    private List<ParseAnime> animeList;
+    private List<Anime> animeList;
 
-    public ListDetailAdapter(Context context) {
+    public RecommendationAdapter(Context context) {
         this.context = context;
         animeList = new ArrayList<>();
     }
 
     @NonNull
     @Override
-    public ListDetailAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public RecommendationAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View postView = LayoutInflater.from(context).inflate(R.layout.item_list_detail, parent, false);
-        return new ViewHolder(postView);
+        return new RecommendationAdapter.ViewHolder(postView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ListDetailAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecommendationAdapter.ViewHolder holder, int position) {
         // Get the post at the position
-        ParseAnime anime = animeList.get(position);
+        Anime anime = animeList.get(position);
         // Bind the post data into the View Holder
         holder.bind(anime);
     }
@@ -53,7 +50,7 @@ public class ListDetailAdapter extends RecyclerView.Adapter<ListDetailAdapter.Vi
         return animeList.size();
     }
 
-    public void addAll(List<ParseAnime> list){
+    public void addAll(List<Anime> list){
         animeList.addAll(list);
         notifyDataSetChanged();
     }
@@ -74,7 +71,7 @@ public class ListDetailAdapter extends RecyclerView.Adapter<ListDetailAdapter.Vi
             itemView.setOnClickListener(this);
         }
 
-        public void bind(ParseAnime anime) {
+        public void bind(Anime anime) {
 
             Glide.with(context).load(anime.getPosterPath())
                     .transform(new CenterCrop(), new RoundedCorners(4))

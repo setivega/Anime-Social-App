@@ -1,4 +1,4 @@
-package com.example.animesocialapp.exploreManagement;
+package com.example.animesocialapp.recommendationManagement;
 
 
 import com.parse.ParseClassName;

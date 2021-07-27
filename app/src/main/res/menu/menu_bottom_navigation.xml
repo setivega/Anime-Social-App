@@ -18,6 +18,11 @@
         android:title="@null"
         app:showAsAction="always" />
     <item
+        android:id="@+id/action_recs"
+        android:icon="@drawable/star"
+        android:title="@null"
+        app:showAsAction="always" />
+    <item
         android:id="@+id/action_profile"
         android:icon="@drawable/instagram_user_filled_24"
         android:title="@null"

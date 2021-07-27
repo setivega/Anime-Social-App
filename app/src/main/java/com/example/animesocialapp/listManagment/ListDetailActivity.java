@@ -78,7 +78,6 @@ public class ListDetailActivity extends AppCompatActivity {
         // Set adapter on the recycler view
         rvAnimes.setAdapter(detailAdapter);
 
-
         // Set layout manager on recycler view
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 4);
         rvAnimes.setLayoutManager(gridLayoutManager);

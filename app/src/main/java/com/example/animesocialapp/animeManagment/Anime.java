@@ -16,7 +16,6 @@ public class Anime {
     public String malID;
     public String posterPath;
     public String title;
-    public String description;
     public Double score;
     public String startDate;
     public Boolean added;
@@ -27,7 +26,6 @@ public class Anime {
         malID = String.valueOf(jsonObject.getInt("mal_id"));
         posterPath = jsonObject.getString("image_url");
         title = jsonObject.getString("title");
-        description = jsonObject.getString("synopsis");
         score = jsonObject.getDouble("score");
         startDate = jsonObject.getString("start_date");
     }
@@ -45,8 +43,6 @@ public class Anime {
     public String getPosterPath() { return posterPath; }
 
     public String getTitle() { return title; }
-
-    public String getDescription() { return description; }
 
     public Double getScore() { return score; }
 
