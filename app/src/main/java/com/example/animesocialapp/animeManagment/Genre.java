@@ -1,6 +1,5 @@
 package com.example.animesocialapp.animeManagment;
 
-import com.example.animesocialapp.ParseRelativeDate;
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
@@ -8,7 +7,6 @@ import com.parse.ParseUser;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.parceler.Parcel;
 
 import java.util.ArrayList;
 import java.util.List;

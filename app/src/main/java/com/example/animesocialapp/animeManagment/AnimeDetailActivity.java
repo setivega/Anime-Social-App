@@ -62,6 +62,7 @@ public class AnimeDetailActivity extends AppCompatActivity {
     private ParseUser currentUser;
     private AnimeMetadata animeMetadata;
     private DataSource dataSource;
+    private GenreManager genreManager;
 
     public static Intent createIntent(Context context, Anime anime, DataSource dataSource){
         Intent intent = new Intent(context, AnimeDetailActivity.class);
@@ -89,6 +90,8 @@ public class AnimeDetailActivity extends AppCompatActivity {
         anime = (Anime) Parcels.unwrap(getIntent().getParcelableExtra(Anime.class.getSimpleName()));
 
         dataSource = (DataSource) getIntent().getSerializableExtra("DataSource");
+
+        genreManager = new GenreManager(this);
 
         getAnimeMetadata(anime.getMalID());
 
@@ -179,7 +182,7 @@ public class AnimeDetailActivity extends AppCompatActivity {
                             // Create Like
                             createLike(parseAnime, currentUser, true);
                             for (Genre genre : animeMetadata.genres) {
-                                checkGenre(genre.genreID, genre.name, LikeState.LIKED);
+                                genreManager.checkGenre(genre.genreID, genre.name, LikeState.LIKED);
                             }
                             btnLike.setBackgroundTintList(getResources().getColorStateList(R.color.app_blue));
                             btnLike.setBackgroundResource(R.drawable.ufi_heart_active);
@@ -195,7 +198,7 @@ public class AnimeDetailActivity extends AppCompatActivity {
                         // Remove Like
                         object.deleteInBackground();
                         for (Genre genre : animeMetadata.genres) {
-                            checkGenre(genre.genreID, genre.name, LikeState.UNLIKED);
+                            genreManager.checkGenre(genre.genreID, genre.name, LikeState.UNLIKED);
                         }
                         btnLike.setBackgroundTintList(getResources().getColorStateList(R.color.white));
                         btnLike.setBackgroundResource(R.drawable.ufi_heart);
@@ -272,77 +275,6 @@ public class AnimeDetailActivity extends AppCompatActivity {
     }
 
 
-    public void checkGenre(String genreID, String name, LikeState state) {
-        currentUser = ParseUser.getCurrentUser();
-        // Check Parse to see if the anime in the review exists as an object
-        ParseQuery<Genre> query = ParseQuery.getQuery(Genre.class);
-        query.include(Genre.KEY_USER);
-        query.include(Genre.KEY_GENRE_ID);
-        query.whereEqualTo("user", currentUser);
-        query.whereEqualTo("genreID", genreID);
-        query.getFirstInBackground(new GetCallback<Genre>() {
-            @Override
-            public void done(Genre object, ParseException e) {
-                if (e != null) {
-                    if(e.getCode() == ParseException.OBJECT_NOT_FOUND) {
-                        //object doesn't exist
-                        // Save Genre
-                        saveGenre(genreID, name);
-                    } else {
-                        //unknown error, debug
-                    }
-                } else {
-                    // Update Genre
-                    updateGenre(object, state);
-                }
-            }
-        });
-    }
 
-    private void saveGenre(String genreID, String name) {
-        ParseUser currentUser = ParseUser.getCurrentUser();
-        Genre genre = new Genre();
-        genre.setGenreID(genreID);
-        genre.setName(name);
-        genre.setUser(currentUser);
-        genre.saveInBackground(new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                if (e == null) {
-                    Timber.i("Genre save was successful!");
-                    Toast.makeText(AnimeDetailActivity.this, R.string.save_genre, Toast.LENGTH_SHORT).show();
-                } else {
-                    Timber.e("Error while saving: " + e);
-                    Toast.makeText(AnimeDetailActivity.this, R.string.save_error, Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
-    }
-
-    private void updateGenre(Genre genre, LikeState state) {
-        Integer weight = genre.getWeight();
-        if (state == LikeState.LIKED){
-            genre.setWeight(++weight);
-        } else {
-            int newWeight = --weight;
-            genre.setWeight(newWeight);
-            if (newWeight == 0) {
-                genre.deleteInBackground();
-            }
-        }
-        genre.saveInBackground(new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                if (e == null) {
-                    Timber.i("Genre update was successful!");
-                    Toast.makeText(AnimeDetailActivity.this, R.string.save_genre, Toast.LENGTH_SHORT).show();
-                } else {
-                    Timber.e("Error while updating: " + e);
-                    Toast.makeText(AnimeDetailActivity.this, R.string.save_error, Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-    }
 
 }

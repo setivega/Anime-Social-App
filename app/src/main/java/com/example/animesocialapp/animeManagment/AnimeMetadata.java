@@ -1,13 +1,10 @@
 package com.example.animesocialapp.animeManagment;
 
-import com.example.animesocialapp.ParseRelativeDate;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.parceler.Parcel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import timber.log.Timber;
