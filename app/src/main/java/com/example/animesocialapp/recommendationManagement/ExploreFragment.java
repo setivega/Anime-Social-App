@@ -51,6 +51,7 @@ public class ExploreFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         ((AppCompatActivity)getActivity()).getSupportActionBar().show();
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(R.string.explore_title);
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_explore, container, false);
     }

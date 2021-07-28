@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -57,6 +58,8 @@ public class RecommendationFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        ((AppCompatActivity)getActivity()).getSupportActionBar().show();
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Recommendations");
         return inflater.inflate(R.layout.fragment_recommendation, container, false);
     }
 
@@ -90,7 +93,7 @@ public class RecommendationFragment extends Fragment {
         query.include(Genre.KEY_WEIGHT);
         query.whereEqualTo("user", currentUser);
         query.orderByDescending(Genre.KEY_WEIGHT);
-        query.setLimit(3);
+        query.setLimit(2);
         query.findInBackground(new FindCallback<Genre>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
@@ -124,7 +127,7 @@ public class RecommendationFragment extends Fragment {
         String resultName;
 
         // Checking if there are any genres weighted for the user
-        if (size < 3) {
+        if (size < 2) {
             RECOMMENDATION_URL = "https://api.jikan.moe/v3/top/anime";
             resultName = "top";
         } else {
@@ -139,7 +142,7 @@ public class RecommendationFragment extends Fragment {
                 JSONObject jsonObject = json.jsonObject;
                 try {
                     JSONArray results = jsonObject.getJSONArray(resultName);
-                    Timber.i("Results: " + results.toString());
+//                    Timber.i("Results: " + results.toString());
                     //Update Adapter
                     recommendationAdapter.clear();
                     recommendationAdapter.addAll(Anime.fromJSONArray(results));

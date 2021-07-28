@@ -14,7 +14,10 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.example.animesocialapp.R;
 import com.example.animesocialapp.animeManagment.Anime;
+import com.example.animesocialapp.animeManagment.AnimeDetailActivity;
 import com.example.animesocialapp.animeManagment.ParseAnime;
+import com.example.animesocialapp.animeManagment.SearchAdapter;
+import com.example.animesocialapp.reviewManagement.PostReviewActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,7 +87,9 @@ public class RecommendationAdapter extends RecyclerView.Adapter<RecommendationAd
             int position = getAdapterPosition();
             // validating position
             if (position != RecyclerView.NO_POSITION) {
-
+                // Getting movie at position
+                Anime anime = animeList.get(position);
+                context.startActivity(AnimeDetailActivity.createIntent(context, anime, AnimeDetailActivity.DataSource.JSON));
             }
         }
     }

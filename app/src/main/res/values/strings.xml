@@ -70,6 +70,14 @@
 
     <string name="filler_genre">Sci-Fi &amp; Psychological</string>
     <string name="genre_label">Genre</string>
+    <string name="profile_label">Profile</string>
+    <string name="recommendations_label">Recs</string>
+    <string name="explore_label">Explore</string>
+    <string name="home_label">Home</string>
+    <string name="explore_title">Explore</string>
+    <string name="post_review_title">Post Review</string>
+    <string name="add_anime_title">Add Anime</string>
+    <string name="create_list_title">Create List</string>
 
 
 </resources>

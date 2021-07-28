@@ -51,6 +51,7 @@ public class PostFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         ((AppCompatActivity)getActivity()).getSupportActionBar().show();
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(R.string.post_label);
         return inflater.inflate(R.layout.fragment_post, container, false);
 
     }

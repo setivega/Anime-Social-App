@@ -34,6 +34,7 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         ((AppCompatActivity)getActivity()).getSupportActionBar().show();
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Anime Verge");
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
 

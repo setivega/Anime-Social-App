@@ -5,26 +5,26 @@
     <item
         android:id="@+id/action_home"
         android:icon="@drawable/instagram_home_filled_24"
-        android:title="@null"
+        android:title="@string/home_label"
         app:showAsAction="always" />
     <item
         android:id="@+id/action_explore"
         android:icon="@drawable/search"
-        android:title="@null"
+        android:title="@string/explore_label"
         app:showAsAction="always" />
     <item
         android:id="@+id/action_post"
         android:icon="@drawable/instagram_new_post_filled_24"
-        android:title="@null"
+        android:title="@string/post_label"
         app:showAsAction="always" />
     <item
         android:id="@+id/action_recs"
         android:icon="@drawable/star"
-        android:title="@null"
+        android:title="@string/recommendations_label"
         app:showAsAction="always" />
     <item
         android:id="@+id/action_profile"
         android:icon="@drawable/instagram_user_filled_24"
-        android:title="@null"
+        android:title="@string/profile_label"
         app:showAsAction="always" />
 </menu>

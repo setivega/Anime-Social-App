@@ -72,6 +72,8 @@ public class CreateListActivity extends AppCompatActivity {
         toolbar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(),R.color.white));
         setSupportActionBar(toolbar);
 
+        getSupportActionBar().setTitle(R.string.create_list_title);
+
         etTitle = findViewById(R.id.etTitle);
         etDescription = findViewById(R.id.etDescription);
         rvAnimePreviews = findViewById(R.id.rvAnimePreviews);

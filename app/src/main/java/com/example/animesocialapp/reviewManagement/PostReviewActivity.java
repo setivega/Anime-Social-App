@@ -57,6 +57,8 @@ public class PostReviewActivity extends AppCompatActivity {
         toolbar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(),R.color.white));
         setSupportActionBar(toolbar);
 
+        getSupportActionBar().setTitle(R.string.post_review_title);
+
         ivPoster = findViewById(R.id.ivPoster);
         tvTitle = findViewById(R.id.tvTitle);
         tvSeason = findViewById(R.id.tvSeason);

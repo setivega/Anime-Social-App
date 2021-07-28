@@ -39,9 +39,12 @@ public class ProfileFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        currentUser = ParseUser.getCurrentUser();
+
         // Inflate the layout for this fragment
         setHasOptionsMenu(true);
         ((AppCompatActivity)getActivity()).getSupportActionBar().show();
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(R.string.profile_label);
         return inflater.inflate(R.layout.fragment_profile, container, false);
     }
 

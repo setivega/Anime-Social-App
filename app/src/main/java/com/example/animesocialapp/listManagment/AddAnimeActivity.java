@@ -73,6 +73,8 @@ public class AddAnimeActivity extends AppCompatActivity {
         toolbar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(),R.color.white));
         setSupportActionBar(toolbar);
 
+        getSupportActionBar().setTitle(R.string.add_anime_title);
+
         parseAnimeDict = new HashMap<>();
         animeDict = new HashMap<>();
         animeIDs = new ArrayList<>();
