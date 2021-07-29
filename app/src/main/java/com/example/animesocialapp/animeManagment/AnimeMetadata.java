@@ -7,6 +7,8 @@ import org.parceler.Parcel;
 
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import timber.log.Timber;
 
 @Parcel
@@ -19,7 +21,7 @@ public class AnimeMetadata {
     public String rank;
     public String popularity;
     public List<Genre> genres;
-    public String studio;
+    public List<Studio> studios;
     public String rating;
     public String description;
     public Boolean added;
@@ -27,7 +29,6 @@ public class AnimeMetadata {
     public AnimeMetadata() {}
 
     public AnimeMetadata(JSONObject jsonObject) throws JSONException {
-        JSONArray studios = jsonObject.getJSONArray("studios");
 
         malID = String.valueOf(jsonObject.getInt("mal_id"));
         posterPath = jsonObject.getString("image_url");
@@ -35,12 +36,10 @@ public class AnimeMetadata {
         rank = String.valueOf(jsonObject.getInt("rank"));
         popularity = String.valueOf(jsonObject.getInt("popularity"));
         genres = Genre.fromJSONArray(jsonObject.getJSONArray("genres"));
+        studios = Studio.fromJSONArray(jsonObject.getJSONArray("studios"));
         rating = jsonObject.getString("rating");
         description = jsonObject.getString("synopsis").replace("[Written by MAL Rewrite]", "");
         score = jsonObject.getDouble("score");
-        if (studios.length() != 0) {
-            studio = studios.getJSONObject(0).getString("name");
-        }
 
     }
 
@@ -65,7 +64,7 @@ public class AnimeMetadata {
         }
     }
 
-    public String getStudio() { return studio; }
+//    public String getStudio() { return studio; }
 
     public String getRating() { return rating; }
 

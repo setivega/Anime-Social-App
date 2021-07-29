@@ -10,92 +10,90 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import timber.log.Timber;
 
-public class GenreManager {
+public class RatingManager {
 
-    public static final String TAG = "GenreManager";
+    public static final String TAG = "RatingManager";
     private static ParseUser currentUser;
     private static Context context;
 
-    public GenreManager(Context context) {
+    public RatingManager(Context context) {
         this.context = context;
     }
 
-    public static void checkGenre(String genreID, String name, AnimeDetailActivity.LikeState state) {
+    public static void checkRating(@Nullable String ratingName, AnimeDetailActivity.LikeState state) {
         currentUser = ParseUser.getCurrentUser();
         // Check Parse to see if the anime in the review exists as an object
-        ParseQuery<Genre> query = ParseQuery.getQuery(Genre.class);
-        query.include(Genre.KEY_USER);
-        query.include(Genre.KEY_GENRE_ID);
+        ParseQuery<Rating> query = ParseQuery.getQuery(Rating.class);
+        query.include(Rating.KEY_USER);
+        query.include(Rating.KEY_RATING);
         query.whereEqualTo("user", currentUser);
-        query.whereEqualTo("genreID", genreID);
-        query.getFirstInBackground(new GetCallback<Genre>() {
+        query.whereEqualTo("rating", ratingName);
+        query.getFirstInBackground(new GetCallback<Rating>() {
             @Override
-            public void done(Genre object, ParseException e) {
+            public void done(@Nullable Rating object, ParseException e) {
                 if (e != null) {
                     if(e.getCode() == ParseException.OBJECT_NOT_FOUND) {
                         //object doesn't exist
-                        // Save Genre
-                        saveGenre(genreID, name);
+                        // Save Rating
+                        saveRating(ratingName);
                     } else {
                         //unknown error, debug
                     }
                 } else {
-                    // Update Genre
-                    updateGenre(object, state);
+                    // Update Rating
+                    updateRating(object, state);
                 }
             }
         });
     }
 
-    public static void saveGenre(String genreID, String name) {
+    public static void saveRating(@Nonnull String ratingName) {
         ParseUser currentUser = ParseUser.getCurrentUser();
-        Genre genre = new Genre();
-        genre.setGenreID(genreID);
-        genre.setName(name);
-        genre.setUser(currentUser);
-        genre.saveInBackground(new SaveCallback() {
+        Rating rating = new Rating();
+        rating.setRating(ratingName);
+        rating.setUser(currentUser);
+        rating.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
                 if (e == null) {
-                    Timber.i("Genre save was successful: " + genre.getName());
-                    Toast.makeText(context, R.string.save_genre, Toast.LENGTH_SHORT).show();
+                    Timber.i("Rating save was successful!");
+                    Toast.makeText(context, R.string.save_rating, Toast.LENGTH_SHORT).show();
                 } else {
                     Timber.e("Error while saving: " + e);
-                    Toast.makeText(context, R.string.save_error, Toast.LENGTH_SHORT).show();
                 }
             }
         });
-
     }
 
-    public static void updateGenre(Genre genre, AnimeDetailActivity.LikeState state) {
-        Integer weight = genre.getWeight();
+    public static void updateRating(@Nonnull Rating rating, AnimeDetailActivity.LikeState state) {
+        Integer weight = rating.getWeight();
         int newWeight;
         if (state == AnimeDetailActivity.LikeState.LIKED){
             newWeight = ++weight;
         } else {
             newWeight = --weight;
         }
-        genre.setWeight(newWeight);
+        rating.setWeight(newWeight);
 
-        genre.saveInBackground(new SaveCallback() {
+        rating.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
                 if (e == null) {
-                    Timber.i("Genre update was successful: " + genre.getName());
-                    Toast.makeText(context, R.string.update_genre, Toast.LENGTH_SHORT).show();
+                    Timber.i("Rating update was successful: " + rating.getRating());
+                    Toast.makeText(context, R.string.update_rating, Toast.LENGTH_SHORT).show();
                     if (newWeight == 0) {
-                        genre.deleteInBackground();
+                        rating.deleteInBackground();
                     }
                 } else {
-                    Timber.e("Error while updating: " + e + genre.getName());
+                    Timber.e("Error while updating: " + e + rating.getRating());
                     Toast.makeText(context, R.string.save_error, Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
-
-
 }

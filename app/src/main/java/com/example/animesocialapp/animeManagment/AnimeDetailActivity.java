@@ -28,6 +28,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.parceler.Parcels;
 
+import javax.annotation.Nullable;
+
 import okhttp3.Headers;
 import timber.log.Timber;
 
@@ -63,6 +65,8 @@ public class AnimeDetailActivity extends AppCompatActivity {
     private AnimeMetadata animeMetadata;
     private DataSource dataSource;
     private GenreManager genreManager;
+    private StudioManager studioManager;
+    private RatingManager ratingManager;
 
     public static Intent createIntent(Context context, Anime anime, DataSource dataSource){
         Intent intent = new Intent(context, AnimeDetailActivity.class);
@@ -92,6 +96,8 @@ public class AnimeDetailActivity extends AppCompatActivity {
         dataSource = (DataSource) getIntent().getSerializableExtra("DataSource");
 
         genreManager = new GenreManager(this);
+        studioManager = new StudioManager(this);
+        ratingManager = new RatingManager(this);
 
         getAnimeMetadata(anime.getMalID());
 
@@ -181,9 +187,7 @@ public class AnimeDetailActivity extends AppCompatActivity {
                         if (likeClicked) {
                             // Create Like
                             createLike(parseAnime, currentUser, true);
-                            for (Genre genre : animeMetadata.genres) {
-                                genreManager.checkGenre(genre.genreID, genre.name, LikeState.LIKED);
-                            }
+                            handleWeightedClasses(LikeState.LIKED);
                             btnLike.setBackgroundTintList(getResources().getColorStateList(R.color.app_blue));
                             btnLike.setBackgroundResource(R.drawable.ufi_heart_active);
                         } else {
@@ -197,9 +201,7 @@ public class AnimeDetailActivity extends AppCompatActivity {
                     if (likeClicked){
                         // Remove Like
                         object.deleteInBackground();
-                        for (Genre genre : animeMetadata.genres) {
-                            genreManager.checkGenre(genre.genreID, genre.name, LikeState.UNLIKED);
-                        }
+                        handleWeightedClasses(LikeState.UNLIKED);
                         btnLike.setBackgroundTintList(getResources().getColorStateList(R.color.white));
                         btnLike.setBackgroundResource(R.drawable.ufi_heart);
                     } else {
@@ -209,6 +211,19 @@ public class AnimeDetailActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void handleWeightedClasses(LikeState likeState) {
+        for (Genre genre : animeMetadata.genres) {
+            genreManager.checkGenre(genre.genreID, genre.name, likeState);
+        }
+
+        for (Studio studio: animeMetadata.studios) {
+            studioManager.checkStudio(studio.studioID, studio.name, likeState);
+        }
+
+        ratingManager.checkRating(animeMetadata.rating, likeState);
+
     }
 
     private void createLike(ParseAnime anime, ParseUser currentUser, Boolean likeClicked) {
