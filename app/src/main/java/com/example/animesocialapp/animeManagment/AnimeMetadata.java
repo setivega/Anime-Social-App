@@ -22,14 +22,13 @@ public class AnimeMetadata {
     public String popularity;
     public List<Genre> genres;
     public List<Studio> studios;
-    public String rating;
+    public Rating rating;
     public String description;
     public Boolean added;
 
     public AnimeMetadata() {}
 
     public AnimeMetadata(JSONObject jsonObject) throws JSONException {
-
         malID = String.valueOf(jsonObject.getInt("mal_id"));
         posterPath = jsonObject.getString("image_url");
         title = jsonObject.getString("title");
@@ -37,7 +36,7 @@ public class AnimeMetadata {
         popularity = String.valueOf(jsonObject.getInt("popularity"));
         genres = Genre.fromJSONArray(jsonObject.getJSONArray("genres"));
         studios = Studio.fromJSONArray(jsonObject.getJSONArray("studios"));
-        rating = jsonObject.getString("rating");
+        rating = new Rating(jsonObject);
         description = jsonObject.getString("synopsis").replace("[Written by MAL Rewrite]", "");
         score = jsonObject.getDouble("score");
 
@@ -66,7 +65,7 @@ public class AnimeMetadata {
 
 //    public String getStudio() { return studio; }
 
-    public String getRating() { return rating; }
+    public Rating getRating() { return rating; }
 
     public String getDescription() { return description; }
 

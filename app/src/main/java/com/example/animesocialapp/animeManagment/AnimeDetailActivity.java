@@ -214,15 +214,22 @@ public class AnimeDetailActivity extends AppCompatActivity {
     }
 
     private void handleWeightedClasses(LikeState likeState) {
-        for (Genre genre : animeMetadata.genres) {
-            genreManager.checkGenre(genre.genreID, genre.name, likeState);
+        if (animeMetadata.genres != null) {
+            for (Genre genre : animeMetadata.genres) {
+                genreManager.checkGenre(genre.genreID, genre.name, likeState);
+            }
         }
 
-        for (Studio studio: animeMetadata.studios) {
-            studioManager.checkStudio(studio.studioID, studio.name, likeState);
+        if (animeMetadata.studios != null) {
+            for (Studio studio: animeMetadata.studios) {
+                studioManager.checkStudio(studio.studioID, studio.name, likeState);
+            }
         }
 
-        ratingManager.checkRating(animeMetadata.rating, likeState);
+        if (animeMetadata.rating != null) {
+            Rating rating = animeMetadata.getRating();
+            ratingManager.checkRating(rating.getRatingString(rating.rating), likeState);
+        }
 
     }
 

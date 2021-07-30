@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.example.animesocialapp.animeManagment.Anime;
+import com.example.animesocialapp.animeManagment.AnimeMetadata;
 import com.example.animesocialapp.animeManagment.Genre;
 import com.example.animesocialapp.animeManagment.ParseAnime;
 import com.example.animesocialapp.animeManagment.Rating;
@@ -33,9 +34,13 @@ import timber.log.Timber;
 public class RecommendationManager {
 
     public static final String REST_URL = "https://api.jikan.moe/v3/search/anime?q=&page=1&genre=";
-    public static final String PARAMS = "&order_by=members&sort=desc";
     private Context context;
     private RecommendationAdapter adapter;
+
+    public RecommendationManager(Context context) {
+        this.context = context;
+    }
+
 
     public RecommendationManager(Context context, RecommendationAdapter adapter) {
         this.context = context;
@@ -109,14 +114,14 @@ public class RecommendationManager {
 
                     Timber.i("Studio IDs: " + String.valueOf(studioIDs));
 
-                    getRatings(genres, studioIDs, size);
+                    getRatings(genres, objects, size);
 
                 }
             }
         });
     }
 
-    private void getRatings(String genres, List<String> studioIDs, int size) {
+    private void getRatings(String genres, List<Studio> studios, int size) {
         ParseUser currentUser = ParseUser.getCurrentUser();
 
         ParseQuery<Rating> query = ParseQuery.getQuery(Rating.class);
@@ -132,7 +137,7 @@ public class RecommendationManager {
                 if (e != null) {
                     if(e.getCode() == ParseException.OBJECT_NOT_FOUND) {
                         //objects don't exist
-                        getLiked(genres, studioIDs, null, size);
+                        getLiked(genres, studios, null, size);
                     } else {
                         //unknown error, debug
                         Timber.e("Unknown Error: " + e);
@@ -143,7 +148,7 @@ public class RecommendationManager {
                         ratings.add(rating.getRating());
                     }
 
-                    getLiked(genres, studioIDs, ratings, size);
+                    getLiked(genres, studios, objects, size);
 
                     Timber.i("Ratings: " + String.valueOf(ratings));
 
@@ -153,7 +158,7 @@ public class RecommendationManager {
 
     }
 
-    private void getLiked(String genres, List<String> studioIDs, List<String> ratings, int size) {
+    private void getLiked(String genres, List<Studio> studios, List<Rating> ratings, int size) {
         ParseUser currentUser = ParseUser.getCurrentUser();
 
         ParseQuery<Like> query = ParseQuery.getQuery(Like.class);
@@ -167,7 +172,7 @@ public class RecommendationManager {
                 if (e != null) {
                     if(e.getCode() == ParseException.OBJECT_NOT_FOUND) {
                         //objects don't exist
-                        getRecommendations(genres, studioIDs, ratings, null, size);
+                        getRecommendations(genres, studios, ratings, null, size);
                     } else {
                         //unknown error, debug
                         Timber.e("Unknown Error: " + e);
@@ -179,7 +184,7 @@ public class RecommendationManager {
                         animeIDs.add(anime.getMalID());
                     }
 
-                    getRecommendations(genres, studioIDs, ratings, animeIDs, size);
+                    getRecommendations(genres, studios, ratings, animeIDs, size);
 
                     Timber.i("Anime IDs: " + String.valueOf(animeIDs));
 
@@ -188,7 +193,7 @@ public class RecommendationManager {
         });
     }
 
-    private void getRecommendations(@Nullable String genres, List<String> studioIDs, List<String> ratings, List<String> animeIDs, int size) {
+    private void getRecommendations(@Nullable String genres, List<Studio> studios, List<Rating> ratings, List<String> animeIDs, int size) {
         AsyncHttpClient client = new AsyncHttpClient();
         String RECOMMENDATION_URL;
         String resultName;
@@ -198,7 +203,7 @@ public class RecommendationManager {
             RECOMMENDATION_URL = "https://api.jikan.moe/v3/top/anime";
             resultName = "top";
         } else {
-            RECOMMENDATION_URL = REST_URL + genres + PARAMS;
+            RECOMMENDATION_URL = REST_URL + genres;
             resultName = "results";
         }
 
@@ -209,9 +214,14 @@ public class RecommendationManager {
                 JSONObject jsonObject = json.jsonObject;
                 try {
                     JSONArray results = jsonObject.getJSONArray(resultName);
+                    Timber.i(String.valueOf(results));
                     //Update Adapter
                     adapter.clear();
-                    adapter.addAll(sortAnime(Anime.fromJSONArray(results), studioIDs, ratings, animeIDs, size));
+                    if (size < 2) {
+                        adapter.addAll(Anime.fromJSONArray(results));
+                    } else {
+                        adapter.addAll(sortAnime(Anime.fromJSONArray(results), studios, ratings, animeIDs, size));
+                    }
                 } catch (JSONException e) {
                     Timber.e("Hit JSON Exception " + e);
                 }
@@ -224,20 +234,38 @@ public class RecommendationManager {
         });
     }
 
-    private List<Anime> sortAnime(List<Anime> animeList, List<String> studioIDs, List<String> ratings, List<String> animeIDs, int size) {
+
+
+    private List<Anime> sortAnime(List<Anime> animeList, List<Studio> studios, List<Rating> ratings, List<String> animeIDs, int size) {
 
         List<Anime> likedAnime = new ArrayList<Anime>();
         for (Anime anime : animeList) {
             if (animeIDs.contains(anime.getMalID())) {
                 likedAnime.add(anime);
+            } else {
+                int score = 0;
+
+                // Set Score for rating
+                for (Rating rating : ratings){
+                    if (rating.getRating().equals(anime.getRating())) {
+                        score = 5 * rating.getWeight();
+                    }
+                }
+
+                Timber.i(anime.getTitle() + " Score: " + score);
+                anime.recScore = score;
             }
         }
+
         animeList.removeAll(likedAnime);
+
+        // Sort new list
 
 
 
         return animeList;
     }
+
 
 
 }
