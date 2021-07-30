@@ -24,6 +24,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import okhttp3.Headers;
@@ -39,7 +40,6 @@ public class RecommendationManager {
     public RecommendationManager(Context context, RecommendationAdapter adapter) {
         this.context = context;
         this.adapter = adapter;
-
     }
 
     public void getGenres() {
@@ -59,7 +59,7 @@ public class RecommendationManager {
                 if (e != null) {
                     if(e.getCode() == ParseException.OBJECT_NOT_FOUND) {
                         //objects don't exist
-                        getRecommendations(null, objects.size());
+                        getStudios(null, objects.size());
                     } else {
                         //unknown error, debug
                     }
@@ -71,15 +71,124 @@ public class RecommendationManager {
 
                     String genres = String.join(",", genreIDs);
 
-                    Timber.i(String.valueOf(objects.size()));
-                    getRecommendations(genres, objects.size());
+                    Timber.i("Genres: " + genres);
+
+                    getStudios(genres, objects.size());
 
                 }
             }
         });
     }
 
-    private void getRecommendations(@Nullable String genres, int size) {
+    private void getStudios(String genres, int size) {
+        ParseUser currentUser = ParseUser.getCurrentUser();
+
+        ParseQuery<Studio> query = ParseQuery.getQuery(Studio.class);
+        query.include(Studio.KEY_USER);
+        query.include(Studio.KEY_STUDIO_ID);
+        query.include(Studio.KEY_WEIGHT);
+        query.whereEqualTo("user", currentUser);
+        query.orderByDescending(Studio.KEY_WEIGHT);
+        query.findInBackground(new FindCallback<Studio>() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void done(List<Studio> objects, ParseException e) {
+                if (e != null) {
+                    if(e.getCode() == ParseException.OBJECT_NOT_FOUND) {
+                        //objects don't exist
+                        getRatings(genres, null, size);
+                    } else {
+                        //unknown error, debug
+                        Timber.e("Unknown Error: " + e);
+                    }
+                } else {
+                    List<String> studioIDs = new ArrayList<>();
+                    for (Studio studio : objects) {
+                        studioIDs.add(studio.getStudioID());
+                    }
+
+                    Timber.i("Studio IDs: " + String.valueOf(studioIDs));
+
+                    getRatings(genres, studioIDs, size);
+
+                }
+            }
+        });
+    }
+
+    private void getRatings(String genres, List<String> studioIDs, int size) {
+        ParseUser currentUser = ParseUser.getCurrentUser();
+
+        ParseQuery<Rating> query = ParseQuery.getQuery(Rating.class);
+        query.include(Rating.KEY_USER);
+        query.include(Rating.KEY_RATING);
+        query.include(Rating.KEY_WEIGHT);
+        query.whereEqualTo("user", currentUser);
+        query.orderByDescending(Rating.KEY_WEIGHT);
+        query.findInBackground(new FindCallback<Rating>() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void done(List<Rating> objects, ParseException e) {
+                if (e != null) {
+                    if(e.getCode() == ParseException.OBJECT_NOT_FOUND) {
+                        //objects don't exist
+                        getLiked(genres, studioIDs, null, size);
+                    } else {
+                        //unknown error, debug
+                        Timber.e("Unknown Error: " + e);
+                    }
+                } else {
+                    List<String> ratings = new ArrayList<>();
+                    for (Rating rating : objects) {
+                        ratings.add(rating.getRating());
+                    }
+
+                    getLiked(genres, studioIDs, ratings, size);
+
+                    Timber.i("Ratings: " + String.valueOf(ratings));
+
+                }
+            }
+        });
+
+    }
+
+    private void getLiked(String genres, List<String> studioIDs, List<String> ratings, int size) {
+        ParseUser currentUser = ParseUser.getCurrentUser();
+
+        ParseQuery<Like> query = ParseQuery.getQuery(Like.class);
+        query.include(Like.KEY_USER);
+        query.include(Like.KEY_ANIME);
+        query.whereEqualTo("user", currentUser);
+        query.findInBackground(new FindCallback<Like>() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void done(List<Like> objects, ParseException e) {
+                if (e != null) {
+                    if(e.getCode() == ParseException.OBJECT_NOT_FOUND) {
+                        //objects don't exist
+                        getRecommendations(genres, studioIDs, ratings, null, size);
+                    } else {
+                        //unknown error, debug
+                        Timber.e("Unknown Error: " + e);
+                    }
+                } else {
+                    List<String> animeIDs = new ArrayList<>();
+                    for (Like like : objects) {
+                        ParseAnime anime = (ParseAnime) like.getAnime();
+                        animeIDs.add(anime.getMalID());
+                    }
+
+                    getRecommendations(genres, studioIDs, ratings, animeIDs, size);
+
+                    Timber.i("Anime IDs: " + String.valueOf(animeIDs));
+
+                }
+            }
+        });
+    }
+
+    private void getRecommendations(@Nullable String genres, List<String> studioIDs, List<String> ratings, List<String> animeIDs, int size) {
         AsyncHttpClient client = new AsyncHttpClient();
         String RECOMMENDATION_URL;
         String resultName;
@@ -102,7 +211,7 @@ public class RecommendationManager {
                     JSONArray results = jsonObject.getJSONArray(resultName);
                     //Update Adapter
                     adapter.clear();
-                    adapter.addAll(sortAnime(Anime.fromJSONArray(results)));
+                    adapter.addAll(sortAnime(Anime.fromJSONArray(results), studioIDs, ratings, animeIDs, size));
                 } catch (JSONException e) {
                     Timber.e("Hit JSON Exception " + e);
                 }
@@ -115,111 +224,17 @@ public class RecommendationManager {
         });
     }
 
-    private void getLiked(ParseAnime anime) {
-        ParseUser currentUser = ParseUser.getCurrentUser();
+    private List<Anime> sortAnime(List<Anime> animeList, List<String> studioIDs, List<String> ratings, List<String> animeIDs, int size) {
 
-        ParseQuery<Like> query = ParseQuery.getQuery(Like.class);
-        query.include(Like.KEY_USER);
-        query.include(Like.KEY_ANIME);
-        query.whereEqualTo("user", currentUser);
-        query.whereEqualTo("anime", anime);
-        query.findInBackground(new FindCallback<Like>() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
-            @Override
-            public void done(List<Like> objects, ParseException e) {
-                if (e != null) {
-                    if(e.getCode() == ParseException.OBJECT_NOT_FOUND) {
-                        //objects don't exist
-                        return;
-                    } else {
-                        //unknown error, debug
-                        Timber.e("Unknown Error: " + e);
-                    }
-                } else {
-                    List<String> animeIDs = new ArrayList<>();
-                    for (Like like : objects) {
-                        ParseAnime anime = (ParseAnime) like.getAnime();
-                        animeIDs.add(anime.getMalID());
-                    }
-
-                    Timber.i(String.valueOf(animeIDs));
-
-                }
+        List<Anime> likedAnime = new ArrayList<Anime>();
+        for (Anime anime : animeList) {
+            if (animeIDs.contains(anime.getMalID())) {
+                likedAnime.add(anime);
             }
-        });
-    }
-
-    private void getStudios() {
-        ParseUser currentUser = ParseUser.getCurrentUser();
-
-        ParseQuery<Studio> query = ParseQuery.getQuery(Studio.class);
-        query.include(Studio.KEY_USER);
-        query.include(Studio.KEY_STUDIO_ID);
-        query.include(Studio.KEY_WEIGHT);
-        query.whereEqualTo("user", currentUser);
-        query.orderByDescending(Studio.KEY_WEIGHT);
-        query.findInBackground(new FindCallback<Studio>() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
-            @Override
-            public void done(List<Studio> objects, ParseException e) {
-                if (e != null) {
-                    if(e.getCode() == ParseException.OBJECT_NOT_FOUND) {
-                        //objects don't exist
-                        return;
-                    } else {
-                        //unknown error, debug
-                        Timber.e("Unknown Error: " + e);
-                    }
-                } else {
-                    List<String> studioIDs = new ArrayList<>();
-                    for (Studio studio : objects) {
-                        studioIDs.add(studio.getStudioID());
-                    }
-
-                    Timber.i(String.valueOf(studioIDs));
-
-                }
-            }
-        });
-    }
-
-    private void getRatings() {
-        ParseUser currentUser = ParseUser.getCurrentUser();
-
-        ParseQuery<Rating> query = ParseQuery.getQuery(Rating.class);
-        query.include(Rating.KEY_USER);
-        query.include(Rating.KEY_RATING);
-        query.include(Rating.KEY_WEIGHT);
-        query.whereEqualTo("user", currentUser);
-        query.orderByDescending(Rating.KEY_WEIGHT);
-        query.findInBackground(new FindCallback<Rating>() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
-            @Override
-            public void done(List<Rating> objects, ParseException e) {
-                if (e != null) {
-                    if(e.getCode() == ParseException.OBJECT_NOT_FOUND) {
-                        //objects don't exist
-                        return;
-                    } else {
-                        //unknown error, debug
-                        Timber.e("Unknown Error: " + e);
-                    }
-                } else {
-                    List<String> ratings = new ArrayList<>();
-                    for (Rating rating : objects) {
-                        ratings.add(rating.getRating());
-                    }
-
-                    Timber.i(String.valueOf(ratings));
-
-                }
-            }
-        });
-
-    }
+        }
+        animeList.removeAll(likedAnime);
 
 
-    private List<Anime> sortAnime(List<Anime> animeList) {
 
         return animeList;
     }
