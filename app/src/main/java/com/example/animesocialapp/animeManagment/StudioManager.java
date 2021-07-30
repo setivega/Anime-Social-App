@@ -18,14 +18,14 @@ import timber.log.Timber;
 public class StudioManager {
 
     public static final String TAG = "StudioManager";
-    private static ParseUser currentUser;
-    private static Context context;
+    private ParseUser currentUser;
+    private Context context;
 
     public StudioManager(Context context) {
         this.context = context;
     }
 
-    public static void checkStudio(@Nullable String studioID, @Nullable String name, AnimeDetailActivity.LikeState state) {
+    public void checkStudio(@Nullable String studioID, @Nullable String name, AnimeDetailActivity.LikeState state) {
         currentUser = ParseUser.getCurrentUser();
         // Check Parse to see if the anime in the review exists as an object
         ParseQuery<Studio> query = ParseQuery.getQuery(Studio.class);
@@ -52,7 +52,7 @@ public class StudioManager {
         });
     }
 
-    public static void saveStudio(@Nonnull String studioID, @Nonnull String name) {
+    private void saveStudio(@Nonnull String studioID, @Nonnull String name) {
         ParseUser currentUser = ParseUser.getCurrentUser();
         Studio studio = new Studio();
         studio.setStudioID(studioID);
@@ -71,7 +71,7 @@ public class StudioManager {
         });
     }
 
-    public static void updateStudio(@Nonnull Studio studio, AnimeDetailActivity.LikeState state) {
+    private void updateStudio(@Nonnull Studio studio, AnimeDetailActivity.LikeState state) {
         Integer weight = studio.getWeight();
         int newWeight;
         if (state == AnimeDetailActivity.LikeState.LIKED){

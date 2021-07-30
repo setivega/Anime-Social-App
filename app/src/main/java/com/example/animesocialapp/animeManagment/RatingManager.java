@@ -18,14 +18,14 @@ import timber.log.Timber;
 public class RatingManager {
 
     public static final String TAG = "RatingManager";
-    private static ParseUser currentUser;
-    private static Context context;
+    private ParseUser currentUser;
+    private Context context;
 
     public RatingManager(Context context) {
         this.context = context;
     }
 
-    public static void checkRating(@Nullable String ratingName, AnimeDetailActivity.LikeState state) {
+    public void checkRating(@Nullable String ratingName, AnimeDetailActivity.LikeState state) {
         currentUser = ParseUser.getCurrentUser();
         // Check Parse to see if the anime in the review exists as an object
         ParseQuery<Rating> query = ParseQuery.getQuery(Rating.class);
@@ -52,7 +52,7 @@ public class RatingManager {
         });
     }
 
-    public static void saveRating(@Nonnull String ratingName) {
+    private void saveRating(@Nonnull String ratingName) {
         ParseUser currentUser = ParseUser.getCurrentUser();
         Rating rating = new Rating();
         rating.setRating(ratingName);
@@ -70,7 +70,7 @@ public class RatingManager {
         });
     }
 
-    public static void updateRating(@Nonnull Rating rating, AnimeDetailActivity.LikeState state) {
+    private void updateRating(@Nonnull Rating rating, AnimeDetailActivity.LikeState state) {
         Integer weight = rating.getWeight();
         int newWeight;
         if (state == AnimeDetailActivity.LikeState.LIKED){

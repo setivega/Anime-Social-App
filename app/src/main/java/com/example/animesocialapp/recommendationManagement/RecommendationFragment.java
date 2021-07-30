@@ -43,10 +43,9 @@ import timber.log.Timber;
 public class RecommendationFragment extends Fragment {
 
     public static final String TAG = "RecommendationFragment";
-    public static final String REST_URL = "https://api.jikan.moe/v3/search/anime?q=&page=1&genre=";
-    public static final String PARAMS = "&order_by=members&sort=desc";
     private RecyclerView rvAnimes;
     private RecommendationAdapter recommendationAdapter;
+    private RecommendationManager recommendationManager;
 
     public RecommendationFragment() {
         // Required empty public constructor
@@ -70,6 +69,9 @@ public class RecommendationFragment extends Fragment {
         // Create an adapter
         recommendationAdapter = new RecommendationAdapter(view.getContext());
 
+        // Setup Manager
+        recommendationManager = new RecommendationManager(getContext(), recommendationAdapter);
+
         // Set adapter on the recycler view
         rvAnimes.setAdapter(recommendationAdapter);
 
@@ -78,81 +80,9 @@ public class RecommendationFragment extends Fragment {
         rvAnimes.setLayoutManager(gridLayoutManager);
         rvAnimes.addItemDecoration(new GridSpacingItemDecoration(4, getResources().getDimensionPixelSize(R.dimen.item_offset), true));
 
-        getGenres();
+        recommendationManager.getGenres();
 
     }
 
-    private void getGenres() {
-        ParseUser currentUser = ParseUser.getCurrentUser();
-        // Check Parse to see if the anime in the review exists as an object
-        ParseQuery<Genre> query = ParseQuery.getQuery(Genre.class);
-        query.include(Genre.KEY_USER);
-        query.include(Genre.KEY_GENRE_ID);
-        query.include(Genre.KEY_WEIGHT);
-        query.whereEqualTo("user", currentUser);
-        query.orderByDescending(Genre.KEY_WEIGHT);
-        query.setLimit(2);
-        query.findInBackground(new FindCallback<Genre>() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
-            @Override
-            public void done(List<Genre> objects, ParseException e) {
-                if (e != null) {
-                    if(e.getCode() == ParseException.OBJECT_NOT_FOUND) {
-                        //objects don't exist
-                        getRecommendations(null, objects.size());
-                    } else {
-                        //unknown error, debug
-                    }
-                } else {
-                    List<String> genreIDs = new ArrayList<>();
-                    for (Genre genre : objects) {
-                        genreIDs.add(genre.getGenreID());
-                    }
 
-                    String genres = String.join(",", genreIDs);
-
-                    Timber.i(String.valueOf(objects.size()));
-                    getRecommendations(genres, objects.size());
-
-                }
-            }
-        });
-    }
-
-    private void getRecommendations(@Nullable String genres, int size) {
-        AsyncHttpClient client = new AsyncHttpClient();
-        String RECOMMENDATION_URL;
-        String resultName;
-
-        // Checking if there are any genres weighted for the user
-        if (size < 2) {
-            RECOMMENDATION_URL = "https://api.jikan.moe/v3/top/anime";
-            resultName = "top";
-        } else {
-            RECOMMENDATION_URL = REST_URL + genres + PARAMS;
-            resultName = "results";
-        }
-
-        client.get(RECOMMENDATION_URL, new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int i, Headers headers, JSON json) {
-                Timber.d("onSuccess");
-                JSONObject jsonObject = json.jsonObject;
-                try {
-                    JSONArray results = jsonObject.getJSONArray(resultName);
-//                    Timber.i("Results: " + results.toString());
-                    //Update Adapter
-                    recommendationAdapter.clear();
-                    recommendationAdapter.addAll(Anime.fromJSONArray(results));
-                } catch (JSONException e) {
-                    Timber.e("Hit JSON Exception " + e);
-                }
-            }
-
-            @Override
-            public void onFailure(int i, Headers headers, String s, Throwable throwable) {
-                Timber.d("Something wrong with the query");
-            }
-        });
-    }
 }

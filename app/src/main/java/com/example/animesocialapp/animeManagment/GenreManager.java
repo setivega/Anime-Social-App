@@ -15,14 +15,14 @@ import timber.log.Timber;
 public class GenreManager {
 
     public static final String TAG = "GenreManager";
-    private static ParseUser currentUser;
-    private static Context context;
+    private ParseUser currentUser;
+    private Context context;
 
     public GenreManager(Context context) {
         this.context = context;
     }
 
-    public static void checkGenre(String genreID, String name, AnimeDetailActivity.LikeState state) {
+    public void checkGenre(String genreID, String name, AnimeDetailActivity.LikeState state) {
         currentUser = ParseUser.getCurrentUser();
         // Check Parse to see if the anime in the review exists as an object
         ParseQuery<Genre> query = ParseQuery.getQuery(Genre.class);
@@ -49,7 +49,7 @@ public class GenreManager {
         });
     }
 
-    public static void saveGenre(String genreID, String name) {
+    private void saveGenre(String genreID, String name) {
         ParseUser currentUser = ParseUser.getCurrentUser();
         Genre genre = new Genre();
         genre.setGenreID(genreID);
@@ -70,7 +70,7 @@ public class GenreManager {
 
     }
 
-    public static void updateGenre(Genre genre, AnimeDetailActivity.LikeState state) {
+    private void updateGenre(Genre genre, AnimeDetailActivity.LikeState state) {
         Integer weight = genre.getWeight();
         int newWeight;
         if (state == AnimeDetailActivity.LikeState.LIKED){

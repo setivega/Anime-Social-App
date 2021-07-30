@@ -51,7 +51,13 @@
     <string name="save_review">Saved Review</string>
     <string name="save_list">Saved List</string>
     <string name="save_genre">Saved Genre</string>
+    <string name="update_genre">Updated Genre</string>
+    <string name="save_studio">Saved Studio</string>
+    <string name="update_studio">Studio Updated</string>
+    <string name="save_rating">Saved Rating</string>
+    <string name="update_rating">Updated Rating</string>
     <string name="unknown_error">Unknown Error</string>
+
     <string name="username_password_empty">Username and Password cannot be empty</string>
     <string name="username_password_incorrect">Username or Password is incorrect</string>
     <string name="username_empty">Username cannot be empty</string>
@@ -78,11 +84,7 @@
     <string name="post_review_title">Post Review</string>
     <string name="add_anime_title">Add Anime</string>
     <string name="create_list_title">Create List</string>
-    <string name="save_studio">Saved Studio</string>
-    <string name="update_genre">Updated Genre</string>
-    <string name="update_studio">Studio Updated</string>
-    <string name="save_rating">Rating Saved</string>
-    <string name="update_rating">Updated Rating</string>
+
 
 
 </resources>
