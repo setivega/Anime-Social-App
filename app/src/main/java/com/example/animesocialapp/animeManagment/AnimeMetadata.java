@@ -22,6 +22,7 @@ public class AnimeMetadata {
     public String popularity;
     public List<Genre> genres;
     public List<Studio> studios;
+    public YearRange yearRange;
     public Rating rating;
     public String description;
     public Boolean added;
@@ -36,6 +37,7 @@ public class AnimeMetadata {
         popularity = String.valueOf(jsonObject.getInt("popularity"));
         genres = Genre.fromJSONArray(jsonObject.getJSONArray("genres"));
         studios = Studio.fromJSONArray(jsonObject.getJSONArray("studios"));
+        yearRange = new YearRange(jsonObject);
         rating = new Rating(jsonObject);
         description = jsonObject.getString("synopsis").replace("[Written by MAL Rewrite]", "");
         score = jsonObject.getDouble("score");
@@ -48,7 +50,12 @@ public class AnimeMetadata {
 
     public String getTitle() { return title; }
 
-    public Double getScore() { return score; }
+    public String getScore() {
+        if (score != null) {
+            return String.valueOf(score);
+        }
+        return "N/A";
+    }
 
     public String getRank() { return rank; }
 
@@ -64,6 +71,8 @@ public class AnimeMetadata {
     }
 
 //    public String getStudio() { return studio; }
+
+    public YearRange getYearRange() { return yearRange; }
 
     public Rating getRating() { return rating; }
 

@@ -67,6 +67,7 @@ public class AnimeDetailActivity extends AppCompatActivity {
     private GenreManager genreManager;
     private StudioManager studioManager;
     private RatingManager ratingManager;
+    private YearRangeManager yearRangeManager;
 
     public static Intent createIntent(Context context, Anime anime, DataSource dataSource){
         Intent intent = new Intent(context, AnimeDetailActivity.class);
@@ -98,6 +99,7 @@ public class AnimeDetailActivity extends AppCompatActivity {
         genreManager = new GenreManager(this);
         studioManager = new StudioManager(this);
         ratingManager = new RatingManager(this);
+        yearRangeManager = new YearRangeManager(this);
 
         getAnimeMetadata(anime.getMalID());
 
@@ -152,8 +154,8 @@ public class AnimeDetailActivity extends AppCompatActivity {
                     //Pass object into anime metadata class
                     animeMetadata = new AnimeMetadata(jsonObject);
                     //Update Activity
-                    Timber.i(String.valueOf(jsonObject.getString("score")));
-                    tvScore.setText(String.valueOf(anime.getScore()));
+//                    Timber.i(String.valueOf(jsonObject.getString("score")));
+                    tvScore.setText(animeMetadata.getScore());
                     tvRank.setText(animeMetadata.getRank());
                     tvPopularity.setText(animeMetadata.getPopularity());
                     tvDescription.setText(animeMetadata.getDescription());
@@ -214,22 +216,19 @@ public class AnimeDetailActivity extends AppCompatActivity {
     }
 
     private void handleWeightedClasses(LikeState likeState) {
-        if (animeMetadata.genres != null) {
-            for (Genre genre : animeMetadata.genres) {
-                genreManager.checkGenre(genre.genreID, genre.name, likeState);
-            }
+        for (Genre genre : animeMetadata.genres) {
+            genreManager.checkGenre(genre.genreID, genre.name, likeState);
         }
 
-        if (animeMetadata.studios != null) {
-            for (Studio studio: animeMetadata.studios) {
-                studioManager.checkStudio(studio.studioID, studio.name, likeState);
-            }
+        for (Studio studio: animeMetadata.studios) {
+            studioManager.checkStudio(studio.studioID, studio.name, likeState);
         }
 
-        if (animeMetadata.rating != null) {
-            Rating rating = animeMetadata.getRating();
-            ratingManager.checkRating(rating.getRatingString(rating.rating), likeState);
-        }
+        YearRange yearRange = animeMetadata.getYearRange();
+        yearRangeManager.checkYearRange(yearRange.getYearRangeString(yearRange.startDate), likeState);
+
+        Rating rating = animeMetadata.getRating();
+        ratingManager.checkRating(rating.getRatingString(rating.rating), likeState);
 
     }
 

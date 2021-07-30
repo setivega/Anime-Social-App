@@ -83,5 +83,48 @@ public class ParseRelativeDate {
 
         return "";
     }
+
+    public static String getYearRange(String rawDate) {
+        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss", Locale.ENGLISH);
+        SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy", Locale.ENGLISH);
+
+        Date date = null;
+        int year;
+
+        try {
+            date = sdf1.parse(rawDate);
+            year = Integer.parseInt(yearFormat.format(date));
+
+            if (year < 1960) {
+                return "Before 1960";
+            } else if (year < 1970){
+                return "1960 - 1970";
+            } else if (year < 1980){
+                return "1970 - 1980";
+            } else if (year < 1990){
+                return "1980 - 1990";
+            } else if (year < 1995){
+                return "1990 - 1995";
+            } else if (year < 2000){
+                return "1995 - 2000";
+            } else if (year < 2005){
+                return "2000 - 2005";
+            } else if (year < 2010){
+                return "2005 - 2010";
+            } else if (year < 2015){
+                return "2010 - 2015";
+            } else if (year < 2020){
+                return "2015 - 2020";
+            } else if (year < 3000){
+                return "Current";
+            }
+
+        } catch (ParseException e) {
+
+        }
+
+
+        return "";
+    }
     
 }

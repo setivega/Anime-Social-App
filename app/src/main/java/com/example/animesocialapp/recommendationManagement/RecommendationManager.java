@@ -15,6 +15,7 @@ import com.example.animesocialapp.animeManagment.Genre;
 import com.example.animesocialapp.animeManagment.ParseAnime;
 import com.example.animesocialapp.animeManagment.Rating;
 import com.example.animesocialapp.animeManagment.Studio;
+import com.example.animesocialapp.animeManagment.YearRange;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -24,6 +25,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.time.Year;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -64,7 +66,7 @@ public class RecommendationManager {
                 if (e != null) {
                     if(e.getCode() == ParseException.OBJECT_NOT_FOUND) {
                         //objects don't exist
-                        getStudios(null, objects.size());
+                        getYearRanges(null, objects.size());
                     } else {
                         //unknown error, debug
                     }
@@ -78,26 +80,26 @@ public class RecommendationManager {
 
                     Timber.i("Genres: " + genres);
 
-                    getStudios(genres, objects.size());
+                    getYearRanges(genres, objects.size());
 
                 }
             }
         });
     }
 
-    private void getStudios(String genres, int size) {
+    private void getYearRanges(String genres, int size) {
         ParseUser currentUser = ParseUser.getCurrentUser();
 
-        ParseQuery<Studio> query = ParseQuery.getQuery(Studio.class);
-        query.include(Studio.KEY_USER);
-        query.include(Studio.KEY_STUDIO_ID);
-        query.include(Studio.KEY_WEIGHT);
+        ParseQuery<YearRange> query = ParseQuery.getQuery(YearRange.class);
+        query.include(YearRange.KEY_USER);
+        query.include(YearRange.KEY_YEAR_RANGE);
+        query.include(YearRange.KEY_WEIGHT);
         query.whereEqualTo("user", currentUser);
-        query.orderByDescending(Studio.KEY_WEIGHT);
-        query.findInBackground(new FindCallback<Studio>() {
+        query.orderByDescending(YearRange.KEY_WEIGHT);
+        query.findInBackground(new FindCallback<YearRange>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
-            public void done(List<Studio> objects, ParseException e) {
+            public void done(List<YearRange> objects, ParseException e) {
                 if (e != null) {
                     if(e.getCode() == ParseException.OBJECT_NOT_FOUND) {
                         //objects don't exist
@@ -107,12 +109,12 @@ public class RecommendationManager {
                         Timber.e("Unknown Error: " + e);
                     }
                 } else {
-                    List<String> studioIDs = new ArrayList<>();
-                    for (Studio studio : objects) {
-                        studioIDs.add(studio.getStudioID());
+                    List<String> yearRanges = new ArrayList<>();
+                    for (YearRange yearRange : objects) {
+                        yearRanges.add(yearRange.getYearRange());
                     }
 
-                    Timber.i("Studio IDs: " + String.valueOf(studioIDs));
+                    Timber.i("Year Ranges: " + String.valueOf(yearRanges));
 
                     getRatings(genres, objects, size);
 
@@ -121,7 +123,7 @@ public class RecommendationManager {
         });
     }
 
-    private void getRatings(String genres, List<Studio> studios, int size) {
+    private void getRatings(String genres, List<YearRange> yearRanges, int size) {
         ParseUser currentUser = ParseUser.getCurrentUser();
 
         ParseQuery<Rating> query = ParseQuery.getQuery(Rating.class);
@@ -137,7 +139,7 @@ public class RecommendationManager {
                 if (e != null) {
                     if(e.getCode() == ParseException.OBJECT_NOT_FOUND) {
                         //objects don't exist
-                        getLiked(genres, studios, null, size);
+                        getLiked(genres, yearRanges, null, size);
                     } else {
                         //unknown error, debug
                         Timber.e("Unknown Error: " + e);
@@ -148,7 +150,7 @@ public class RecommendationManager {
                         ratings.add(rating.getRating());
                     }
 
-                    getLiked(genres, studios, objects, size);
+                    getLiked(genres, yearRanges, objects, size);
 
                     Timber.i("Ratings: " + String.valueOf(ratings));
 
@@ -158,7 +160,7 @@ public class RecommendationManager {
 
     }
 
-    private void getLiked(String genres, List<Studio> studios, List<Rating> ratings, int size) {
+    private void getLiked(String genres, List<YearRange> yearRanges, List<Rating> ratings, int size) {
         ParseUser currentUser = ParseUser.getCurrentUser();
 
         ParseQuery<Like> query = ParseQuery.getQuery(Like.class);
@@ -172,7 +174,7 @@ public class RecommendationManager {
                 if (e != null) {
                     if(e.getCode() == ParseException.OBJECT_NOT_FOUND) {
                         //objects don't exist
-                        getRecommendations(genres, studios, ratings, null, size);
+                        getRecommendations(genres, yearRanges, ratings, null, size);
                     } else {
                         //unknown error, debug
                         Timber.e("Unknown Error: " + e);
@@ -184,7 +186,7 @@ public class RecommendationManager {
                         animeIDs.add(anime.getMalID());
                     }
 
-                    getRecommendations(genres, studios, ratings, animeIDs, size);
+                    getRecommendations(genres, yearRanges, ratings, animeIDs, size);
 
                     Timber.i("Anime IDs: " + String.valueOf(animeIDs));
 
@@ -193,7 +195,7 @@ public class RecommendationManager {
         });
     }
 
-    private void getRecommendations(@Nullable String genres, List<Studio> studios, List<Rating> ratings, List<String> animeIDs, int size) {
+    private void getRecommendations(@Nullable String genres, List<YearRange> yearRanges, List<Rating> ratings, List<String> animeIDs, int size) {
         AsyncHttpClient client = new AsyncHttpClient();
         String RECOMMENDATION_URL;
         String resultName;
@@ -220,7 +222,7 @@ public class RecommendationManager {
                     if (size < 2) {
                         adapter.addAll(Anime.fromJSONArray(results));
                     } else {
-                        adapter.addAll(sortAnime(Anime.fromJSONArray(results), studios, ratings, animeIDs, size));
+                        adapter.addAll(sortAnime(Anime.fromJSONArray(results), yearRanges, ratings, animeIDs, size));
                     }
                 } catch (JSONException e) {
                     Timber.e("Hit JSON Exception " + e);
@@ -236,7 +238,7 @@ public class RecommendationManager {
 
 
 
-    private List<Anime> sortAnime(List<Anime> animeList, List<Studio> studios, List<Rating> ratings, List<String> animeIDs, int size) {
+    private List<Anime> sortAnime(List<Anime> animeList, List<YearRange> yearRanges, List<Rating> ratings, List<String> animeIDs, int size) {
 
         List<Anime> likedAnime = new ArrayList<Anime>();
         for (Anime anime : animeList) {
@@ -249,6 +251,12 @@ public class RecommendationManager {
                 for (Rating rating : ratings){
                     if (rating.getRating().equals(anime.getRating())) {
                         score = 5 * rating.getWeight();
+                    }
+                }
+
+                for (YearRange yearRange : yearRanges) {
+                    if (yearRange.getYearRange().equals(anime.getYearRange())){
+                        score = score + (3 * yearRange.getWeight());
                     }
                 }
 

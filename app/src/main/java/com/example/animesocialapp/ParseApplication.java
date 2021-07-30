@@ -5,6 +5,7 @@ import android.app.Application;
 import com.example.animesocialapp.animeManagment.Genre;
 import com.example.animesocialapp.animeManagment.Rating;
 import com.example.animesocialapp.animeManagment.Studio;
+import com.example.animesocialapp.animeManagment.YearRange;
 import com.example.animesocialapp.recommendationManagement.Like;
 import com.example.animesocialapp.listManagment.AnimeList;
 import com.example.animesocialapp.animeManagment.ParseAnime;
@@ -28,6 +29,7 @@ public class ParseApplication extends Application {
         ParseObject.registerSubclass(Genre.class);
         ParseObject.registerSubclass(Studio.class);
         ParseObject.registerSubclass(Rating.class);
+        ParseObject.registerSubclass(YearRange.class);
 
         Parse.initialize(new Parse.Configuration.Builder(this)
                 .applicationId("7Kty7dcVkeNbMd6Fwt8k96egw9JhNYGiPECqzUZn")

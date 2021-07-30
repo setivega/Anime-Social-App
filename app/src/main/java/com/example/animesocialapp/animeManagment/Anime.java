@@ -28,6 +28,7 @@ public class Anime {
     public Double score;
     public String startDate;
     public String rating;
+    public String yearRange;
     public Boolean added;
     public Integer recScore;
 
@@ -63,6 +64,8 @@ public class Anime {
     public String getSeason() { return ParseRelativeDate.getRelativeSeasonYear(startDate); }
 
     public String getRating() { return rating; }
+
+    public String getYearRange() { return ParseRelativeDate.getYearRange(startDate); }
 
     public Boolean getState() { return added; }
 
