@@ -216,13 +216,13 @@ public class RecommendationManager {
                 JSONObject jsonObject = json.jsonObject;
                 try {
                     JSONArray results = jsonObject.getJSONArray(resultName);
-                    Timber.i(String.valueOf(results));
+//                    Timber.i(String.valueOf(results));
                     //Update Adapter
                     adapter.clear();
                     if (size < 2) {
                         adapter.addAll(Anime.fromJSONArray(results));
                     } else {
-                        adapter.addAll(sortAnime(Anime.fromJSONArray(results), yearRanges, ratings, animeIDs, size));
+                        adapter.addAll(sortAnime(Anime.fromJSONArray(results), yearRanges, ratings, animeIDs));
                     }
                 } catch (JSONException e) {
                     Timber.e("Hit JSON Exception " + e);
@@ -232,13 +232,14 @@ public class RecommendationManager {
             @Override
             public void onFailure(int i, Headers headers, String s, Throwable throwable) {
                 Timber.d("Something wrong with the query");
+                Timber.d(throwable.getLocalizedMessage());
             }
         });
     }
 
 
 
-    private List<Anime> sortAnime(List<Anime> animeList, List<YearRange> yearRanges, List<Rating> ratings, List<String> animeIDs, int size) {
+    private List<Anime> sortAnime(List<Anime> animeList, List<YearRange> yearRanges, List<Rating> ratings, List<String> animeIDs) {
 
         List<Anime> likedAnime = new ArrayList<Anime>();
         for (Anime anime : animeList) {
@@ -260,19 +261,33 @@ public class RecommendationManager {
                     }
                 }
 
-                Timber.i(anime.getTitle() + " Score: " + score);
                 anime.recScore = score;
             }
         }
 
+        // Remove liked anime from recommendations
         animeList.removeAll(likedAnime);
 
         // Sort new list
+        int listSize = animeList.size();
+        QuickSort animeSort = new QuickSort(animeList, listSize);
 
+        animeSort.quickSort(0, listSize-1);
 
+        List<String> animeTitles = new ArrayList<>();
+        List<Integer> animeScores = new ArrayList<>();
+
+        for (Anime anime : animeList) {
+            animeTitles.add(anime.getTitle());
+            animeScores.add(anime.getRecScore());
+        }
+        Timber.i("Sorted Titles: " + String.valueOf(animeTitles));
+        Timber.i("Sorted Scores: " + String.valueOf(animeScores));
 
         return animeList;
     }
+
+
 
 
 

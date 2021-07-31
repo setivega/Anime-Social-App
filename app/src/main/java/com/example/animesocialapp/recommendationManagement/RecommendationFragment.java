@@ -84,5 +84,11 @@ public class RecommendationFragment extends Fragment {
 
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Setup Manager
 
+        recommendationManager.getGenres();
+    }
 }
