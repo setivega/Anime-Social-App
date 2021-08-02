@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,6 +15,8 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.example.animesocialapp.ParseRelativeDate;
 import com.example.animesocialapp.R;
+import com.example.animesocialapp.animeManagment.Anime;
+import com.example.animesocialapp.animeManagment.AnimeDetailActivity;
 import com.example.animesocialapp.animeManagment.ParseAnime;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
@@ -33,6 +36,7 @@ public class ReviewDetailActivity extends AppCompatActivity {
     private TextView tvCreatedAt;
     private TextView tvReview;
     private Review review;
+    private ParseAnime parseAnime;
 
     public static Intent createIntent(Context context, Review review){
         Intent intent = new Intent(context, ReviewDetailActivity.class);
@@ -56,19 +60,19 @@ public class ReviewDetailActivity extends AppCompatActivity {
 
         review = (Review) Parcels.unwrap(getIntent().getParcelableExtra(Review.class.getSimpleName()));
 
-        ParseAnime anime = (ParseAnime) review.getAnime();
+        parseAnime = (ParseAnime) review.getAnime();
         ParseUser user = review.getUser();
 
-        tvTitle.setText(anime.getTitle());
-        tvSeason.setText(anime.getSeason());
+        tvTitle.setText(parseAnime.getTitle());
+        tvSeason.setText(parseAnime.getSeason());
         tvUsername.setText(user.getUsername());
         tvCreatedAt.setText(ParseRelativeDate.getRelativeTimeAgo(review.getCreatedAt().toString()));
         tvReview.setText(review.getDescription());
 
-        Glide.with(this).load(anime.getPosterPath())
+        Glide.with(this).load(parseAnime.getPosterPath())
                 .into(ivBackground);
 
-        Glide.with(this).load(anime.getPosterPath())
+        Glide.with(this).load(parseAnime.getPosterPath())
                 .transform(new CenterCrop(), new RoundedCorners(8))
                 .into(ivPoster);
 
@@ -76,6 +80,15 @@ public class ReviewDetailActivity extends AppCompatActivity {
         Glide.with(this).load(profileImage.getUrl())
                 .transform(new CircleCrop())
                 .into(ivProfileImage);
+
+
+        ivPoster.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Anime anime = new Anime(parseAnime);
+                startActivity(AnimeDetailActivity.createIntent(ReviewDetailActivity.this, anime));
+            }
+        });
 
     }
 }

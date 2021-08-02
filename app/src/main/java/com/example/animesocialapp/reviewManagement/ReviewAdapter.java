@@ -126,6 +126,8 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
 
         }
 
+
+
         @Override
         public void onClick(View v) {
             int position = getAdapterPosition();

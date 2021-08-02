@@ -17,6 +17,7 @@ import com.example.animesocialapp.R;
 import com.example.animesocialapp.animeManagment.Anime;
 import com.example.animesocialapp.animeManagment.AnimeDetailActivity;
 import com.example.animesocialapp.animeManagment.ParseAnime;
+import com.example.animesocialapp.reviewManagement.ReviewDetailActivity;
 import com.parse.ParseFile;
 
 import org.parceler.Parcels;
@@ -89,7 +90,9 @@ public class ListDetailAdapter extends RecyclerView.Adapter<ListDetailAdapter.Vi
             int position = getAdapterPosition();
             // validating position
             if (position != RecyclerView.NO_POSITION) {
-
+                ParseAnime parseAnime = animeList.get(position);
+                Anime anime = new Anime(parseAnime);
+                context.startActivity(AnimeDetailActivity.createIntent(context, anime));
             }
         }
     }

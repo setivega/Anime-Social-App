@@ -172,7 +172,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
                 if (postType == PostType.REVIEW) {
                     context.startActivity(PostReviewActivity.createIntent(context, anime));
                 } else {
-                    context.startActivity(AnimeDetailActivity.createIntent(context, anime, AnimeDetailActivity.DataSource.JSON));
+                    context.startActivity(AnimeDetailActivity.createIntent(context, anime));
                 }
             }
         }

@@ -31,6 +31,7 @@ public class Anime {
     public String yearRange;
     public Boolean added;
     public Integer recScore;
+    public String season;
 
     public Anime() {}
 
@@ -43,6 +44,14 @@ public class Anime {
         if (jsonObject.has("rated")){
             rating = jsonObject.getString("rated");
         }
+        season = ParseRelativeDate.getRelativeSeasonYear(startDate);
+    }
+
+    public Anime(ParseAnime parseAnime) {
+        malID = parseAnime.getMalID();
+        posterPath = parseAnime.getPosterPath();
+        title = parseAnime.getTitle();
+        season = parseAnime.getSeason();
     }
 
     public static List<Anime> fromJSONArray(JSONArray animeJsonArray) throws JSONException {
@@ -61,7 +70,7 @@ public class Anime {
 
     public Double getScore() { return score; }
 
-    public String getSeason() { return ParseRelativeDate.getRelativeSeasonYear(startDate); }
+    public String getSeason() { return season; }
 
     public String getRating() { return rating; }
 

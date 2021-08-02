@@ -89,7 +89,7 @@ public class RecommendationAdapter extends RecyclerView.Adapter<RecommendationAd
             if (position != RecyclerView.NO_POSITION) {
                 // Getting movie at position
                 Anime anime = animeList.get(position);
-                context.startActivity(AnimeDetailActivity.createIntent(context, anime, AnimeDetailActivity.DataSource.JSON));
+                context.startActivity(AnimeDetailActivity.createIntent(context, anime));
             }
         }
     }

@@ -40,11 +40,6 @@ public class AnimeDetailActivity extends AppCompatActivity {
         UNLIKED,
     }
 
-    public enum DataSource {
-        JSON,
-        PARSE
-    }
-
     public static final String TAG = "AnimeDetailActivity";
     public static final String REST_URL = "https://api.jikan.moe/v3/anime/";
     private ImageView ivBackground;
@@ -55,23 +50,19 @@ public class AnimeDetailActivity extends AppCompatActivity {
     private TextView tvRank;
     private TextView tvPopularity;
     private TextView tvGenre;
-    private TextView tvStudio;
-    private TextView tvRating;
     private TextView tvDescription;
     private ImageButton btnLike;
     private Anime anime;
     private ParseAnime parseAnime;
     private ParseUser currentUser;
     private AnimeMetadata animeMetadata;
-    private DataSource dataSource;
     private GenreManager genreManager;
     private StudioManager studioManager;
     private RatingManager ratingManager;
     private YearRangeManager yearRangeManager;
 
-    public static Intent createIntent(Context context, Anime anime, DataSource dataSource){
+    public static Intent createIntent(Context context, Anime anime){
         Intent intent = new Intent(context, AnimeDetailActivity.class);
-        intent.putExtra("DataSource", dataSource);
         intent.putExtra(Anime.class.getSimpleName(), Parcels.wrap(anime));
         return intent;
     }
@@ -94,7 +85,6 @@ public class AnimeDetailActivity extends AppCompatActivity {
 
         anime = (Anime) Parcels.unwrap(getIntent().getParcelableExtra(Anime.class.getSimpleName()));
 
-        dataSource = (DataSource) getIntent().getSerializableExtra("DataSource");
 
         genreManager = new GenreManager(this);
         studioManager = new StudioManager(this);
@@ -105,7 +95,15 @@ public class AnimeDetailActivity extends AppCompatActivity {
 
         getAnime(false);
 
-        setupData(dataSource);
+        tvTitle.setText(anime.getTitle());
+        tvSeason.setText(anime.getSeason());
+
+        Glide.with(this).load(anime.getPosterPath())
+                .into(ivBackground);
+
+        Glide.with(this).load(anime.getPosterPath())
+                .transform(new CenterCrop(), new RoundedCorners(8))
+                .into(ivPoster);
 
         btnLike.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,30 +113,6 @@ public class AnimeDetailActivity extends AppCompatActivity {
         });
 
 
-    }
-
-    private void setupData(DataSource dataSource) {
-        if (dataSource == DataSource.JSON) {
-            tvTitle.setText(anime.getTitle());
-            tvSeason.setText(anime.getSeason());
-
-            Glide.with(this).load(anime.getPosterPath())
-                    .into(ivBackground);
-
-            Glide.with(this).load(anime.getPosterPath())
-                    .transform(new CenterCrop(), new RoundedCorners(8))
-                    .into(ivPoster);
-        } else {
-            tvTitle.setText(parseAnime.getTitle());
-            tvSeason.setText(parseAnime.getSeason());
-
-            Glide.with(this).load(parseAnime.getPosterPath())
-                    .into(ivBackground);
-
-            Glide.with(this).load(parseAnime.getPosterPath())
-                    .transform(new CenterCrop(), new RoundedCorners(8))
-                    .into(ivPoster);
-        }
     }
 
     private void getAnimeMetadata(String malID) {
