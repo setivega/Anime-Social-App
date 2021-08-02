@@ -12,6 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.animesocialapp.R;
+import com.example.animesocialapp.animeManagment.Anime;
+import com.example.animesocialapp.animeManagment.AnimeDetailActivity;
+import com.example.animesocialapp.animeManagment.ParseAnime;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -46,8 +49,19 @@ public class ReviewsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         rvReviews = view.findViewById(R.id.rvReviews);
 
+        ReviewAdapter.OnLongClickListener longClickListener = new ReviewAdapter.OnLongClickListener() {
+            @Override
+            public void onPosterPressed(int position) {
+                final Review review = reviewAdapter.getReview(position);
+                ParseAnime parseAnime = (ParseAnime) review.getAnime();
+
+                Anime anime = new Anime(parseAnime);
+                startActivity(AnimeDetailActivity.createIntent(getContext(), anime));
+            }
+        };
+
         // Create an adapter
-        reviewAdapter = new ReviewAdapter(view.getContext());
+        reviewAdapter = new ReviewAdapter(view.getContext(), longClickListener);
 
         // Set adapter on the recycler view
         rvReviews.setAdapter(reviewAdapter);

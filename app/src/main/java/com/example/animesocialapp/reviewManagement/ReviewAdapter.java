@@ -2,6 +2,7 @@ package com.example.animesocialapp.reviewManagement;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +18,10 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.example.animesocialapp.ParseRelativeDate;
 import com.example.animesocialapp.R;
+import com.example.animesocialapp.animeManagment.Anime;
+import com.example.animesocialapp.animeManagment.AnimeDetailActivity;
 import com.example.animesocialapp.animeManagment.ParseAnime;
+import com.example.animesocialapp.animeManagment.SearchAdapter;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
 
@@ -27,14 +31,20 @@ import java.util.List;
 
 public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder>{
 
+    public interface OnLongClickListener {
+        void onPosterPressed(int position);
+    }
+
 
     public static final String TAG = "ReviewAdapter";
     public static final String PROFILE_IMAGE = "profileImage";
     private Context context;
+    private OnLongClickListener longClickListener;
     private List<Review> reviews;
 
-    public ReviewAdapter(Context context) {
+    public ReviewAdapter(Context context, OnLongClickListener longClickListener) {
         this.context = context;
+        this.longClickListener = longClickListener;
         reviews = new ArrayList<>();
     }
 
@@ -67,6 +77,10 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
     public void addAll(List<Review> list){
         reviews.addAll(list);
         notifyDataSetChanged();
+    }
+
+    public Review getReview(int position){
+        return reviews.get(position);
     }
 
     public void clear() {
@@ -102,20 +116,20 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
         }
 
         public void bind(Review review) {
-            ParseAnime anime = (ParseAnime) review.getAnime();
+            ParseAnime parseAnime = (ParseAnime) review.getAnime();
             ParseUser user = review.getUser();
 
-            tvTitle.setText(anime.getTitle());
-            tvSeason.setText(anime.getSeason());
+            tvTitle.setText(parseAnime.getTitle());
+            tvSeason.setText(parseAnime.getSeason());
             tvUsername.setText(user.getUsername());
             tvCreatedAt.setText(ParseRelativeDate.getRelativeTimeAgo(review.getCreatedAt().toString()));
             tvReview.setText(review.getDescription());
 
-            Glide.with(context).load(anime.getPosterPath())
+            Glide.with(context).load(parseAnime.getPosterPath())
                     .transform(new CenterCrop(), new RoundedCorners( 29))
                     .into(ivBackground);
 
-            Glide.with(context).load(anime.getPosterPath())
+            Glide.with(context).load(parseAnime.getPosterPath())
                     .transform(new CenterCrop(), new RoundedCorners(8))
                     .into(ivPoster);
 
@@ -124,8 +138,19 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
                     .transform(new CircleCrop())
                     .into(ivProfileImage);
 
-        }
+            ivPoster.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    int position = getAdapterPosition();
+                    // validating position
+                    if (position != RecyclerView.NO_POSITION) {
+                        longClickListener.onPosterPressed(position);
+                    }
+                    return false;
+                }
+            });
 
+        }
 
 
         @Override

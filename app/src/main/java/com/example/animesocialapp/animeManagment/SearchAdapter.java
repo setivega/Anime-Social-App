@@ -150,7 +150,11 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
                 btnListAnime.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        clickListener.onButtonClicked(getAdapterPosition(), btnListAnime.getBackground(), btnTag, display);
+                        int position = getAdapterPosition();
+                        // validating position
+                        if (position != RecyclerView.NO_POSITION) {
+                            clickListener.onButtonClicked(getAdapterPosition(), btnListAnime.getBackground(), btnTag, display);
+                        }
                     }
                 });
             }

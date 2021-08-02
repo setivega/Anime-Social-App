@@ -13,6 +13,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.example.animesocialapp.R;
+import com.example.animesocialapp.animeManagment.Anime;
+import com.example.animesocialapp.animeManagment.AnimeDetailActivity;
 import com.example.animesocialapp.animeManagment.ParseAnime;
 
 import java.util.ArrayList;
@@ -30,11 +32,11 @@ public class ListPreviewAdapter extends RecyclerView.Adapter<ListPreviewAdapter.
     public static final String TAG = "ListPreviewAdapter";
     private Context context;
     private OnClickListener clickListener;
-    private List<ParseAnime> animes;
+    private List<ParseAnime> animeList;
 
     public ListPreviewAdapter(Context context) {
         this.context = context;
-        animes = new ArrayList<>();
+        animeList = new ArrayList<>();
     }
 
     @NonNull
@@ -47,7 +49,7 @@ public class ListPreviewAdapter extends RecyclerView.Adapter<ListPreviewAdapter.
     @Override
     public void onBindViewHolder(@NonNull ListPreviewAdapter.ViewHolder holder, int position) {
         // Get the post at the position
-        ParseAnime anime = animes.get(position);
+        ParseAnime anime = animeList.get(position);
         // Check if recycler view is displaying added items
         // Bind the post data into the View Holder
         holder.bind(anime);
@@ -55,28 +57,28 @@ public class ListPreviewAdapter extends RecyclerView.Adapter<ListPreviewAdapter.
 
     @Override
     public int getItemCount() {
-        Timber.i("Size: " + animes.size());
-        return animes.size();
+        Timber.i("Size: " + animeList.size());
+        return animeList.size();
     }
 
     public void addAll(List<ParseAnime> list){
-        animes.addAll(list);
+        animeList.addAll(list);
         notifyDataSetChanged();
     }
 
     public void clear() {
-        animes.clear();
+        animeList.clear();
         notifyDataSetChanged();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener {
 
         ImageView ivPreview;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             ivPreview = itemView.findViewById(R.id.ivPreview);
-            itemView.setOnClickListener(this);
+            itemView.setOnLongClickListener(this);
         }
 
         public void bind(ParseAnime anime) {
@@ -88,12 +90,15 @@ public class ListPreviewAdapter extends RecyclerView.Adapter<ListPreviewAdapter.
         }
 
         @Override
-        public void onClick(View v) {
+        public boolean onLongClick(View v) {
             int position = getAdapterPosition();
             // validating position
             if (position != RecyclerView.NO_POSITION) {
-
+                ParseAnime parseAnime = animeList.get(position);
+                Anime anime = new Anime(parseAnime);
+                context.startActivity(AnimeDetailActivity.createIntent(context, anime));
             }
+            return false;
         }
     }
 }
