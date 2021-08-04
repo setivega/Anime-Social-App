@@ -86,7 +86,7 @@
     <string name="create_list_title">Create List</string>
     <string name="save_year_range">Saved Year Ranged</string>
     <string name="update_year_range">Updated Year Range</string>
-
+    <string name="details_label">Details</string>
 
 
 </resources>

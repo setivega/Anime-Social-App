@@ -61,14 +61,14 @@ public class LikedFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_recommendation, container, false);
+        return inflater.inflate(R.layout.fragment_liked, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        rvAnime = view.findViewById(R.id.rvAnimes);
+        rvAnime = view.findViewById(R.id.rvAnime);
 
         // Create an adapter
         recommendationAdapter = new RecommendationAdapter(view.getContext());

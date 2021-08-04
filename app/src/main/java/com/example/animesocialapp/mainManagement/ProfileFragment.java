@@ -68,7 +68,7 @@ public class ProfileFragment extends Fragment {
         ivProfileImage = view.findViewById(R.id.ivProfileImage);
         tvUsername = view.findViewById(R.id.tvUsername);
         tabLayout = view.findViewById(R.id.tabLayout);
-        vpProfile = view.findViewById(R.id.vpProfile);
+        vpProfile = view.findViewById(R.id.vpDetail);
         btnLogout = view.findViewById(R.id.btnLogout);
 
         FragmentManager fm = getActivity().getSupportFragmentManager();

@@ -1,10 +1,13 @@
 package com.example.animesocialapp.animeManagment;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -17,7 +20,9 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.example.animesocialapp.R;
+import com.example.animesocialapp.mainManagement.ProfileFragmentAdapter;
 import com.example.animesocialapp.recommendationManagement.Like;
+import com.google.android.material.tabs.TabLayout;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -49,11 +54,11 @@ public class AnimeDetailActivity extends AppCompatActivity {
     private TextView tvScore;
     private TextView tvRank;
     private TextView tvPopularity;
-    private TextView tvGenre;
-    private TextView tvDescription;
     private ImageButton btnLike;
+    private TabLayout tabLayout;
+    private ViewPager2 vpDetail;
+    private DetailFragmentAdapter fragmentAdapter;
     private Anime anime;
-    private ParseAnime parseAnime;
     private ParseUser currentUser;
     private AnimeMetadata animeMetadata;
     private GenreManager genreManager;
@@ -79,12 +84,40 @@ public class AnimeDetailActivity extends AppCompatActivity {
         tvScore = findViewById(R.id.tvScore);
         tvRank = findViewById(R.id.tvRank);
         tvPopularity = findViewById(R.id.tvPopularity);
-        tvGenre = findViewById(R.id.tvGenre);
-        tvDescription = findViewById(R.id.tvDescription);
         btnLike = findViewById(R.id.btnLike);
+        tabLayout = findViewById(R.id.tabLayout);
+        vpDetail = findViewById(R.id.vpDetail);
 
         anime = (Anime) Parcels.unwrap(getIntent().getParcelableExtra(Anime.class.getSimpleName()));
 
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.details_label));
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.reviews_label));
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                vpDetail.setCurrentItem(tab.getPosition());
+
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
+        vpDetail.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                tabLayout.selectTab(tabLayout.getTabAt(position));
+            }
+        });
 
         genreManager = new GenreManager(this);
         studioManager = new StudioManager(this);
@@ -112,7 +145,6 @@ public class AnimeDetailActivity extends AppCompatActivity {
             }
         });
 
-
     }
 
     private void getAnimeMetadata(String malID) {
@@ -128,12 +160,20 @@ public class AnimeDetailActivity extends AppCompatActivity {
                     //Pass object into anime metadata class
                     animeMetadata = new AnimeMetadata(jsonObject);
                     //Update Activity
-//                    Timber.i(String.valueOf(jsonObject.getString("score")));
                     tvScore.setText(animeMetadata.getScore());
                     tvRank.setText(animeMetadata.getRank());
                     tvPopularity.setText(animeMetadata.getPopularity());
-                    tvDescription.setText(animeMetadata.getDescription());
-                    tvGenre.setText(animeMetadata.getGenres());
+
+                    Handler handler = new Handler();
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            FragmentManager fm = getSupportFragmentManager();
+                            fragmentAdapter = new DetailFragmentAdapter(fm, getLifecycle(), animeMetadata);
+                            vpDetail.setAdapter(fragmentAdapter);
+                        }
+                    });
+
                 } catch (JSONException e) {
                     Timber.e("Hit JSON Exception " + e);
                 }
