@@ -60,12 +60,12 @@ public class QuickSort {
             while (animeList.get(++leftPointer).getRecScore() > pivot)
                 ;
 
-            Timber.i(animeList.get(leftPointer).getRecScore() + " in index " + leftPointer + " is bigger than the pivot value " + pivot);
+            Timber.i(animeList.get(leftPointer).getRecScore() + " in index " + leftPointer + " is smaller than the pivot value " + pivot);
 
-            while (rightPointer > 0 && animeList.get(--rightPointer).getRecScore() < pivot)
+            while (animeList.get(--rightPointer).getRecScore() < pivot)
                 ;
 
-            Timber.i(animeList.get(rightPointer).getRecScore() + " in index " + rightPointer + " is smaller than the pivot value " + pivot);
+            Timber.i(animeList.get(rightPointer).getRecScore() + " in index " + rightPointer + " is bigger than the pivot value " + pivot);
 
             if(leftPointer >= rightPointer) {
                 break;

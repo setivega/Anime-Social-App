@@ -39,11 +39,6 @@ public class RecommendationManager {
     private Context context;
     private RecommendationAdapter adapter;
 
-    public RecommendationManager(Context context) {
-        this.context = context;
-    }
-
-
     public RecommendationManager(Context context, RecommendationAdapter adapter) {
         this.context = context;
         this.adapter = adapter;

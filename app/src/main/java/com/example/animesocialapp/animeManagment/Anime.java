@@ -62,6 +62,14 @@ public class Anime {
         return animes;
     }
 
+    public static List<Anime> fromParseAnime(List<ParseAnime> parseAnimeList) {
+        List<Anime> animeList = new ArrayList<>();
+        for (int i = 0; i < parseAnimeList.size(); i++) {
+            animeList.add(new Anime(parseAnimeList.get(i)));
+        }
+        return animeList;
+    }
+
     public String getMalID() { return malID; }
 
     public String getPosterPath() { return posterPath; }
