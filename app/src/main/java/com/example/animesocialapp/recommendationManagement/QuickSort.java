@@ -12,11 +12,9 @@ import timber.log.Timber;
 public class QuickSort {
 
     private List<Anime> animeList;
-    private int listSize;
 
-    public QuickSort(List<Anime> animeList, int listSize) {
+    public QuickSort(List<Anime> animeList) {
         this.animeList = animeList;
-        this.listSize = listSize;
 
         List<String> animeTitles = new ArrayList<>();
         List<Integer> animeScores = new ArrayList<>();

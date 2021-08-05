@@ -264,10 +264,9 @@ public class RecommendationManager {
         animeList.removeAll(likedAnime);
 
         // Sort new list
-        int listSize = animeList.size();
-        QuickSort animeSort = new QuickSort(animeList, listSize);
+        QuickSort animeSort = new QuickSort(animeList);
 
-        animeSort.quickSort(0, listSize-1);
+        animeSort.quickSort(0, animeList.size()-1);
 
         List<String> animeTitles = new ArrayList<>();
         List<Integer> animeScores = new ArrayList<>();

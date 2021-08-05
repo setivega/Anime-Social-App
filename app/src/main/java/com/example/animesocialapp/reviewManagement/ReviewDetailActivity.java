@@ -86,7 +86,7 @@ public class ReviewDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Anime anime = new Anime(parseAnime);
-                startActivity(AnimeDetailActivity.createIntent(ReviewDetailActivity.this, anime));
+                startActivity(AnimeDetailActivity.createIntent(ReviewDetailActivity.this, anime, 1));
             }
         });
 

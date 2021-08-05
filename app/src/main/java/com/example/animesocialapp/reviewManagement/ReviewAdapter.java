@@ -157,7 +157,12 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
             int position = getAdapterPosition();
             // validating position
             if (position != RecyclerView.NO_POSITION) {
-                Intent intent = ReviewDetailActivity.createIntent(context, reviews.get(position));
+//                Intent intent = ReviewDetailActivity.createIntent(context, reviews.get(position));
+//                context.startActivity(intent);
+
+                Anime anime = new Anime((ParseAnime) reviews.get(position).getAnime());
+                Intent intent = AnimeDetailActivity.createIntent(context, anime, 1);
+
                 context.startActivity(intent);
             }
         }

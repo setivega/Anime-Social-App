@@ -92,7 +92,7 @@ public class ListDetailAdapter extends RecyclerView.Adapter<ListDetailAdapter.Vi
             if (position != RecyclerView.NO_POSITION) {
                 ParseAnime parseAnime = animeList.get(position);
                 Anime anime = new Anime(parseAnime);
-                context.startActivity(AnimeDetailActivity.createIntent(context, anime));
+                context.startActivity(AnimeDetailActivity.createIntent(context, anime, 0));
             }
         }
     }

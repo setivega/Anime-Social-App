@@ -96,7 +96,7 @@ public class ListPreviewAdapter extends RecyclerView.Adapter<ListPreviewAdapter.
             if (position != RecyclerView.NO_POSITION) {
                 ParseAnime parseAnime = animeList.get(position);
                 Anime anime = new Anime(parseAnime);
-                context.startActivity(AnimeDetailActivity.createIntent(context, anime));
+                context.startActivity(AnimeDetailActivity.createIntent(context, anime, 0));
             }
             return false;
         }

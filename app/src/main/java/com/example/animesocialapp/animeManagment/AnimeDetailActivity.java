@@ -47,6 +47,7 @@ public class AnimeDetailActivity extends AppCompatActivity {
 
     public static final String TAG = "AnimeDetailActivity";
     public static final String REST_URL = "https://api.jikan.moe/v3/anime/";
+    public static final String CURRENT_TAB = "CURRENT_TAB";
     private ImageView ivBackground;
     private ImageView ivPoster;
     private TextView tvTitle;
@@ -65,10 +66,12 @@ public class AnimeDetailActivity extends AppCompatActivity {
     private StudioManager studioManager;
     private RatingManager ratingManager;
     private YearRangeManager yearRangeManager;
+    private Integer currentTab;
 
-    public static Intent createIntent(Context context, Anime anime){
+    public static Intent createIntent(Context context, Anime anime, int currentTab){
         Intent intent = new Intent(context, AnimeDetailActivity.class);
         intent.putExtra(Anime.class.getSimpleName(), Parcels.wrap(anime));
+        intent.putExtra(CURRENT_TAB, currentTab);
         return intent;
     }
 
@@ -89,6 +92,8 @@ public class AnimeDetailActivity extends AppCompatActivity {
         vpDetail = findViewById(R.id.vpDetail);
 
         anime = (Anime) Parcels.unwrap(getIntent().getParcelableExtra(Anime.class.getSimpleName()));
+
+        currentTab = getIntent().getIntExtra(CURRENT_TAB,0);
 
         tabLayout.addTab(tabLayout.newTab().setText(R.string.details_label));
         tabLayout.addTab(tabLayout.newTab().setText(R.string.reviews_label));
@@ -171,6 +176,7 @@ public class AnimeDetailActivity extends AppCompatActivity {
                             FragmentManager fm = getSupportFragmentManager();
                             fragmentAdapter = new DetailFragmentAdapter(fm, getLifecycle(), animeMetadata);
                             vpDetail.setAdapter(fragmentAdapter);
+                            vpDetail.setCurrentItem(currentTab, false);
                         }
                     });
 

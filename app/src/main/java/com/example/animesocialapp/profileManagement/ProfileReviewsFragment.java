@@ -60,7 +60,7 @@ public class ProfileReviewsFragment extends Fragment {
                 ParseAnime parseAnime = (ParseAnime) review.getAnime();
 
                 Anime anime = new Anime(parseAnime);
-                startActivity(AnimeDetailActivity.createIntent(getContext(), anime));
+                startActivity(AnimeDetailActivity.createIntent(getContext(), anime, 0));
             }
         };
 
