@@ -95,6 +95,7 @@ public class CreateListActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = AddAnimeActivity.createIntent(CreateListActivity.this, animeDict, parseAnimeDict);
                 startActivityForResult(intent, ANIME_ACTIVITY_REQUEST_CODE);
+                overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left);
             }
         });
     }
@@ -173,6 +174,7 @@ public class CreateListActivity extends AppCompatActivity {
     private void goMainActivity() {
         Intent i = new Intent(this, MainActivity.class);
         startActivity(i);
+        overridePendingTransition(R.anim.enter_from_left, R.anim.exit_to_right);
         finish();
     }
 }

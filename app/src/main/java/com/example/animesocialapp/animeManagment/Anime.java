@@ -2,6 +2,8 @@ package com.example.animesocialapp.animeManagment;
 
 import android.content.Context;
 
+import androidx.annotation.Nullable;
+
 import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.example.animesocialapp.ParseRelativeDate;
@@ -35,16 +37,27 @@ public class Anime {
 
     public Anime() {}
 
-    public Anime(JSONObject jsonObject) throws JSONException {
+    public Anime(JSONObject jsonObject, @Nullable String seasonName, @Nullable Integer seasonYear) throws JSONException {
         malID = String.valueOf(jsonObject.getInt("mal_id"));
         posterPath = jsonObject.getString("image_url");
         title = jsonObject.getString("title");
-        score = jsonObject.getDouble("score");
-        startDate = jsonObject.getString("start_date");
+        if (jsonObject.has("score") && !jsonObject.isNull("score")) {
+            score = jsonObject.getDouble("score");
+        }
+
+        if (jsonObject.has("start_date")) {
+            startDate = jsonObject.getString("start_date");
+            season = ParseRelativeDate.getRelativeSeasonYear(startDate);
+        } else {
+            season = seasonName + seasonYear;
+        }
+
         if (jsonObject.has("rated")){
             rating = jsonObject.getString("rated");
         }
-        season = ParseRelativeDate.getRelativeSeasonYear(startDate);
+
+
+
     }
 
     public Anime(ParseAnime parseAnime) {
@@ -57,7 +70,18 @@ public class Anime {
     public static List<Anime> fromJSONArray(JSONArray animeJsonArray) throws JSONException {
         List<Anime> animes = new ArrayList<>();
         for (int i = 0; i < animeJsonArray.length(); i++) {
-            animes.add(new Anime(animeJsonArray.getJSONObject(i)));
+            animes.add(new Anime(animeJsonArray.getJSONObject(i), null, null));
+        }
+        return animes;
+    }
+
+    public static List<Anime> fromJSONSeason(JSONArray animeJsonArray, JSONObject jsonObject) throws JSONException {
+        List<Anime> animes = new ArrayList<>();
+        String seasonName = jsonObject.getString("season_name");
+        Integer seasonYear = jsonObject.getInt("season_year");
+
+        for (int i = 0; i < animeJsonArray.length(); i++) {
+            animes.add(new Anime(animeJsonArray.getJSONObject(i), seasonName, seasonYear));
         }
         return animes;
     }

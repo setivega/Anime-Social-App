@@ -258,6 +258,7 @@ public class AddAnimeActivity extends AppCompatActivity {
             Intent intent = AddAnimeActivity.createIntent(AddAnimeActivity.this, animeDict, parseAnimeDict);
             setResult(RESULT_OK, intent);
             finish();
+            overridePendingTransition(R.anim.enter_from_left, R.anim.exit_to_right);
         }
         return super.onOptionsItemSelected(item);
     }
