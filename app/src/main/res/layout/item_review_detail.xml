@@ -21,7 +21,7 @@
             android:id="@+id/ivProfileImage"
             android:layout_width="@dimen/post_profile_image"
             android:layout_height="@dimen/post_profile_image"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="10dp"
             android:contentDescription="@null"
             tools:srcCompat="@tools:sample/avatars" />
 
@@ -58,12 +58,11 @@
         android:layout_below="@+id/linearLayout"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="10dp"
         android:ellipsize="end"
-        android:maxLines="4"
         android:scrollHorizontally="true"
         android:textColor="@color/text_gray"
         android:textSize="@dimen/post_text"
@@ -76,7 +75,7 @@
     <View
         android:id="@+id/divider"
         style="@style/Divider"
-        android:layout_marginStart="20dp"
+        android:background="@color/divider_gray"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

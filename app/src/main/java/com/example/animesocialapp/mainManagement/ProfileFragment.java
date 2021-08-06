@@ -135,6 +135,7 @@ public class ProfileFragment extends Fragment {
         if(item.getItemId() == R.id.createList) {
             Intent intent = new Intent(getContext(), CreateListActivity.class);
             startActivity(intent);
+            getActivity().overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left);
         }
         return super.onOptionsItemSelected(item);
     }

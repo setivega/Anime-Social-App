@@ -1,7 +1,6 @@
 package com.example.animesocialapp.listManagment;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,10 +16,6 @@ import com.example.animesocialapp.R;
 import com.example.animesocialapp.animeManagment.Anime;
 import com.example.animesocialapp.animeManagment.AnimeDetailActivity;
 import com.example.animesocialapp.animeManagment.ParseAnime;
-import com.example.animesocialapp.reviewManagement.ReviewDetailActivity;
-import com.parse.ParseFile;
-
-import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;

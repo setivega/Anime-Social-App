@@ -14,7 +14,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AnimeSocialApp">
         <activity android:name=".animeManagment.AnimeDetailActivity"></activity>
-        <activity android:name=".reviewManagement.ReviewDetailActivity" />
         <activity android:name=".listManagment.ListDetailActivity" />
         <activity android:name=".listManagment.AddAnimeActivity" />
         <activity android:name=".listManagment.CreateListActivity" />

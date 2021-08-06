@@ -66,6 +66,7 @@
 
     <dimen name="item_offset">7.5dp</dimen>
     <dimen name="anime_detail_padding">30dp</dimen>
+    <dimen name="profile_image_size">80dp</dimen>
 
 
 </resources>

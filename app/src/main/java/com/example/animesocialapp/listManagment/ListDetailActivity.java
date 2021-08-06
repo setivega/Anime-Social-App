@@ -17,14 +17,10 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.example.animesocialapp.GridSpacingItemDecoration;
 import com.example.animesocialapp.ParseRelativeDate;
 import com.example.animesocialapp.R;
-import com.example.animesocialapp.reviewManagement.Review;
-import com.example.animesocialapp.reviewManagement.ReviewDetailActivity;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
 
 import org.parceler.Parcels;
-
-import timber.log.Timber;
 
 public class ListDetailActivity extends AppCompatActivity {
 
