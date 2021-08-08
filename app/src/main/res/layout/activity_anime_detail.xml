@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_black"
+    tools:context=".animeManagment.AnimeDetailActivity">
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingRight="@dimen/anime_detail_padding">
+
+            <TextView
+                android:id="@+id/tvScoreLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/score_label"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="@dimen/detail_anime_title"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvScore"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/filler_score"
+                android:textAlignment="center"
+                android:textAllCaps="false"
+                android:textColor="@color/app_blue"
+                android:textSize="@dimen/detail_anime_text"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/anime_detail_padding"
+            android:paddingRight="@dimen/anime_detail_padding">
+
+            <TextView
+                android:id="@+id/tvRankLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/rank_label"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="@dimen/detail_anime_title"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvRank"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/filler_rank"
+                android:textAlignment="center"
+                android:textAllCaps="false"
+                android:textColor="@color/app_blue"
+                android:textSize="@dimen/detail_anime_text"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/anime_detail_padding">
+
+            <TextView
+                android:id="@+id/tvPopularityLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/popularity_label"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="@dimen/detail_anime_title"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvPopularity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/filler_popularity"
+                android:textAlignment="center"
+                android:textAllCaps="false"
+                android:textColor="@color/app_blue"
+                android:textSize="@dimen/detail_anime_text"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/detail_review_background_height"
+        android:stateListAnimator="@null"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/ivBackground"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@null"
+            android:foreground="@drawable/review_tint"
+            android:scaleType="centerCrop"
+            tools:srcCompat="@drawable/steinsgatecover" />
+
+        <ImageView
+            android:id="@+id/ivPoster"
+            android:layout_width="@dimen/detail_review_poster_width"
+            android:layout_height="@dimen/detail_review_poster_height"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:contentDescription="@null"
+            tools:srcCompat="@drawable/steinsgatecover" />
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/tvSeason"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="4dp"
+            android:layout_toEndOf="@+id/ivPoster"
+            android:textColor="@color/white"
+            android:textSize="@dimen/detail_anime_title"
+            android:textStyle="bold"
+            tools:text="@string/filler_title" />
+
+        <TextView
+            android:id="@+id/tvSeason"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="20dp"
+            android:layout_toEndOf="@+id/ivPoster"
+            android:textColor="@color/white"
+            android:textSize="@dimen/detail_labels"
+            tools:text="@string/filler_season" />
+
+        <ImageButton
+            android:id="@+id/btnLike"
+            android:layout_width="@dimen/post_profile_image"
+            android:layout_height="@dimen/post_profile_image"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/ufi_heart"
+            android:backgroundTint="@color/white" />
+
+    </RelativeLayout>
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:tabBackground="@color/app_black"
+        app:tabIndicatorColor="@color/white"
+        app:tabTextColor="@color/white" />
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/vpDetail"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tabLayout"
+        app:layout_constraintVertical_bias="0.0" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

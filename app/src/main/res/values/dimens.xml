@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="username_size">18sp</dimen>
+    <dimen name="description_size">16sp</dimen>
+    <dimen name="time_size">14sp</dimen>
+
+    <dimen name="postitem_image_height">280dp</dimen>
+    <dimen name="postfragment_image_height">300dp</dimen>
+
+    <dimen name="post_icon_size">28dp</dimen>
+    <dimen name="save_width">20dp</dimen>
+    <dimen name="save_height">28dp</dimen>
+    <dimen name="menu_width">4dp</dimen>
+    <dimen name="menu_height">25dp</dimen>
+
+    <dimen name="login_logo_height">80dp</dimen>
+    <dimen name="btn_height">55dp</dimen>
+
+    <dimen name="profile_pic">100dp</dimen>
+    <dimen name="profile_pic_feed">35dp</dimen>
+
+    <dimen name="profile_post_width">130dp</dimen>
+    <dimen name="search_height">60dp</dimen>
+
+
+    <dimen name="anime_item_title_size">18sp</dimen>
+    <dimen name="anime_item_season_size">14sp</dimen>
+    <dimen name="anime_preview_title_size">20sp</dimen>
+    <dimen name="anime_preview_season_size">16sp</dimen>
+
+    <dimen name="anime_item_width">50dp</dimen>
+    <dimen name="anime_item_height">75dp</dimen>
+    <dimen name="anime_preview_width">80dp</dimen>
+    <dimen name="anime_preview_height">120dp</dimen>
+    <dimen name="anime_list_width">60dp</dimen>
+    <dimen name="anime_list_height">90dp</dimen>
+
+    <dimen name="review_background_height">220dp</dimen>
+    <dimen name="review_poster_width">100dp</dimen>
+    <dimen name="review_poster_height">150dp</dimen>
+
+    <dimen name="post_profile_image">30dp</dimen>
+    <dimen name="post_title_labels">20sp</dimen>
+    <dimen name="post_anime_title">16sp</dimen>
+    <dimen name="post_labels">12sp</dimen>
+    <dimen name="post_text">14sp</dimen>
+    <dimen name="post_title_size">22sp</dimen>
+
+    <dimen name="list_description_height">80dp</dimen>
+    <dimen name="segment_btn_width">120dp</dimen>
+
+
+    <dimen name="detail_review_background_height">260dp</dimen>
+    <dimen name="detail_review_poster_width">111dp</dimen>
+    <dimen name="detail_review_poster_height">160dp</dimen>
+    <dimen name="detail_list_poster_width">80dp</dimen>
+    <dimen name="detail_list_poster_height">120dp</dimen>
+
+    <dimen name="detail_profile_image">40dp</dimen>
+    <dimen name="detail_title_labels">20sp</dimen>
+    <dimen name="detail_anime_title">18sp</dimen>
+    <dimen name="detail_anime_text">16sp</dimen>
+    <dimen name="detail_labels">14sp</dimen>
+    <dimen name="detail_text">14sp</dimen>
+    <dimen name="detail_title_size">22sp</dimen>
+
+    <dimen name="item_offset">7.5dp</dimen>
+    <dimen name="anime_detail_padding">30dp</dimen>
+    <dimen name="profile_image_size">80dp</dimen>
+
+
+</resources>
